@@ -83,3 +83,11 @@ No current Spring contact controller/service was found. The website's documented
 ## Verification and limits
 
 Run website lint/typecheck/unit tests, production build, `npm run test:server`, static generation and `npm run test:generated`. Contact tests use synthetic data and injected transports; HTTP tests reject before any real forwarding. They verify blocked investor destinations, no-store policies, no credential/content leakage, invalid/oversized acknowledgments, safe failures, rate/body/origin/schema checks and no retry/cached acceptance. No Spring deployment, live provider delivery, production database, aggregate query or public-metric cache was tested because no such integration is enabled. Future cache-contract tests require the real reviewed read contract.
+
+### Verification record — 2026-10-30
+
+Node 24.15.0: lint/typecheck and 16 unit/content tests passed. The production build and 3 real localhost contact-boundary tests passed, including fail-closed investor-namespace configuration, no-store error/rate responses and no permissive CORS. Nine generated-output checks passed across all 25 page routes, including private-data exclusions and default-off contact/indexing states. The final static generation and output checks also passed. These are website/mocked-boundary checks, not a live Spring/provider integration test. No external message or production/database request was sent and no backend/mobile file was modified. No public read cache exists to test; prospective read-cache requirements remain explicitly deferred until a real contract exists.
+
+### Release-review follow-up
+
+The contact reader now bounds stalled request/acknowledgment streams to eight seconds as well as bytes. Release tests verify baseline security headers, contact no-store behavior, real HTML 404s and public/private artifact boundaries. No new backend integration, metrics cache or credential was added. See RELEASE_REVIEW.md for final checks and LAUNCH_CHECKLIST.md for deployment-specific requirements; API/property names in this audit remain evidence, not authorization to expose investor data.

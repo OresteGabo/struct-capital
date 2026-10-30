@@ -211,3 +211,7 @@ Privacy/terms use narrow reading containers and visibly marked, noindex review d
 ## Learning typography extension — web-specific, 2026-10-30
 
 The learning section retains all extracted mobile colors, theme roles, fonts and radii. New editorial rules in `main.css`: body `clamp(1.0625rem, 1rem + .2vw, 1.1875rem)`, line-height 1.85, maximum 68ch; H2 `clamp(1.5rem, 1.25rem + .65vw, 2rem)` with 1.3 line-height and -.02em tracking; H3 1.25rem/1.4. Paragraph spacing 1.25rem, section spacing 2.5rem; list indentation 1.5rem and .65rem item spacing. Evidence notes use existing muted surfaces, primary 3px border and card radius. TOC sits above reading on narrow screens and at the side at 64rem, with native disclosure; no reading animation. Existing focus/reduced-motion/theme rules apply. No new font, illustration or chart palette.
+
+## Release-review note — 2026-10-30
+
+The olive/cream/ink and light/dark roles were rechecked against InvestmentApp.kt, and public SVG master hashes match the mobile branding files. No palette/component redesign occurred. The review route described historically above is now a local opt-in via `NUXT_DESIGN_REVIEW_ENABLED=true`; default production routing/output excludes it. See RELEASE_REVIEW.md for browser/contrast evidence and LAUNCH_CHECKLIST.md for human release gates.

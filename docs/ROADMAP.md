@@ -52,3 +52,9 @@ Assign an owner and status for each approved milestone during planning. Do not i
 ## Learning ideas — deferred, not implemented
 
 Consider scheduled source/link audits, reviewed fictional document-reading diagrams, quizzes, localization, and clearly labeled illustrative coupon/yield tools only after editorial ownership, tested assumptions and separate scope approval. No real quotes, personalized recommendations or duplicate portfolio calculations are authorized. Complete BNR allocation and broker-fee factual reviews before promoting their current outlines.
+
+## Release-review status — 2026-10-30
+
+Existing marketing, learning and institutional positioning pages are implemented. This roadmap does not authorize publication. Complete the owner/legal/privacy/asset/editorial/hosting/security gates in LAUNCH_CHECKLIST.md before public release. Contact remains disabled until a dedicated approved service exists; no suitable public Spring marketing contract was found.
+
+Follow-up improvements remain deferred: scheduled article/dependency/link checks, a strict hosting-aware nonce/hash CSP, realistic device/network and assistive-technology audits, field Core Web Vitals measurement after authorized launch, an approved supported-format/release catalog if useful, and upstream advisory remediation when a safe compatible fix exists. No tracker, paid monitoring tool, calculator, partner integration or brokerage function is added by this review.
