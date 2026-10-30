@@ -89,3 +89,9 @@ npm run test:generated
 ## Inspected investor API exclusion
 
 The actual Spring investor namespace is `/api/bonds`; URL validation rejects it (including case variations/normalized dot paths), all percent-encoded paths and query-based configuration before transport. This prevents accidental reuse of the inspected account/portfolio/market routes as an inquiry service. It does not prove an arbitrary other URL is approved or safe: private configuration still needs explicit endpoint/provider review and deployment-level egress policy. No Spring contact service was added, and private investor/admin/job credentials must never be used as contact credentials.
+
+API audit verification: lint/typecheck, 16 unit/content tests, production build, 3 localhost HTTP tests and 9 generated-output checks passed; static generation/output were also verified. New coverage checks namespace exclusion before transport, request/response no-store policy, no cached acceptance, no-cookie/referrer settings, wrong/oversized acknowledgments, response cancellation and sanitized transport failures. All acceptance transport tests are injected mocks; real HTTP tests reject before forwarding. No actual delivery is configured or claimed.
+
+## Release-review body deadline
+
+`readLimitedJson` now cancels a stalled inbound request or acknowledgment body after eight seconds, in addition to byte bounds. An inbound timeout is a safe 408; an upstream acknowledgment timeout remains unconfirmed acceptance (502). This does not replace host/proxy connection/request/edge-rate limits. Baseline Nitro headers preserve contact `no-store` on every failure; static hosts have no contact runtime. See RELEASE_REVIEW.md and LAUNCH_CHECKLIST.md.

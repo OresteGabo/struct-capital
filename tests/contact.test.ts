@@ -35,6 +35,13 @@ test('rate limiter expires buckets, rejects floods, and bounds total memory', ()
   assert.equal(take('client-b', 101), true)
 })
 
+test('slow request bodies are cancelled within the read deadline', async () => {
+  let cancelled = false
+  const stream = new ReadableStream<Uint8Array>({ cancel() { cancelled = true } })
+  await assert.rejects(readLimitedJson(stream, 16_384, 20), error => error instanceof ContactProblem && error.statusCode === 408)
+  assert.equal(cancelled, true)
+})
+
 test('delivery requires HTTPS configuration and explicit acceptance; never retries', async () => {
   for (const endpoint of ['', 'http://example.test/contact', 'https://user:pass@example.test/contact',
     'https://example.test/contact?token=private', 'https://example.test/contact#fragment',

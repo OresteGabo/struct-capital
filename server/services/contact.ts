@@ -4,28 +4,34 @@ export class ContactProblem extends Error {
   statusCode: number
   constructor(statusCode: number, message: string) { super(message); this.statusCode = statusCode }
 }
-export async function readLimitedJson(stream: ReadableStream<Uint8Array> | null | undefined, limit = 16_384): Promise<unknown> {
+export async function readLimitedJson(stream: ReadableStream<Uint8Array> | null | undefined, limit = 16_384, timeoutMs = 8000): Promise<unknown> {
   if (!stream) throw new ContactProblem(400, 'Check the form and try again.')
   const reader = stream.getReader()
   const parts: Uint8Array[] = []
   let size = 0
+  let timedOut = false
+  const timeout = setTimeout(() => {
+    timedOut = true
+    void reader.cancel().catch(() => {})
+  }, timeoutMs)
   try {
     while (true) {
       const result = await reader.read()
       if (result.done) break
       size += result.value.byteLength
       if (size > limit) {
-        await reader.cancel()
+        void reader.cancel().catch(() => {})
         throw new ContactProblem(413, 'The message is too large.')
       }
       parts.push(result.value)
     }
+    if (timedOut) throw new ContactProblem(408, 'Reading the message timed out. Please try again.')
     const bytes = new Uint8Array(size)
     let offset = 0
     for (const part of parts) { bytes.set(part, offset); offset += part.length }
     try { return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)) }
     catch { throw new ContactProblem(400, 'Check the form and try again.') }
-  } finally { reader.releaseLock() }
+  } finally { clearTimeout(timeout); reader.releaseLock() }
 }
 
 export function validContactEndpoint(endpoint: string): boolean {
