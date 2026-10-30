@@ -1,0 +1,60 @@
+name: Website quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NUXT_PUBLIC_SITE_INDEXABLE: 'false'
+      NUXT_PUBLIC_CONTACT_ENABLED: 'false'
+      NUXT_DESIGN_REVIEW_ENABLED: 'false'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Use the tested Node version
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Check dependency advisories
+        # The documented unpatched low-severity chain remains visible, not suppressed.
+        run: npm audit --audit-level=moderate
+      - name: Typecheck, lint, unit tests and contrast
+        run: npm run check
+      - name: Build the launch-indexable Node profile
+        run: npm run build
+        env:
+          NITRO_PRESET: node-server
+          NUXT_PUBLIC_SITE_INDEXABLE: 'true'
+      - name: Verify generated launch pages
+        run: npm run test:generated
+        env:
+          NUXT_PUBLIC_SITE_INDEXABLE: 'true'
+      - name: Verify production HTTP and contact boundaries
+        run: npm run test:server
+      - name: Build static preview output
+        run: npm run generate
+        env:
+          NITRO_PRESET: static
+      - name: Verify static preview output
+        run: npm run test:generated
+
+# Vercel's existing Git integration owns deployments. No deploy job/token is needed.
