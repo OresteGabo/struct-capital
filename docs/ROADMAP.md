@@ -58,3 +58,7 @@ Consider scheduled source/link audits, reviewed fictional document-reading diagr
 Existing marketing, learning and institutional positioning pages are implemented. This roadmap does not authorize publication. Complete the owner/legal/privacy/asset/editorial/hosting/security gates in LAUNCH_CHECKLIST.md before public release. Contact remains disabled until a dedicated approved service exists; no suitable public Spring marketing contract was found.
 
 Follow-up improvements remain deferred: scheduled article/dependency/link checks, a strict hosting-aware nonce/hash CSP, realistic device/network and assistive-technology audits, field Core Web Vitals measurement after authorized launch, an approved supported-format/release catalog if useful, and upstream advisory remediation when a safe compatible fix exists. No tracker, paid monitoring tool, calculator, partner integration or brokerage function is added by this review.
+
+## Continuous delivery scope — 2026-10-30
+
+Existing Vercel automatic Git deployments were verified and retained. Repository-managed Node 24/build guards and push/PR quality checks are implemented; no duplicate deployment workflow or token is needed. Scheduled editorial/link monitoring, branch-protection policy and advanced promotion checks remain separate decisions. See [CI/CD](CI_CD.md).

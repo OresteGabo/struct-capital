@@ -65,3 +65,7 @@ No new animation, image, chart/font/UI dependency or redesign was added during r
 The launch-profile homepage references approximately 88.7 KiB gzip JavaScript and 5.5 KiB CSS; the entire emitted JS set is approximately 130.3 KiB gzip. These are local file measurements, not Lighthouse scores, real-network transfer guarantees or field Core Web Vitals. No source maps are emitted. Standard Nuxt prefetch/hydration remains for routing, theme, forms and filters; there is no blanket client-only render path.
 
 Release checks and measured limits are recorded in [Release review](RELEASE_REVIEW.md). Deployment commands, DNS/TLS, environment flags, manual approvals and smoke/rollback actions are in [Launch checklist](LAUNCH_CHECKLIST.md). No publication, DNS change, purchase, provider account creation or backend mutation was performed.
+
+## Verified hosting and continuous delivery — 2026-10-30
+
+The existing Vercel Git integration serves `structcapital.net` from `main`. `vercel.json` selects native Nuxt output and runs repository quality checks before promotion. Node is restricted to the tested 24 line. Independent GitHub Actions verifies Node/static builds, artifact metadata/links, HTTP boundaries and dependency advisories; it does not itself deploy or gate Vercel promotion. Contact/indexing/review flags remain off by default. See [CI/CD](CI_CD.md) for exact configuration and operational boundaries; the earlier release review records the pre-hosting audit.

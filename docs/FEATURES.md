@@ -83,3 +83,7 @@ Read-only inspection of the actual `gabo-portfolio-api` Spring source (HEAD `7c9
 ## Release-review verification — 2026-10-30
 
 Default production output now has 24 content/draft routes; the component review is local opt-in only and excluded by default. Brand/master checks, all-route responsive/semantic review, SEO/crawler fixes, response/cache policies, body-read timeout, private-artifact checks and portable output alias were completed without adding product/backend features. Typecheck/lint, 17 unit/content tests, 4 production HTTP tests, 10 generated-output tests, 34 contrast checks and both production/static builds passed. The npm audit retains seven low findings from one unpatched chain; qualified human policy/content/rights/security/hosting approvals remain. See RELEASE_REVIEW.md and LAUNCH_CHECKLIST.md; final public indexing/contact stay off and nothing was deployed.
+
+## Website automation — 2026-10-30
+
+Existing Vercel production Git deployment is verified. Repository-managed build guards and GitHub Actions quality checks are configured without adding a product/backend capability. Indexing and inquiry delivery remain disabled pending their separate reviews. See [CI/CD](CI_CD.md) for verification and operational limits.

@@ -116,3 +116,11 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Alternatives:** Ship an unlinked demo page relying on noindex, disallow draft crawling so noindex cannot be read, apply long-lived public cache globally, silently enable contact/tracking/hosting, force a framework downgrade or claim a clean vulnerability audit.
 - **Rationale:** Real release defects should be fixed without a redesign, guessed legal claims or backend expansion. Deployment still requires owner-approved facts, policy, provider/DNS settings and actual receiving-service readiness where applicable.
 - **Consequences:** Default route count is 24; local review requires its private flag and remains noindex. Static hosts must apply/verify supported headers and proper 404/redirect/cache behavior. Contact defaults off; no live service was contacted. Qualified policy/content/rights review, risk acceptance or remediation, and post-host/device/assistive checks are separate human actions. See [Release review](RELEASE_REVIEW.md) and [Launch checklist](LAUNCH_CHECKLIST.md).
+
+## ADR-014 — Retain Vercel Git deployment and add repository quality guards
+- **Date:** 2026-10-30.
+- **Status:** Accepted within the owner’s automatic-deployment request.
+- **Evidence:** Existing Git connection to `OresteGabo/struct-capital`, Ready production `02a285b` on `structcapital.net`, successful Vercel GitHub status, no existing Actions workflow, and native Nuxt project settings.
+- **Decision:** Keep Vercel as deployment owner, pin Node 24, add a native Vercel build command with quality/artifact checks and an independent read-only push/PR Actions workflow. Inspect the real Vercel output rather than a stale Node output directory.
+- **Alternatives:** Add a redundant token-based deploy job; leave the broad engine range selecting Node 26; assume Actions automatically gates Vercel; impose unrequested branch restrictions or paid deployment checks.
+- **Consequences:** Main pushes automatically reach production after successful Vercel build checks; Actions provides broader independent checks. No deploy token, new host, DNS mutation, backend integration or content approval is implied. Low dependency findings stay visible; legal/indexing/contact review remains separate. See [CI/CD](CI_CD.md).

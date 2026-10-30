@@ -2,7 +2,7 @@
 
 **A clearer view of your investments, across brokers.**
 
-This repository contains the public website for **Struct Capital**, an independent investment portfolio management application focused initially on Rwanda's capital markets. The website will live at **https://structcapital.net**.
+This repository contains the public website for **Struct Capital**, an independent investment portfolio management application focused initially on Rwanda's capital markets. The website is hosted at **https://structcapital.net** through the existing Vercel GitHub integration.
 
 > **For AI coding assistants:** This README is the product and implementation brief for the **website**, not a request to rebuild the mobile app or backend. Inspect the repository before changing anything. Treat roadmap items as planned, not released. Never invent broker partnerships, licensing, statistics, testimonials, or app capabilities.
 
@@ -30,7 +30,7 @@ npm run generate
 npm run test:generated
 ```
 
-`build` creates a production Nuxt output; `generate` creates static files in `.output/public`. Nothing here configures or authorizes deployment. No environment variables or backend access are needed for local browsing. Real contact delivery requires the explicit private configuration in [Contact Integration](docs/CONTACT_INTEGRATION.md); it is off by default and does not work on pure static hosting without a server adapter. `NUXT_PUBLIC_SITE_INDEXABLE=true` enables public indexing when generating a reviewed launch build; `/design-system` is excluded by default; local review builds must explicitly set `NUXT_DESIGN_REVIEW_ENABLED=true` and never use that flag on the public deployment. Static output must be regenerated when this flag changes. See [Architecture](docs/ARCHITECTURE.md) for routes, components, and the launch SEO workflow. `screenshots/` contains unmodified reference material and is not served publicly. Selected calendar/report/import exports in `public/product/` exclude account identity and dashboard balances. See [Homepage evidence](docs/HOMEPAGE_EVIDENCE.md) for sources, crops, capabilities, and unresolved launch content.
+`build` creates a production Nuxt output; `generate` creates static files in `.output/public`. Vercel automatically deploys `main` to production and creates branch/PR previews. See [CI/CD](docs/CI_CD.md) for build guards, GitHub checks, and rollback. No environment variables or backend access are needed for local browsing. Real contact delivery requires the explicit private configuration in [Contact Integration](docs/CONTACT_INTEGRATION.md); it is off by default and does not work on pure static hosting without a server adapter. `NUXT_PUBLIC_SITE_INDEXABLE=true` enables public indexing when generating a reviewed launch build; `/design-system` is excluded by default; local review builds must explicitly set `NUXT_DESIGN_REVIEW_ENABLED=true` and never use that flag on the public deployment. Static output must be regenerated when this flag changes. See [Architecture](docs/ARCHITECTURE.md) for routes, components, and the launch SEO workflow. `screenshots/` contains unmodified reference material and is not served publicly. Selected calendar/report/import exports in `public/product/` exclude account identity and dashboard balances. See [Homepage evidence](docs/HOMEPAGE_EVIDENCE.md) for sources, crops, capabilities, and unresolved launch content.
 
 ## 1. What Struct Capital is
 
