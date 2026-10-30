@@ -26,7 +26,7 @@ Vercel and GitHub Actions run independently. Vercel does not wait for the entire
 
 ## Configuration and operations
 
-No environment variables are needed for the default deployment. Preserve `NUXT_PUBLIC_SITE_INDEXABLE=false`, `NUXT_PUBLIC_CONTACT_ENABLED=false`, and `NUXT_DESIGN_REVIEW_ENABLED=false` until their respective reviews are complete. Automatic deployment does not approve legal drafts, enable search indexing, approve asset rights or configure inquiry delivery. Private contact settings belong only in Vercel's server-side environment configuration; see [Contact integration](CONTACT_INTEGRATION.md).
+No environment variables are needed for the default deployment. Production now sets `NUXT_PUBLIC_SITE_INDEXABLE=true` following the owner’s Google discovery request. Preview/local builds still default to non-indexable. Preserve `NUXT_PUBLIC_CONTACT_ENABLED=false` and `NUXT_DESIGN_REVIEW_ENABLED=false` until separately approved. Automatic deployment does not approve legal drafts, enable search indexing, approve asset rights or configure inquiry delivery. Private contact settings belong only in Vercel's server-side environment configuration; see [Contact integration](CONTACT_INTEGRATION.md).
 
 After pushing, inspect the commit's Website quality run and Vercel status in GitHub, then verify the Vercel deployment is Ready, Production, and points to the expected commit/domain. Failed builds retain the previous successful production deployment. For a bad successful release, use Vercel's rollback controls for an eligible known-good deployment and revert/fix the source in Git so the next push preserves the correction. Do not repeatedly redeploy a broken commit. Recheck flags, headers, deep links, genuine 404s and robots after release.
 
@@ -49,3 +49,11 @@ Scheduled editorial/link monitoring and stricter script CSP remain deferred. Thi
 At the owner's request, the existing Vercel project now attaches `structcapital.dev`, `www.structcapital.dev`, `structcapital.org` and `www.structcapital.org` as **308 permanent redirects** directly to `structcapital.net`. These are domain-level Vercel settings, not repository route rules, and do not require a code deployment. The apex `.net` remains the production/canonical domain.
 
 All four HTTPS endpoints were verified with certificate validation enabled: `/learn?source=redirect-check` returned 308 with `Location: https://structcapital.net/learn?source=redirect-check`. Paths and query strings are preserved. Vercel accepted the existing DNS configuration and provisioned certificates; no registrar/DNS record, nameserver, mail record or paid service was changed. Preserve these redirect assignments when moving projects or hosting.
+
+## Google discovery setup — 30 October 2026
+
+The owner requested enabling Google indexing. `NUXT_PUBLIC_SITE_INDEXABLE=true` is saved as a non-secret Vercel **Production-only** configuration value. Deploy through the existing Git connection to regenerate prerendered metadata, robots and the sitemap. Preview/local defaults remain false; two legal drafts and two editorial outlines remain permanently noindex and outside the sitemap. Search enablement does not approve policy text, contact delivery or future product claims.
+
+Google Search Console's Domain property `structcapital.net` was created and ownership successfully verified through a new root TXT record in the existing Vercel-managed DNS zone. Keep that verification record; no credentials, nameservers, routing, mail or existing certificate-authorization records were changed. No analytics tag, tracking cookie, new paid service or third-party owner was added.
+
+After promotion verify `/robots.txt` allows public pages, `/sitemap.xml` lists the 20 approved public routes and the homepage has `index, follow`. Check that `/privacy`, `/terms` and editorial outlines remain noindex. Submit the full sitemap URL in Search Console and use URL Inspection’s live test/indexing request for the homepage. Submission/verification is not evidence Google has indexed or ranked the site. Monitor Search Console’s indexing/performance reports; Google controls processing and ranking.
