@@ -46,6 +46,31 @@ test('unconfigured server rejects inquiry without claiming delivery', async () =
   } finally { await stop(server.child) }
 })
 
+test('production routes enforce baseline headers, genuine 404s and immutable hashed assets', async () => {
+  const server = await launch(false)
+  try {
+    const home = await fetch(server.origin)
+    assert.equal(home.status, 200)
+    assert.equal(home.headers.get('x-content-type-options'), 'nosniff')
+    assert.equal(home.headers.get('x-frame-options'), 'DENY')
+    assert.equal(home.headers.get('referrer-policy'), 'strict-origin-when-cross-origin')
+    assert.match(home.headers.get('content-security-policy'), /frame-ancestors 'none'/)
+    assert.equal(home.headers.get('cache-control'), 'no-cache')
+    const html = await home.text()
+    const script = html.match(/src="(\/_nuxt\/[^"]+\.js)"/)[1]
+    const asset = await fetch(`${server.origin}${script}`)
+    assert.equal(asset.status, 200)
+    assert.match(asset.headers.get('cache-control'), /max-age=31536000.*immutable/)
+    for (const path of ['/missing-release-test', '/learn/missing-release-test', '/learn/category/missing-release-test', ...(process.env.NUXT_DESIGN_REVIEW_ENABLED === 'true' ? [] : ['/design-system'])]) {
+      const response = await fetch(`${server.origin}${path}`, { headers: { Accept: 'text/html' } })
+      assert.equal(response.status, 404, path)
+      const body = await response.text()
+      assert.match(body, /noindex, nofollow/)
+      assert.doesNotMatch(body, /stackTrace|synthetic-test-secret|contactEndpoint|contactToken/)
+    }
+  } finally { await stop(server.child) }
+})
+
 test('investor namespace is refused even if inquiry delivery is enabled', async () => {
   const server = await launch(true, 'https://contact.example.test/api/bonds/auth/accounts')
   try {

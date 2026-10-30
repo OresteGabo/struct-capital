@@ -1,5 +1,8 @@
+import { env } from 'node:process'
 import tailwindcss from '@tailwindcss/vite'
 import { site, publicRoutes, learningDraftRoutes } from './shared/site'
+
+const designReviewEnabled = env.NUXT_DESIGN_REVIEW_ENABLED === 'true'
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-10-30',
@@ -7,13 +10,36 @@ export default defineNuxtConfig({
   modules: ['@nuxt/eslint'],
   css: ['~/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
+  hooks: {
+    'pages:extend'(pages) {
+      if (!designReviewEnabled) {
+        const index = pages.findIndex(page => page.path === '/design-system')
+        if (index !== -1) pages.splice(index, 1)
+      }
+    },
+  },
+  routeRules: {
+    '/**': { headers: {
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+      // Script nonces/hashes and HSTS need the selected host's reviewed policy.
+      'Content-Security-Policy': "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'",
+      'Cache-Control': 'no-cache',
+    } },
+    '/_nuxt/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
+    '/product/**': { headers: { 'Cache-Control': 'public, max-age=3600, must-revalidate' } },
+    '/brand/**': { headers: { 'Cache-Control': 'public, max-age=3600, must-revalidate' } },
+    '/api/**': { headers: { 'Cache-Control': 'no-store' } },
+  },
   runtimeConfig: {
     contactEndpoint: '',
     contactToken: '',
     contactOrigin: site.url,
     public: { siteIndexable: false, contactEnabled: false },
   },
-  nitro: { prerender: { routes: [...publicRoutes, ...learningDraftRoutes, '/privacy', '/terms', '/design-system', '/robots.txt', '/sitemap.xml'], crawlLinks: true } },
+  nitro: { prerender: { routes: [...publicRoutes, ...learningDraftRoutes, '/privacy', '/terms', ...(designReviewEnabled ? ['/design-system'] : []), '/robots.txt', '/sitemap.xml'], crawlLinks: true } },
   app: {
     head: {
       htmlAttrs: { lang: 'en' },

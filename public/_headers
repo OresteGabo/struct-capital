@@ -1,0 +1,32 @@
+# Static hosting rules for hosts supporting _headers (e.g. Cloudflare Pages).
+# Other hosts must configure the equivalent policy; this is not universal.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'
+
+/_nuxt/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/product/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/brand/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/api/*
+  Cache-Control: no-store
+
+/robots.txt
+  Cache-Control: no-cache
+
+/sitemap.xml
+  Cache-Control: no-cache
+
+/_payload.json
+  Cache-Control: no-cache
+
+/*/_payload.json
+  Cache-Control: no-cache

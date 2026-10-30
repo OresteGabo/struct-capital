@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { readFileSync, existsSync } from 'node:fs'
+import { readFileSync, existsSync, readdirSync } from 'node:fs'
 import { test } from 'node:test'
 import { publicRoutes, learningDraftRoutes } from '../shared/site.ts'
 import { articles } from '../shared/learning.ts'
@@ -7,9 +7,10 @@ import { articles } from '../shared/learning.ts'
 const read = path => readFileSync(new URL(`../.output/public/${path}`, import.meta.url), 'utf8')
 const indexable = process.env.NUXT_PUBLIC_SITE_INDEXABLE === 'true'
 const home = read('index.html')
-const review = read('design-system/index.html')
+const reviewEnabled = process.env.NUXT_DESIGN_REVIEW_ENABLED === 'true'
+const review = reviewEnabled ? read('design-system/index.html') : ''
 
-const routePaths = [...publicRoutes, ...learningDraftRoutes, '/privacy', '/terms', '/design-system']
+const routePaths = [...publicRoutes, ...learningDraftRoutes, '/privacy', '/terms', ...(reviewEnabled ? ['/design-system'] : [])]
 const pages = new Map(routePaths.map(path => [path, read(path === '/' ? 'index.html' : `${path.slice(1)}/index.html`)]))
 
 test('all routes have unique titles/descriptions, canonical and social metadata, and semantic structure', () => {
@@ -40,7 +41,30 @@ test('all routes have unique titles/descriptions, canonical and social metadata,
     const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(match => match[1])
     assert.equal(new Set(ids).size, ids.length, `unique ids: ${path}`)
     for (const [, target] of html.matchAll(/\sfor="([^"]+)"/g)) assert.ok(ids.includes(target), `${path}: label target ${target}`)
+    for (const [, references] of html.matchAll(/\saria-(?:labelledby|describedby|controls)="([^"]+)"/g)) {
+      for (const target of references.split(/\s+/)) assert.ok(ids.includes(target), `${path}: ARIA target ${target}`)
+    }
+    for (const [, tag] of html.matchAll(/(<img\b[^>]*>)/g)) {
+      assert.match(tag, /\balt="[^"]*"/, path)
+      if (/\balt=""/.test(tag)) assert.match(tag, /aria-hidden="true"/, path)
+      assert.match(tag, /\bwidth="[1-9][0-9]*"/, path)
+      assert.match(tag, /\bheight="[1-9][0-9]*"/, path)
+      const src = tag.match(/\bsrc="([^"]+)"/)[1]
+      assert.ok(src.startsWith('/') && existsSync(new URL(`../.output/public${src}`, import.meta.url)), `${path}: image ${src}`)
+    }
   }
+})
+
+test('deployment artifact excludes source maps, private source assets and server credentials', () => {
+  const root = new URL('../.output/public/', import.meta.url)
+  const files = readdirSync(root, { recursive: true })
+  assert.equal(files.some(path => path.endsWith('.map')), false)
+  for (const path of files.filter(file => /\.(?:html|js|json)$/.test(file))) {
+    assert.doesNotMatch(readFileSync(new URL(path, root), 'utf8'), /synthetic-test-secret|contact\.example\.test|bonds\.orestegabo\.dev|contactEndpoint|contactToken|GABO_DATABASE_PASSWORD|password_hash|orestegabo@/, path)
+  }
+  for (const path of ['screenshots', 'docs', 'server', '.env']) assert.equal(existsSync(new URL(path, root)), false)
+  assert.match(read('_headers'), /X-Content-Type-Options: nosniff/)
+  assert.match(read('_headers'), /max-age=31536000, immutable/)
 })
 
 test('mobile navigation and FAQ content are rendered for no-JavaScript access', () => {
@@ -63,7 +87,11 @@ test('preview metadata files and social asset are present in static output', () 
   assert.ok(existsSync(new URL('../.output/public/brand/social-preview.png', import.meta.url)))
 })
 
-test('review specimens retain honest unavailable states and linked field descriptions', () => {
+test('component review is excluded unless explicitly enabled for a local review build', () => {
+  if (!reviewEnabled) {
+    assert.equal(existsSync(new URL('../.output/public/design-system/index.html', import.meta.url)), false)
+    return
+  }
   assert.match(review, /Statistic unavailable/)
   assert.match(review, /Product screenshot pending approval/)
   assert.match(review, /aria-invalid="true"/)
