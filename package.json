@@ -19,7 +19,9 @@
     "prebuild": "npm run content:build",
     "pregenerate": "npm run content:build",
     "pretypecheck": "npm run content:build",
-    "pretest": "npm run content:build"
+    "pretest": "npm run content:build",
+    "check": "npm run typecheck && npm run lint && npm test && npm run check:contrast",
+    "build:vercel": "npm run check && NITRO_PRESET=vercel npm run build && STRUCT_PUBLIC_OUTPUT=.vercel/output/static npm run test:generated"
   },
   "dependencies": {
     "nuxt": "4.6.3",
@@ -38,6 +40,6 @@
     "yaml": "^2.9.1"
   },
   "engines": {
-    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+    "node": "^24.15.0"
   }
 }

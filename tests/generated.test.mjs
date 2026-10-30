@@ -1,10 +1,14 @@
 import assert from 'node:assert/strict'
 import { readFileSync, existsSync, readdirSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { test } from 'node:test'
 import { publicRoutes, learningDraftRoutes } from '../shared/site.ts'
 import { articles } from '../shared/learning.ts'
 
-const read = path => readFileSync(new URL(`../.output/public/${path}`, import.meta.url), 'utf8')
+// Nitro's Vercel preset emits a different public directory from the Node/static presets.
+const publicRoot = pathToFileURL(`${resolve(process.env.STRUCT_PUBLIC_OUTPUT ?? '.output/public')}/`)
+const read = path => readFileSync(new URL(path, publicRoot), 'utf8')
 const indexable = process.env.NUXT_PUBLIC_SITE_INDEXABLE === 'true'
 const home = read('index.html')
 const reviewEnabled = process.env.NUXT_DESIGN_REVIEW_ENABLED === 'true'
@@ -50,13 +54,13 @@ test('all routes have unique titles/descriptions, canonical and social metadata,
       assert.match(tag, /\bwidth="[1-9][0-9]*"/, path)
       assert.match(tag, /\bheight="[1-9][0-9]*"/, path)
       const src = tag.match(/\bsrc="([^"]+)"/)[1]
-      assert.ok(src.startsWith('/') && existsSync(new URL(`../.output/public${src}`, import.meta.url)), `${path}: image ${src}`)
+      assert.ok(src.startsWith('/') && existsSync(new URL(src.slice(1), publicRoot)), `${path}: image ${src}`)
     }
   }
 })
 
 test('deployment artifact excludes source maps, private source assets and server credentials', () => {
-  const root = new URL('../.output/public/', import.meta.url)
+  const root = publicRoot
   const files = readdirSync(root, { recursive: true })
   assert.equal(files.some(path => path.endsWith('.map')), false)
   for (const path of files.filter(file => /\.(?:html|js|json)$/.test(file))) {
@@ -84,12 +88,12 @@ test('preview metadata files and social asset are present in static output', () 
     assert.match(read('robots.txt'), /Disallow: \/\n/)
     assert.doesNotMatch(read('sitemap.xml'), /<url>/)
   }
-  assert.ok(existsSync(new URL('../.output/public/brand/social-preview.png', import.meta.url)))
+  assert.ok(existsSync(new URL('brand/social-preview.png', publicRoot)))
 })
 
 test('component review is excluded unless explicitly enabled for a local review build', () => {
   if (!reviewEnabled) {
-    assert.equal(existsSync(new URL('../.output/public/design-system/index.html', import.meta.url)), false)
+    assert.equal(existsSync(new URL('design-system/index.html', publicRoot)), false)
     return
   }
   assert.match(review, /Statistic unavailable/)
@@ -111,7 +115,7 @@ test('homepage product imagery is present, dimensioned, and backed by public fil
     assert.match(tag, /height="[1-9][0-9]*"/)
     assert.match(tag, /alt="[^"]+"/)
     const src = tag.match(/src="([^"]+)"/)[1]
-    assert.ok(existsSync(new URL(`../.output/public${src}`, import.meta.url)), src)
+    assert.ok(existsSync(new URL(src.slice(1), publicRoot)), src)
     assert.doesNotMatch(src, /dashboard|documents-and-reports|pdf-import/)
   }
   assert.match(home, /loading="lazy"/)
@@ -138,7 +142,7 @@ test('every internal page link and anchor resolves in the generated output', () 
       if (url.origin !== 'https://structcapital.net') continue
       const targetPath = url.pathname.replace(/\/+$/, '') || '/'
       const destination = pages.get(targetPath)
-      if (!destination) assert.ok(existsSync(new URL(`../.output/public${url.pathname}`, import.meta.url)), `${path} -> ${href}`)
+      if (!destination) assert.ok(existsSync(new URL(url.pathname.slice(1), publicRoot)), `${path} -> ${href}`)
       if (url.hash && destination) assert.ok(destination.includes(`id="${url.hash.slice(1)}"`), `${path} -> ${href}`)
     }
   }
