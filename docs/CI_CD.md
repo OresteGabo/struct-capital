@@ -9,7 +9,7 @@ Pushes to `main` trigger production builds automatically. Other branches and pul
 ## Repository configuration
 
 - `.nvmrc` selects Node 24.15.0 for local/CI checks. `package.json` allows the compatible Node 24 line only. The Vercel project setting was saved as 24.x; Vercel manages minor/patch updates within that line. The prior deployment used 26.x because the previous engine range allowed it.
-- `vercel.json` uses the native Nuxt framework preset, installs the lockfile with development build dependencies, and runs `npm run build:vercel`. No custom output-directory override is needed.
+- `vercel.json` preserves the project’s existing auto-detected Nuxt framework preset, installs the lockfile with development build dependencies, and runs `npm run build:vercel`. No custom output-directory override is needed.
 - `build:vercel` runs TypeScript, lint, unit/content tests and semantic contrast checks, builds the native Nitro Vercel preset, then validates the actual `.vercel/output/static` artifact. Failed build checks prevent that deployment from becoming the new production version.
 - `STRUCT_PUBLIC_OUTPUT` is a test-only artifact location override. Node/static verification defaults to `.output/public`. It is not browser runtime configuration.
 - `.vercel/` is ignored because generated output and local provider linkage do not belong in source control.
