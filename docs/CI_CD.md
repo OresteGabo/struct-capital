@@ -43,3 +43,9 @@ npm run test:generated
 ```
 
 Scheduled editorial/link monitoring and stricter script CSP remain deferred. This workflow checks source review dates when it runs; it is not a scheduled monitor.
+
+## Additional domain redirects — 30 October 2026
+
+At the owner's request, the existing Vercel project now attaches `structcapital.dev`, `www.structcapital.dev`, `structcapital.org` and `www.structcapital.org` as **308 permanent redirects** directly to `structcapital.net`. These are domain-level Vercel settings, not repository route rules, and do not require a code deployment. The apex `.net` remains the production/canonical domain.
+
+All four HTTPS endpoints were verified with certificate validation enabled: `/learn?source=redirect-check` returned 308 with `Location: https://structcapital.net/learn?source=redirect-check`. Paths and query strings are preserved. Vercel accepted the existing DNS configuration and provisioned certificates; no registrar/DNS record, nameserver, mail record or paid service was changed. Preserve these redirect assignments when moving projects or hosting.
