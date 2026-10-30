@@ -1,0 +1,93 @@
+/* Extracted mobile values and explicitly documented web additions: docs/DESIGN_SYSTEM.md. */
+:root {
+  --sc-olive: #6d5e0f;
+  --sc-cream: #f2e6a7;
+  --sc-ink: #252317;
+  --sc-gold: #ecc75f;
+  --sc-sage: #739a87;
+  --sc-background: #faf8f2;
+  --sc-surface: #ffffff;
+  --sc-primary: var(--sc-olive);
+  --sc-on-primary: #ffffff;
+  --sc-secondary: var(--sc-olive);
+  --sc-container: var(--sc-cream);
+  --sc-on-container: var(--sc-ink);
+  --sc-text: var(--sc-ink);
+  /* Web additions: the mobile theme inherits these light roles from Material. */
+  --sc-muted: #625f50;
+  --sc-surface-muted: #f1eee3;
+  --sc-surface-raised: #ffffff;
+  --sc-border: #d9d5c5;
+  --sc-outline: #81795c;
+  --sc-success: #22705d;
+  --sc-warning: #875000;
+  --sc-danger: #b3261e;
+  --sc-coupon: #246c9f;
+  --sc-maturity: #22705d;
+  --sc-focus: var(--sc-primary);
+  --sc-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  --sc-space: 0.25rem;
+  --sc-radius-sm: 0.5rem;
+  --sc-radius-control: 1.125rem;
+  --sc-radius-card: 1.5rem;
+  --sc-radius-feature: 1.75rem;
+  --sc-radius-pill: 9999px;
+  --sc-duration-fast: 140ms;
+  --sc-duration-enter: 180ms;
+  --sc-duration-content: 240ms;
+  --sc-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --sc-shadow: 0 4px 16px rgb(37 35 23 / 6%);
+  --sc-page-width: 75rem;
+  --sc-reading-width: 65ch;
+  color-scheme: light;
+}
+
+/* A data attribute supports local reviews; system preference works without JS. */
+
+:root[data-theme="dark"] {
+  --sc-background: #11150f;
+  --sc-surface: #1d2219;
+  --sc-primary: var(--sc-cream);
+  --sc-on-primary: var(--sc-ink);
+  --sc-secondary: var(--sc-cream);
+  --sc-container: #514716;
+  --sc-on-container: var(--sc-cream);
+  --sc-text: #f3f1e8;
+  --sc-muted: #c5c7ba;
+  --sc-border: #414735;
+  --sc-surface-muted: #181f18;
+  --sc-surface-raised: #272b1b;
+  --sc-outline: #999b87;
+  --sc-success: #8ddbb7;
+  --sc-warning: #ffd180;
+  --sc-danger: #ffb4ab;
+  --sc-coupon: #9dcbfd;
+  --sc-maturity: #8ddbb7;
+  --sc-shadow: 0 4px 16px rgb(0 0 0 / 16%);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+  --sc-background: #11150f;
+  --sc-surface: #1d2219;
+  --sc-primary: var(--sc-cream);
+  --sc-on-primary: var(--sc-ink);
+  --sc-secondary: var(--sc-cream);
+  --sc-container: #514716;
+  --sc-on-container: var(--sc-cream);
+  --sc-text: #f3f1e8;
+  --sc-muted: #c5c7ba;
+  --sc-border: #414735;
+  --sc-surface-muted: #181f18;
+  --sc-surface-raised: #272b1b;
+  --sc-outline: #999b87;
+  --sc-success: #8ddbb7;
+  --sc-warning: #ffd180;
+  --sc-danger: #ffb4ab;
+  --sc-coupon: #9dcbfd;
+  --sc-maturity: #8ddbb7;
+  --sc-shadow: 0 4px 16px rgb(0 0 0 / 16%);
+  color-scheme: dark;
+  }
+}

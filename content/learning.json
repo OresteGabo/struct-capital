@@ -1,0 +1,38 @@
+{
+  "categories": [
+    {
+      "slug": "bonds",
+      "title": "Treasury bonds",
+      "description": "Understand bond income, coupon rates, yields, and maturity before reading the terms of an individual Rwanda Treasury bond."
+    },
+    {
+      "slug": "equities",
+      "title": "Shares & dividends",
+      "description": "Learn what share ownership means and how dividends differ from the changing market value of an investment."
+    },
+    {
+      "slug": "documents",
+      "title": "Documents & costs",
+      "description": "Read investment records more carefully, identify questions to ask, and separate confirmed amounts from assumptions."
+    },
+    {
+      "slug": "portfolio",
+      "title": "Your investment picture",
+      "description": "Explore diversification and practical recordkeeping habits that help you see your investments more clearly."
+    }
+  ],
+  "topics": [
+    "Rwanda Treasury bonds",
+    "Rwanda Stock Exchange",
+    "Bond coupon payments",
+    "Coupon rates versus yields",
+    "Bond maturity",
+    "Equity investing",
+    "Dividends",
+    "Brokerage commissions and fees",
+    "Investment contract notes",
+    "BNR bond allocation documents",
+    "Portfolio diversification",
+    "Investment tracking and recordkeeping"
+  ]
+}

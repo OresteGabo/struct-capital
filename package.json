@@ -1,0 +1,42 @@
+{
+  "name": "struct-capital-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "npm run content:build && nuxt prepare",
+    "typecheck": "nuxt typecheck",
+    "lint": "eslint .",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "test": "node --test tests/site.test.ts tests/contact.test.ts tests/faq.test.ts tests/learning.test.mjs",
+    "test:generated": "node --test tests/generated.test.mjs",
+    "test:server": "node --test tests/contact-server.test.mjs",
+    "content:build": "node scripts/build-learning.mjs",
+    "predev": "npm run content:build",
+    "prebuild": "npm run content:build",
+    "pregenerate": "npm run content:build",
+    "pretypecheck": "npm run content:build",
+    "pretest": "npm run content:build"
+  },
+  "dependencies": {
+    "nuxt": "4.6.3",
+    "vue": "^3.5.0",
+    "vue-router": "^5.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "eslint": "^9.0.0",
+    "markdown-it": "^15.0.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.9.0",
+    "vue-tsc": "^3.0.0",
+    "yaml": "^2.9.1"
+  },
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  }
+}
