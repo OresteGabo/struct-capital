@@ -52,7 +52,8 @@ test('mobile navigation and FAQ content are rendered for no-JavaScript access', 
 
 test('preview metadata files and social asset are present in static output', () => {
   if (indexable) {
-    assert.match(read('robots.txt'), /Disallow: \/design-system/)
+    assert.match(read('robots.txt'), /Disallow: \/api\//)
+    assert.doesNotMatch(read('robots.txt'), /Disallow: \/(?:privacy|terms|learn)/)
     assert.match(read('sitemap.xml'), /<loc>https:\/\/structcapital.net\/<\/loc>/)
     assert.doesNotMatch(read('sitemap.xml'), /design-system/)
   } else {

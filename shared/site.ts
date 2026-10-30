@@ -43,7 +43,8 @@ export function indexingEnabled(value: unknown): boolean {
 
 export function robotsText(indexable: boolean): string {
   return indexable
-    ? `User-agent: *\nAllow: /\nDisallow: /design-system\nDisallow: /privacy\nDisallow: /terms\nDisallow: /api/\nSitemap: ${site.url}/sitemap.xml\n`
+    // Let crawlers read the permanent noindex tags on draft pages.
+    ? `User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: ${site.url}/sitemap.xml\n`
     : 'User-agent: *\nDisallow: /\n'
 }
 

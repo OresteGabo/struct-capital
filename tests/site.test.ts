@@ -23,7 +23,8 @@ test('preview crawlers receive no sitemap entries or permission to crawl', () =>
 })
 
 test('launch sitemap contains implemented public pages only', () => {
-  assert.match(robotsText(true), /Disallow: \/design-system/)
+  assert.match(robotsText(true), /Disallow: \/api\//)
+  assert.doesNotMatch(robotsText(true), /Disallow: \/(?:privacy|terms|learn)/)
   assert.match(robotsText(true), /Sitemap: https:\/\/structcapital.net\/sitemap.xml/)
   assert.match(sitemapXml(true), /<loc>https:\/\/structcapital.net\/<\/loc>/)
   assert.match(sitemapXml(true), /<loc>https:\/\/structcapital.net\/features<\/loc>/)
