@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import showcase from '../../social-content/posts/product-showcase.json'
+import { productScreenshots } from '../../shared/social-product'
 import TreasuryBondFields from '../components/social/TreasuryBondFields.vue'
 import bond from '../../social-content/posts/treasury-bond-explainer.json'
 import SocialTemplate from '../components/social/SocialTemplate.vue'
@@ -14,7 +16,7 @@ import { kigaliPhotos } from '../../shared/social-photos'
 
 definePageMeta({ layout: false })
 useHead({ title: 'Social studio · local development', meta: [{ name: 'robots', content: 'noindex, nofollow' }], htmlAttrs: { 'data-theme': 'light' } })
-const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology, bond]
+const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology, bond, showcase]
 const selected = ref(clearer.id)
 const post = ref(parseSocialPost(clearer))
 const format = ref<SocialFormat>('square')
@@ -64,7 +66,7 @@ async function exportPng() {
         <div><label class="sc-label" for="format">Format</label><select id="format" v-model="format" class="sc-input"><option value="square">Square · 1080 × 1080</option><option value="portrait">Portrait · 1080 × 1350</option></select></div>
         <div><label class="sc-label" for="eyebrow">Eyebrow</label><input id="eyebrow" v-model="post.eyebrow" class="sc-input" maxlength="40" required></div>
         <div><label class="sc-label" for="headline">Headline</label><textarea id="headline" v-model="post.headline" class="sc-input" maxlength="100" rows="3" required /></div>
-        <div><label class="sc-label" for="body">{{ post.template === 'kigali' ? 'Subtitle' : 'Body' }}</label><textarea id="body" v-model="post.body" class="sc-input" maxlength="230" rows="5" required /></div>
+        <div><label class="sc-label" for="body">{{ ['kigali', 'product-showcase'].includes(post.template ?? '') ? 'Subtitle' : 'Body' }}</label><textarea id="body" v-model="post.body" class="sc-input" maxlength="230" rows="5" required /></div>
         <template v-if="post.template === 'kigali'">
           <p v-if="!post.photoId" role="note" class="sc-draft-notice text-label">Kigali photograph missing. Exports are labeled draft proofs. Add a user-provided city photograph to the registry; see docs/SOCIAL_MEDIA_SYSTEM.md.</p>
           <div><label class="sc-label" for="photo">Photograph</label><select id="photo" v-model="post.photoId" class="sc-input"><option value="">Missing asset / draft proof</option><option v-for="photo in kigaliPhotos" :key="photo.id" :value="photo.id">{{ photo.alt }}</option></select></div>
@@ -83,6 +85,14 @@ async function exportPng() {
           <div><label class="sc-label" for="education-brand">Brand text</label><input id="education-brand" v-model="post.education.brand" maxlength="40" class="sc-input" required></div>
         </template>
         <TreasuryBondFields v-else-if="post.template === 'treasury-bond' && post.bond" v-model="post.bond" />
+        <template v-else-if="post.template === 'product-showcase' && post.showcase">
+          <div><label class="sc-label" for="product-screenshot">Product screenshot</label><select id="product-screenshot" v-model="post.showcase.screenshot" class="sc-input"><option v-for="image in productScreenshots" :key="image.id" :value="image.id">{{ image.label }}</option></select></div>
+          <div><label class="sc-label" for="showcase-pattern">Showcase geometry</label><select id="showcase-pattern" v-model="post.showcase.pattern" class="sc-input"><option value="none">None</option><option value="signature">SC signature</option><option value="structure">SC structure</option></select></div>
+          <div><label class="sc-label" for="showcase-brand">Showcase brand text</label><input id="showcase-brand" v-model="post.showcase.brand" maxlength="40" class="sc-input" required></div>
+          <div><label class="sc-label" for="showcase-footer">Showcase footer</label><input id="showcase-footer" v-model="post.showcase.footer" maxlength="60" class="sc-input" required></div>
+          <div><label class="sc-label" for="showcase-note">Showcase note</label><textarea id="showcase-note" v-model="post.showcase.note" maxlength="100" class="sc-input" rows="3" required /></div>
+          <p class="text-label text-muted">Authentic, existing screenshot derivatives only. Asset captions retain capture and capability limits. Raw account screenshots are not selectable.</p>
+        </template>
         <div v-else><label class="sc-label" for="visual">Approved visual</label><select id="visual" v-model="post.visual" class="sc-input"><option value="symbol">Official symbol</option><option value="calendar">Calendar excerpt</option></select></div>
         <ScButton type="submit" :disabled="busy">{{ busy ? 'Rendering…' : 'Download PNG' }}</ScButton>
         <p role="status" class="text-label" :aria-busy="busy">{{ status }}</p>

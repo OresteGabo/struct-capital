@@ -3,6 +3,7 @@ import { test } from 'node:test'
 import { readFile, readdir } from 'node:fs/promises'
 import { chromium } from 'playwright'
 import { socialSizes } from '../shared/social.ts'
+import { productScreenshots } from '../shared/social-product.ts'
 
 // Run against `npm run dev`; covers the actual export transport and browser editor.
 const origin = process.env.SOCIAL_STUDIO_ORIGIN ?? 'http://127.0.0.1:3000'
@@ -37,6 +38,73 @@ test('education schema rejects invalid styles and missing or oversized editable 
   }
   const response = await send({ post: { ...post, headline: 'Extremely '.repeat(10).trim(), body: 'Editorial explanation '.repeat(10).trim() }, format: 'square' })
   assert.equal(response.status, 500)
+})
+test('product registry uses existing native-size PNGs and rejects arbitrary or private sources', async () => {
+  for (const asset of productScreenshots) {
+    assert.ok(asset.src.startsWith('/product/'))
+    const png = await readFile(`public${asset.src}`)
+    assert.equal(png.readUInt32BE(16), asset.width)
+    assert.equal(png.readUInt32BE(20), asset.height)
+    const post = JSON.parse(await readFile('social-content/posts/product-showcase.json', 'utf8'))
+    for (const format of ['square', 'portrait']) {
+      const response = await send({ post: { ...post, showcase: { ...post.showcase, screenshot: asset.id } }, format })
+      if (!response.ok) assert.fail(await response.text())
+      const result = Buffer.from(await response.arrayBuffer())
+      assert.equal(result.readUInt32BE(16), socialSizes[format].width)
+      assert.equal(result.readUInt32BE(20), socialSizes[format].height)
+    }
+  }
+  const post = JSON.parse(await readFile('social-content/posts/product-showcase.json', 'utf8'))
+  for (const changes of [{ screenshot: '/screenshots/portfolio-dashboard.png' }, { screenshot: 'https://example.com/ui.png' }, { screenshot: 'unknown' }, { pattern: 'hexagons' }, { note: '' }]) {
+    assert.equal((await send({ post: { ...post, showcase: { ...post.showcase, ...changes } }, format: 'square' })).status, 400)
+  }
+})
+test('product studio switches real screenshots/patterns, edits copy, and recovers an unavailable image', async () => {
+  const browser = await chromium.launch()
+  try {
+    const page = await browser.newPage()
+    await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
+    await page.getByLabel('Draft', { exact: true }).selectOption('product-showcase')
+    for (const format of ['square', 'portrait']) {
+      await page.getByLabel('Format', { exact: true }).selectOption(format)
+      assert.equal(await page.locator('[data-social-canvas] h2').evaluate(element => {
+        const text = element.firstChild
+        const word = 'investments.'
+        const start = text.textContent.indexOf(word)
+        const range = document.createRange()
+        range.setStart(text, start)
+        range.setEnd(text, start + word.length)
+        return range.getClientRects().length
+      }), 1, 'headline word and punctuation must stay together')
+    }
+    await page.getByLabel('Format', { exact: true }).selectOption('square')
+    const changes = { Eyebrow: 'A real app view', Headline: 'Your records, together.', Subtitle: 'Explore the captured app screens.', 'Showcase brand text': 'Struct Capital', 'Showcase footer': 'Review draft', 'Showcase note': 'Independent software. Not a broker.' }
+    for (const [label, value] of Object.entries(changes)) {
+      await page.getByLabel(label, { exact: true }).fill(value)
+      await page.locator('[data-social-canvas]').getByText(value, { exact: true }).waitFor()
+    }
+    for (const asset of productScreenshots) {
+      await page.getByLabel('Product screenshot').selectOption(asset.id)
+      await page.waitForFunction(src => { const img = document.querySelector('.product-image img'); return img?.getAttribute('src') === src && img.complete && img.naturalWidth > 0 }, asset.src)
+      assert.equal(await page.locator('.product-image img').evaluate(img => getComputedStyle(img).objectFit), 'contain')
+      assert.equal((await page.locator('.product-image figcaption').textContent()).trim(), asset.caption)
+    }
+    for (const pattern of ['none', 'signature', 'structure']) {
+      await page.getByLabel('Showcase geometry').selectOption(pattern)
+      assert.equal(await page.locator('.geometry').count(), pattern === 'none' ? 0 : 1)
+    }
+    await page.route('**/import-detail-700.png', route => route.abort())
+    await page.getByLabel('Product screenshot').selectOption('import')
+    await page.locator('.product-image [role="status"]').getByText('Product screenshot unavailable.').waitFor()
+    await page.getByLabel('Product screenshot').selectOption('reports')
+    await page.locator('.product-image img').waitFor()
+    const downloaded = page.waitForEvent('download')
+    await page.getByRole('button', { name: 'Download PNG' }).click()
+    assert.equal((await downloaded).suggestedFilename(), 'product-showcase-square.png')
+    await page.setViewportSize({ width: 320, height: 900 })
+    await page.waitForTimeout(200)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
+  } finally { await browser.close() }
 })
 test('bond schema enforces timeline structure, bounded text and event counts', async () => {
   const post = JSON.parse(await readFile('social-content/posts/treasury-bond-explainer.json', 'utf8'))

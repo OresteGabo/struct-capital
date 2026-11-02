@@ -103,3 +103,7 @@ InvestorEducation.vue adds four editable internal content styles: financial conc
 ## Treasury Bond Explainer — Phase 04 (2026-11-02)
 
 TreasuryBondExplainer.vue adds an internal editable principal/coupon/maturity timeline with 3–6 events, custom headings/dates/values/notes, and square/portrait PNG output. The default uses labeled hypothetical units and relative dates; no current BNR rate, official issue terms, yield calculation or payment confirmation is asserted. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+ProductShowcase.vue adds an internal screenshot selector, editable headlines/subtitles and configurable SC geometry with square/portrait export. It uses four existing approved calendar/detail/receipt/report derivatives; no fabricated UI, raw private screenshot, new product capability, live data or public release claim is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

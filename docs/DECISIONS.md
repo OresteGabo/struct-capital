@@ -156,3 +156,11 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Alternatives:** Imply current BNR terms, compute coupon/yield schedules, conflate principal with income, or add generic infographic assets.
 - **Rationale:** The requested learning references support an explanation of bond cash-flow categories, not live issue terms or a duplicate financial engine. Hypothetical units make the authoring example concrete without suggesting an actual offer.
 - **Consequences:** Authors must review chronology, economic consistency and source claims themselves; export guards prevent clipping and overlap but cannot certify financial content. Production, dependencies and marketing pages remain unchanged.
+
+## ADR-019 — Reuse approved screenshot derivatives for product social artwork
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Product Showcase phase.
+- **Decision:** Use a fixed registry of the four existing public screenshot views, ScScreenshot contain rendering and native-size export guards. Adapt the report-card layout to its wide aspect ratio; retain capture-specific captions and optional official SC geometry.
+- **Alternatives:** Expose raw screenshots with account identity/balances; duplicate files; synthesize cleaner app UI; enlarge the smaller calendar derivative; add a second device frame or crop away important states.
+- **Rationale:** The existing Swift outputs already cover this phase with reviewed privacy crops and sufficient pixels. Reuse protects authenticity and avoids another image pipeline.
+- **Consequences:** New views need source/privacy review and an entry in the existing preparation pipeline if necessary. Screenshot dates/receipts/report cards are not live offers, successful new imports or official filings. No asset duplication, production endpoint, dependency or release claim is added.

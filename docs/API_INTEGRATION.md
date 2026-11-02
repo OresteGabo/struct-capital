@@ -107,3 +107,7 @@ The existing development-only export request can include template=education and 
 ## Treasury Bond Explainer — Phase 04 (2026-11-02)
 
 The existing development export accepts template=treasury-bond with bounded bond text and 3–6 events. It validates event order and layout, returns PNG bytes and never calculates or fetches bond rates/terms. The example marker is always present. Production export remains absent; no Spring, BNR or financial-data API is called. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+The existing development-only PNG export accepts validated product-showcase fields (screenshot ID, pattern, brand, footer, note). Screenshot IDs resolve only to four existing approved local derivatives; no arbitrary file path, upload or external URL is supported. Capture fails on missing, enlarged or clipped screenshots. No production API or financial integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

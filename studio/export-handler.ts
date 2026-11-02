@@ -61,6 +61,25 @@ export default defineEventHandler(async (event) => {
         throw new Error('Bond timeline overlaps the introduction or footnotes. Shorten text or remove a coupon row.')
       }
     }
+    if (post.template === 'product-showcase') {
+      const copy = await canvas.locator('[data-showcase-copy]').boundingBox()
+      const header = await canvas.locator('[data-showcase-header]').boundingBox()
+      const footer = await canvas.locator('[data-showcase-footer]').boundingBox()
+      const image = await canvas.locator('.product-image').boundingBox()
+      const stage = await canvas.locator('[data-showcase-stage]').boundingBox()
+      const textFits = await canvas.locator('[data-showcase-copy]').evaluate(element => element.scrollWidth <= element.clientWidth)
+      if (!textFits) throw new Error('A showcase word exceeds its text column. Shorten the headline.')
+      if (!copy || !header || !footer || !image || Math.min(copy.y, image.y) < header.y + header.height + 24 || Math.max(copy.y + copy.height, image.y + image.height) > footer.y - 24) {
+        throw new Error('Showcase copy or image overlaps the header or footer. Shorten the text.')
+      }
+      if (!stage || image.y < stage.y - 1 || image.y + image.height > stage.y + stage.height + 1) throw new Error('Product screenshot or caption would be clipped.')
+      const sharp = await canvas.locator('.product-image img').evaluate((element) => {
+        const image = element as HTMLImageElement
+        const bounds = image.getBoundingClientRect()
+        return image.complete && image.naturalWidth > 0 && bounds.width <= image.naturalWidth + 1 && bounds.height <= image.naturalHeight + 1
+      })
+      if (!sharp) throw new Error('Product screenshot would be enlarged beyond its native dimensions.')
+    }
     if (await canvas.locator('[data-social-missing-photo]').count()) setHeader(event, 'X-Social-Proof', 'missing-photo')
     const png = await canvas.screenshot({ type: 'png', animations: 'disabled' })
     setHeader(event, 'Content-Type', 'image/png')

@@ -137,3 +137,7 @@ The local studio adds a minimalist education template with four content styles, 
 ## Treasury Bond Explainer — Phase 04 (2026-11-02)
 
 The local studio adds an editorial bond timeline: principal invested, scheduled coupons and principal due at maturity. Headings, dates, amounts, labels and notes are editable; the illustrative-example marker is permanent. Defaults are hypothetical, not a BNR issue. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+The local studio adds Product Showcase with real app screenshots, large editorial type, restrained olive/gold details and selectable SC geometry. It supports calendar, calendar detail, existing-document receipt and annual-report card views. Captions retain factual limits; no public release or store availability is claimed. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

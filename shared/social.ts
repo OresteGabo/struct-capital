@@ -1,4 +1,5 @@
 import { kigaliPhotos } from './social-photos.ts'
+import { productScreenshots, type ProductScreenshotId } from './social-product.ts'
 
 export const socialSizes = { square: { width: 1080, height: 1080 }, portrait: { width: 1080, height: 1350 } } as const
 export type SocialFormat = keyof typeof socialSizes
@@ -30,15 +31,23 @@ export interface BondContent {
   footer: string
   events: BondEvent[]
 }
+export interface ShowcaseContent {
+  screenshot: ProductScreenshotId
+  pattern: 'none' | 'signature' | 'structure'
+  brand: string
+  footer: string
+  note: string
+}
 export interface SocialPost {
   id: string
   eyebrow: string
   headline: string
   body: string
   visual: 'symbol' | 'calendar'
-  template?: 'editorial' | 'kigali' | 'education' | 'treasury-bond'
+  template?: 'editorial' | 'kigali' | 'education' | 'treasury-bond' | 'product-showcase'
   education?: EducationContent
   bond?: BondContent
+  showcase?: ShowcaseContent
   photoId?: string
   cropX?: number
   cropY?: number
@@ -57,7 +66,18 @@ export function parseSocialPost(value: unknown): SocialPost {
   if (!/^[a-z0-9-]+$/.test(source.id as string)) throw new Error('Use a lowercase slug for the post ID.')
   if (source.visual !== 'symbol' && source.visual !== 'calendar') throw new Error('Choose an approved visual.')
   const post: SocialPost = { id: source.id as string, eyebrow: source.eyebrow as string, headline: source.headline as string, body: source.body as string, visual: source.visual }
-  if (source.template !== undefined && !['editorial', 'kigali', 'education', 'treasury-bond'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template !== undefined && !['editorial', 'kigali', 'education', 'treasury-bond', 'product-showcase'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template === 'product-showcase') {
+    if (!source.showcase || typeof source.showcase !== 'object') throw new Error('Product showcase content is required.')
+    const showcase = source.showcase as Record<string, unknown>
+    if (!productScreenshots.some(image => image.id === showcase.screenshot)) throw new Error('Choose an approved product screenshot.')
+    if (!['none', 'signature', 'structure'].includes(String(showcase.pattern))) throw new Error('Choose a showcase pattern.')
+    for (const [key, limit] of Object.entries({ brand: 40, footer: 60, note: 100 })) {
+      if (typeof showcase[key] !== 'string' || !showcase[key].trim() || showcase[key].length > limit) throw new Error(`Invalid showcase ${key} (maximum ${limit} characters).`)
+    }
+    post.template = 'product-showcase'
+    post.showcase = { screenshot: showcase.screenshot as ProductScreenshotId, pattern: showcase.pattern as ShowcaseContent['pattern'], brand: showcase.brand as string, footer: showcase.footer as string, note: showcase.note as string }
+  }
   if (source.template === 'treasury-bond') {
     if (!source.bond || typeof source.bond !== 'object') throw new Error('Bond timeline content is required.')
     const bond = source.bond as Record<string, unknown>

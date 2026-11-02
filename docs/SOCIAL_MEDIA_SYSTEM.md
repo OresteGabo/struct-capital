@@ -164,3 +164,43 @@ Files go to ignored `exports/social/`. Persist studio edits in the draft JSON as
 Node 24.22.2: Nuxt and export-handler type checks, ESLint, all 17 unit/content tests, 34 contrast checks, production build, all 4 production HTTP tests, static generation and all 10 artifact tests passed. All 9 browser tests passed: 16 draft/format PNG renders, bond timeline/label/date/value/footnote edits, add/remove coupon controls, square and portrait downloads, 3-event and 6-event rendering in both formats, invalid structure/text rejection and deliberate overlap rejection. The studio remains excluded from production routes, API registration and public artifacts. No checks were blocked.
 
 Exported and visually inspected `exports/social/treasury-bond-explainer-square.png` (1080×1080) and `exports/social/treasury-bond-explainer-portrait.png` (1080×1350). Verified official logo, date/event/value alignment, timeline markers, separate final coupon/principal rows, persistent illustrative label, hypothetical assumptions, footnote clearance and brand consistency. Both files are gitignored. No financial calculation, live BNR data, new dependency, marketing-page change, push or publication. Full real-device and assistive-technology audits were not performed.
+
+## Phase 05 — Product Showcase
+
+`ProductShowcase.vue` adds a fifth template. Select `product-showcase` in the local studio. The headline/subtitle sit beside tall app captures; the annual-report card uses a wider composition so its original text stays legible. Olive editorial typography, an ivory canvas, a short gold rule and official SC artwork preserve the existing identity. Choose no geometry, a small SC signature or a subtle SC structure. Both geometric treatments reuse the actual symbol SVG, stay behind the image and do not redraw app UI or add a second phone frame.
+
+Editable fields include eyebrow, headline, subtitle, screenshot selection, geometry, brand text, footer and note. Persist edits in `social-content/posts/product-showcase.json`. The schema uses `template: "product-showcase"` plus `showcase: { screenshot, pattern, brand, footer, note }`; allowed patterns are `none`, `signature`, `structure`. The asset caption is selected with the screenshot and retains its capture/capability qualification. Arbitrary paths, remote URLs and raw account screenshots are rejected by shared validation.
+
+### Asset inspection and reuse
+
+All nine requested raster files were visually inspected alongside `ScScreenshot.vue`, `prepare-product-images.swift` and the existing homepage evidence. `shared/social-product.ts` registers only existing public derivatives:
+
+| Selection | Served file | Native size | Intended use |
+| --- | --- | --- | --- |
+| `calendar` | `/product/calendar-840.png` | 840×1774 | Full authentic app capture, including its existing device frame |
+| `calendar-detail` | `/product/calendar-detail-700.png` | 700×934 | Full existing calendar crop |
+| `import` | `/product/import-detail-700.png` | 700×665 | Complete existing-document receipt |
+| `reports` | `/product/reports-detail-900.png` | 900×397 | Complete annual-report card crop |
+
+The 560px calendar was inspected but is not a separate social selection: the existing 840px version provides more source pixels for PNG capture. Raw `portfolio-dashboard.png` contains portfolio amounts; `pdf-import.png` and `documents-and-reports.png` include account identity. They remain outside public assets and the selection registry. Raw `coupon-calendar.png` is already represented by the existing calendar derivatives. No original was modified or exposed, and no new copy or derivative was needed.
+
+The Swift pipeline’s reviewed crops, source-dimension assertions and high-quality interpolation remain the canonical image preparation path. This phase reuses its outputs unchanged. If a genuinely new view is approved later, inspect/redact the source and add a crop/resizing entry there rather than copying a raw screenshot into `public/` or rebuilding its UI. See [Homepage evidence](HOMEPAGE_EVIDENCE.md) for the existing crop coordinates and issuer-artwork/publication limits.
+
+`ScScreenshot` is reused with eager loading and `frame=false`. Images retain their full derivative aspect ratio using contain rendering, no rotation/filter, no additional crop and no upscaling. The full calendar is displayed at 320px (square) / 400px (portrait), detail/receipt at 440px, and report at 900px on the 1080px output canvas. Sharpness checks compare the unscaled capture’s rendered dimensions against the decoded image’s native dimensions. Missing images show the existing unavailable state; exports fail rather than silently capture it. Layout checks protect the header/footer and prevent screenshot/caption clipping. Headlines keep words and punctuation together; copy that exceeds its column is rejected. Long edits may need shortening.
+
+### Copy and capability limits
+
+The default wording uses the owner’s “Your investments. One clear picture.” example without announcing a public release, download availability, broker partnership or live data. Calendar dates are captured, not a current offer. The receipt is an existing-document state, not evidence of a newly successful import or universal PDF support. The annual-report card does not imply a tax/regulatory filing. These qualifications accompany the corresponding real images; issuer artwork within the receipt is not a partnership or regulatory-approval badge. The dashboard’s personal/sample amounts are not platform statistics.
+
+```sh
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/product-showcase.json square
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/product-showcase.json portrait
+```
+
+PNG files remain under ignored `exports/social/`. Studio edits remain memory-only until written to the JSON draft. No new dependencies, marketing-page edits, production route/API, image downloads/generation or publishing service are introduced.
+
+### Phase 05 verification — 2026-11-02
+
+Node 24.22.2: Nuxt/export-handler type checks, ESLint, all 17 unit/content tests, 34 contrast checks, production build, all 4 production HTTP tests, static generation and all 10 artifact checks passed. All 11 browser tests passed, including 18 repository draft/format renders, all four product screenshot choices in both sizes, registry/native PNG dimension checks, arbitrary/private/remote-source rejection, text and geometry editing, missing-image recovery, download and 320px layout. The exporter checks native pixel bounds, full screenshot/caption containment and copy clearance; a regression check keeps the sample headline’s word and punctuation on one line. Production still excludes the entire studio and export endpoint.
+
+All eight product PNGs were exported and visually reviewed in `exports/social/`: `product-showcase-{square,portrait}.png` (full calendar), plus `product-showcase-{calendar-detail,import,reports}-{square,portrait}.png`. Square is 1080×1080; portrait is 1080×1350. Review checked sharpness, complete derivative content, captions, logo/geometry, typography and contrast. A portrait punctuation break was corrected, the PNG set regenerated, and affected portraits rechecked. All exports are gitignored. Existing `public/product/` files, raw screenshots, ScScreenshot and the Swift pipeline are unchanged; no duplicated/new public screenshot or dependency was needed. No push or publication; full real-device and assistive-technology audits were not performed.

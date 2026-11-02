@@ -85,3 +85,7 @@ SocialTemplate.vue now selects InvestorEducation.vue for education drafts. Share
 ## Treasury Bond Explainer — Phase 04 (2026-11-02)
 
 SocialTemplate.vue selects TreasuryBondExplainer.vue for treasury-bond drafts. TreasuryBondFields.vue edits nested bond content and coupon rows; shared validation bounds text and enforces principal/coupon/maturity ordering. The existing dev-only exporter checks timeline clearance from the introduction and footer. No new dependency, endpoint, production route or financial logic is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+SocialTemplate.vue dispatches product-showcase drafts to ProductShowcase.vue. shared/social-product.ts supplies a fixed registry of existing public screenshot derivatives and capture-specific captions. Shared validation rejects unknown/private/remote selections. The dev-only export verifies screenshot/native dimensions, clipping and text clearance. ScScreenshot and the Swift preparation pipeline are reused unchanged; no new asset files or dependencies. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
