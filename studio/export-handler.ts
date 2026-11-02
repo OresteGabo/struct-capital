@@ -36,9 +36,15 @@ export default defineEventHandler(async (event) => {
       await Promise.all(Array.from(document.images, image => image.decode()))
     })
     const canvas = page.locator('[data-social-canvas]')
-    if (await canvas.locator('[role="status"]').count()) throw new Error('Screenshot asset unavailable.')
+    if (await canvas.locator('[role="status"], [data-social-asset-error]').count()) throw new Error('Image asset unavailable.')
     const fits = await canvas.evaluate(element => element.scrollHeight <= element.clientHeight && element.scrollWidth <= element.clientWidth)
     if (!fits) throw new Error('Text exceeds the canvas. Shorten the copy.')
+    if (post.template === 'kigali') {
+      const copy = await canvas.locator('[data-social-text]').boundingBox()
+      const photograph = await canvas.locator('figure').boundingBox()
+      if (!copy || !photograph || copy.y + copy.height > photograph.y - 24) throw new Error('Copy overlaps the photograph. Shorten the headline or subtitle.')
+    }
+    if (await canvas.locator('[data-social-missing-photo]').count()) setHeader(event, 'X-Social-Proof', 'missing-photo')
     const png = await canvas.screenshot({ type: 'png', animations: 'disabled' })
     setHeader(event, 'Content-Type', 'image/png')
     setHeader(event, 'Content-Disposition', `attachment; filename="${post.id}-${format}.png"`)
@@ -46,7 +52,7 @@ export default defineEventHandler(async (event) => {
     return png
   } catch (error) {
     console.error('Local social export:', error instanceof Error ? error.message : error)
-    throw createError({ statusCode: 500, statusMessage: 'Export failed. Check the terminal, install Chromium with npx playwright install chromium, and check copy length.' })
+    throw createError({ statusCode: 500, statusMessage: 'Export failed. Check the terminal, install Chromium with npx playwright install chromium, and check copy length and placement.' })
   } finally {
     try { await browser?.close() } finally { busy = false }
   }

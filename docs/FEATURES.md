@@ -91,3 +91,7 @@ Existing Vercel production Git deployment is verified. Repository-managed build 
 ## Social authoring foundation — 2026-11-02
 
 Phase 01 adds an internal development-only studio: editable JSON drafts, one reusable Vue template, two approved existing asset choices, 1080×1080 and 1080×1350 PNG rendering/download and a CLI export client. Production excludes editor/render routes and the capture endpoint. No investor capability, external integration or publishing feature is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md) for checks and limits.
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+Kigali Editorial is implemented internally with configurable copy, photo registry/focal crop, SC signature and ink/olive themes. No Kigali photograph exists in the repository; square/portrait exports are explicitly labeled missing-photo proofs. Photographic composition/crop approval awaits a real user-provided asset. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

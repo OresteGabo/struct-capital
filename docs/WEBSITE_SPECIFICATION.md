@@ -125,3 +125,7 @@ Retain the existing Vercel GitHub integration: `main` is production on `structca
 ## Social studio foundation — 2026-11-02
 
 A separate development-only studio provides editable local drafts, one editorial Vue template, official symbol/calendar visuals, square/portrait preview and PNG download. Production excludes the editor, render route and export endpoint. Existing marketing pages remain unchanged. JSON drafts and generated posts are not publication approval. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+The local studio adds Kigali Editorial: asymmetric ivory composition, official SC symbol, editable headline/subtitle, photo choice/focal crop, signature and ink/olive theme. No real Kigali photo is available; a conspicuous missing-photo state exports labeled draft proofs. Existing marketing pages and production exclusion remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import SocialEditorial from '../components/social/templates/SocialEditorial.vue'
+import SocialTemplate from '../components/social/SocialTemplate.vue'
 import { parseSocialPost, socialSizes, type SocialFormat } from '../../shared/social'
 import clearer from '../../social-content/posts/clearer-picture.json'
 import calendar from '../../social-content/posts/income-calendar.json'
+import kigali from '../../social-content/posts/kigali-editorial.json'
+import { kigaliPhotos } from '../../shared/social-photos'
 
 definePageMeta({ layout: false })
 useHead({ title: 'Social studio · local development', meta: [{ name: 'robots', content: 'noindex, nofollow' }], htmlAttrs: { 'data-theme': 'light' } })
-const drafts = [clearer, calendar]
+const drafts = [clearer, calendar, kigali]
 const selected = ref(clearer.id)
 const post = ref(parseSocialPost(clearer))
 const format = ref<SocialFormat>('square')
@@ -34,7 +36,9 @@ async function exportPng() {
     link.download = `${validated.id}-${format.value}.png`
     link.click()
     setTimeout(() => URL.revokeObjectURL(url), 1000)
-    status.value = 'PNG downloaded. Edits are held in memory; update the JSON file to retain them.'
+    status.value = response.headers.get('X-Social-Proof') === 'missing-photo'
+      ? 'Draft proof downloaded. A real Kigali photograph is still required.'
+      : 'PNG downloaded. Edits are held in memory; update the JSON file to retain them.'
   } catch (error) {
     status.value = error instanceof Error ? error.message : 'Export unavailable.'
   } finally { busy.value = false }
@@ -54,15 +58,23 @@ async function exportPng() {
         <div><label class="sc-label" for="format">Format</label><select id="format" v-model="format" class="sc-input"><option value="square">Square · 1080 × 1080</option><option value="portrait">Portrait · 1080 × 1350</option></select></div>
         <div><label class="sc-label" for="eyebrow">Eyebrow</label><input id="eyebrow" v-model="post.eyebrow" class="sc-input" maxlength="40" required></div>
         <div><label class="sc-label" for="headline">Headline</label><textarea id="headline" v-model="post.headline" class="sc-input" maxlength="100" rows="3" required /></div>
-        <div><label class="sc-label" for="body">Body</label><textarea id="body" v-model="post.body" class="sc-input" maxlength="230" rows="5" required /></div>
-        <div><label class="sc-label" for="visual">Approved visual</label><select id="visual" v-model="post.visual" class="sc-input"><option value="symbol">Official symbol</option><option value="calendar">Calendar excerpt</option></select></div>
+        <div><label class="sc-label" for="body">{{ post.template === 'kigali' ? 'Subtitle' : 'Body' }}</label><textarea id="body" v-model="post.body" class="sc-input" maxlength="230" rows="5" required /></div>
+        <template v-if="post.template === 'kigali'">
+          <p v-if="!post.photoId" role="note" class="sc-draft-notice text-label">Kigali photograph missing. Exports are labeled draft proofs. Add a user-provided city photograph to the registry; see docs/SOCIAL_MEDIA_SYSTEM.md.</p>
+          <div><label class="sc-label" for="photo">Photograph</label><select id="photo" v-model="post.photoId" class="sc-input"><option value="">Missing asset / draft proof</option><option v-for="photo in kigaliPhotos" :key="photo.id" :value="photo.id">{{ photo.alt }}</option></select></div>
+          <div><label class="sc-label" for="crop-x">Crop position · horizontal ({{ post.cropX }}%)</label><input id="crop-x" v-model.number="post.cropX" type="range" min="0" max="100" class="w-full"></div>
+          <div><label class="sc-label" for="crop-y">Crop position · vertical ({{ post.cropY }}%)</label><input id="crop-y" v-model.number="post.cropY" type="range" min="0" max="100" class="w-full"></div>
+          <div><label class="sc-label" for="pattern">Geometric signature</label><select id="pattern" v-model="post.pattern" class="sc-input"><option value="none">None</option><option value="signature">SC signature</option><option value="rhythm">SC rhythm</option></select></div>
+          <div><label class="sc-label" for="theme">Editorial theme</label><select id="theme" v-model="post.theme" class="sc-input"><option value="ivory">Ivory / ink</option><option value="olive">Ivory / olive</option></select></div>
+        </template>
+        <div v-else><label class="sc-label" for="visual">Approved visual</label><select id="visual" v-model="post.visual" class="sc-input"><option value="symbol">Official symbol</option><option value="calendar">Calendar excerpt</option></select></div>
         <ScButton type="submit" :disabled="busy">{{ busy ? 'Rendering…' : 'Download PNG' }}</ScButton>
         <p role="status" class="text-label" :aria-busy="busy">{{ status }}</p>
         <p class="text-label text-muted">Downloads use your browser’s download folder. Use the CLI to save to exports/social/. Changing drafts resets edits.</p>
       </form>
       <section ref="preview" aria-label="Post preview" class="preview">
         <div :style="{ width: `${1080 * scale}px`, height: `${socialSizes[format].height * scale}px` }">
-          <SocialEditorial :post="post" :format="format" :style="{ transform: `scale(${scale})`, transformOrigin: 'top left' }" />
+          <SocialTemplate :post="post" :format="format" :style="{ transform: `scale(${scale})`, transformOrigin: 'top left' }" />
         </div>
       </section>
     </div>
@@ -70,7 +82,9 @@ async function exportPng() {
 </template>
 
 <style scoped>
-.workspace { display: grid; gap: 32px; margin-top: 32px; align-items: start; }
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 32px; align-items: start; }
+form { min-width: 0; overflow-wrap: anywhere; }
+input[type="range"] { accent-color: var(--sc-primary); }
 .preview { min-width: 0; overflow: hidden; }
 @media (min-width: 960px) { .workspace { grid-template-columns: 340px minmax(0, 1fr); } }
 </style>

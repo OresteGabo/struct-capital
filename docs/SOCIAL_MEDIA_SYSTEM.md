@@ -60,3 +60,37 @@ Final verification used Node 24.22.2 (obtained through `npm exec --package=node@
 - `npm install` reported 40 dependency advisories (2 low, 38 moderate). This differs from older release-review snapshots; no broad dependency remediation was attempted in this authoring phase. Treat older audit counts as historical, not current assurance.
 
 No push, merge, deployment or publication performed. Edits remain memory-only in the studio; final editorial and asset publication approval is still required.
+
+## Phase 02 — Kigali Editorial
+
+`KigaliEditorial.vue` adds a second template selected through `SocialTemplate.vue`. Choose the `kigali-editorial` draft in the existing studio. Headline and subtitle are editable. The two themes keep an ivory canvas and use either ink or olive headline text, all from existing CSS tokens. The small decorative signature masks the official SC SVG; choose a single signature, a three-mark rhythm or none. The identity uses the actual `public/brand/struct-capital-symbol.svg`, with live brand text. No new logo or fictional city illustration is introduced.
+
+The composition is asymmetric: copy begins at the left inset, while a wide photograph region extends to the right edge and starts farther right than the copy. Portrait gives the headline a larger three-line treatment and a deeper image region. Image rendering uses `object-fit: cover`; `cropX` / `cropY` select a focal point with CSS `object-position` percentages. The exporter rejects copy entering the photo region, including the required 24px clearance. Long edits may require shortening rather than automatic type shrinking.
+
+### Missing photography and required asset
+
+Repository inspection found **no standalone user-provided Kigali photographs**, including no `public/brand/photos/kigali/` directory or other photo location. Available raster assets are brand output and app screenshots. The city imagery embedded in an app screenshot was not extracted or repurposed. No photograph directory was created, and no imagery was generated or downloaded.
+
+The default draft therefore has `photoId: ""`. Both preview and PNG show a plainly labeled missing-photo panel and `DRAFT PROOF · KIGALI PHOTOGRAPH MISSING`. The endpoint marks these exports with `X-Social-Proof: missing-photo`; browser status and CLI output identify them as proofs. These are actual dimensioned PNG files, **not completed photographic posts**. A selected but unreadable registered photo is an export error, not a silent successful fallback.
+
+Required to finish the photographic composition: an original, real Kigali city photograph supplied by the user, permission to use it publicly, location confirmation, descriptive alt text, photographer/credit wording and preferably a focal-point preference. A landscape original around 1700px wide or larger provides useful crop headroom; inspect the actual image in both formats. Final photographic cropping and editorial approval remain pending that asset.
+
+Once provided and reviewed:
+
+1. Place the actual photograph in `public/brand/photos/kigali/` (create the folder then). This public location makes the approved source a website asset; do not add confidential images.
+2. Add its real metadata to `social-content/photos.json`. The registry starts empty. Entry fields are `id` (lowercase slug), `src` (for example `/brand/photos/kigali/your-approved-file.jpg`), `alt`, `credit`, and original pixel `width` / `height`. The example filename is a schema example, not an existing photograph. Supported extensions: jpg, jpeg, png, webp, avif; filenames use letters, digits and hyphens. Remote URLs and unknown photo IDs are rejected.
+3. Restart dev, select the photograph, adjust both crop sliders and inspect square and portrait. Save the resulting `photoId`, `cropX` and `cropY` in the draft JSON to retain them.
+4. Export and review before publication. Photo rights/location are reviewed by a person, not certified by schema validation.
+
+```sh
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/kigali-editorial.json square
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/kigali-editorial.json portrait
+```
+
+Both write to ignored `exports/social/`. Export setup and production isolation are unchanged. The draft supports `template: "kigali"`, `photoId`, numeric `cropX` / `cropY` (0–100), `pattern: "none" | "signature" | "rhythm"`, `theme: "ivory" | "olive"`; `body` is shown as Subtitle in this template. Legacy drafts retain their original rendering without schema migration.
+
+### Phase 02 verification — 2026-11-02
+
+Using Node 24.22.2: type checks (Nuxt plus export handler), ESLint, 17 unit/content tests, 34 contrast checks, production build, all 4 production HTTP tests, static generation and all 10 generated-output tests passed. All 5 browser tests passed, including six draft/format PNG renders, Kigali proof headers, invalid crop/photo/theme/pattern rejection, long-copy collision rejection, live theme/signature/subtitle controls and 320px overflow checks. Production still returns 404 for studio/render/export paths and its public output excludes Kigali draft content.
+
+Actual files exported and visually inspected: `exports/social/kigali-editorial-square.png` (1080×1080) and `exports/social/kigali-editorial-portrait.png` (1080×1350). Both are ignored by Git and explicitly show missing-photo proof labels. Reviewed headline/subtitle spacing, asymmetric photo-region placement, official logo and SC signature, ivory/ink/olive consistency. Final portrait spacing and studio note wrapping were corrected during review. **Actual photographic cropping cannot be verified until the required real photograph is supplied.** No external image request, photo generation, publishing or dependency addition occurred in this phase.

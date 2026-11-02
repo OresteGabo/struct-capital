@@ -215,3 +215,7 @@ The learning section retains all extracted mobile colors, theme roles, fonts and
 ## Release-review note — 2026-10-30
 
 The olive/cream/ink and light/dark roles were rechecked against InvestmentApp.kt, and public SVG master hashes match the mobile branding files. No palette/component redesign occurred. The review route described historically above is now a local opt-in via `NUXT_DESIGN_REVIEW_ENABLED=true`; default production routing/output excludes it. See RELEASE_REVIEW.md for browser/contrast evidence and LAUNCH_CHECKLIST.md for human release gates.
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+KigaliEditorial.vue reuses the actual SC symbol SVG and current ivory, ink, olive and muted-surface tokens. It pairs left-aligned oversized text with a right-edge asymmetric photograph window; the SC-inspired signature uses official SVG geometry. Ink/olive theme choices preserve ivory negative space. Photography is currently missing; only labeled proofs can be reviewed until a real user-provided Kigali image arrives. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

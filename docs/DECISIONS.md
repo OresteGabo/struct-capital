@@ -132,3 +132,11 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Alternatives:** Extend the macOS-only Swift Open Graph generator; duplicate layouts in canvas; use DOM-to-image serialization with potential font/SVG discrepancies.
 - **Rationale:** Native browser capture keeps preview and export on one layout implementation. Existing Swift tools retain their distinct fixed Open Graph/screenshot preparation roles.
 - **Consequences:** A development browser dependency and one-time Chromium installation are required. System font rendering depends on OS. Editor changes are temporary until saved in source JSON; publication remains manual and separately authorized.
+
+## ADR-016 — Evidence-gated Kigali photography
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Kigali Editorial phase.
+- **Decision:** Add a configurable Vue editorial template and a local approved-photo registry. With no standalone Kigali photo present, export clearly labeled missing-photo proofs rather than substitute imagery. Reuse official SC geometry for the small configurable signature.
+- **Alternatives:** Extract photography from the app screenshot; source unrequested stock photography; generate city imagery; silently omit the missing photograph label.
+- **Rationale:** The owner requires real user-provided assets and explicitly requests a missing-asset state when unavailable.
+- **Consequences:** Final image cropping/location/rights review requires a supplied photograph. Preview and export remain development-only; no new public route, dependency or publishing feature.

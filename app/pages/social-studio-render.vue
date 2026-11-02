@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SocialEditorial from '../components/social/templates/SocialEditorial.vue'
+import SocialTemplate from '../components/social/SocialTemplate.vue'
 import { parseSocialFormat, parseSocialPost } from '../../shared/social'
 definePageMeta({ layout: false })
 useHead({ title: 'Local social render', meta: [{ name: 'robots', content: 'noindex, nofollow' }], htmlAttrs: { 'data-theme': 'light' } })
@@ -12,6 +12,6 @@ const content = computed(() => {
 </script>
 
 <template>
-  <SocialEditorial v-if="content" :post="content.post" :format="content.format" />
+  <SocialTemplate v-if="content" :post="content.post" :format="content.format" />
   <p v-else>Invalid render parameters.</p>
 </template>

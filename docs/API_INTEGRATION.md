@@ -95,3 +95,7 @@ The contact reader now bounds stalled request/acknowledgment streams to eight se
 ## Development-only artwork export — 2026-11-02
 
 `POST /api/social-export` is a local authoring boundary registered only by Nuxt dev mode, not a Spring integration or production API. It accepts a bounded text-only post with an allowlisted visual and square/portrait format, requires loopback/same-origin access, and returns PNG bytes. No external API, credentials, uploaded financial records or retained data. Production builds omit the handler entirely. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+The existing development-only social export accepts validated Kigali template fields and registry photo IDs, rejecting arbitrary paths/remote URLs. It marks intentional missing-photo proofs with X-Social-Proof: missing-photo and checks text/photo clearance. Broken selected images fail export. No public/backend integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

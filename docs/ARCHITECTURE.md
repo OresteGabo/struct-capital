@@ -73,3 +73,7 @@ The existing Vercel Git integration serves `structcapital.net` from `main`. `ver
 ## Local social studio — 2026-11-02
 
 Development registers `/social-studio`, `/social-studio-render` and `POST /api/social-export` only in Nuxt dev mode. Production removes both pages and never registers the handler (which lives outside server auto-discovery). Reusable Vue social components and repository JSON drafts share validation in `shared/social.ts`; development-only Playwright captures actual browser rendering. The CLI saves ignored PNGs under `exports/social/`. No marketing layout or financial integration changes. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+The social studio now dispatches through SocialTemplate.vue to the original editorial template or KigaliEditorial.vue. The empty social-content/photos.json registry supplies validated local-only photo metadata through shared/social-photos.ts. Shared post validation carries template/theme/pattern/focal-point choices. No new production route or dependency is added; missing-photo proofs are explicitly marked and export rejects overlapping text or broken selected assets. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
