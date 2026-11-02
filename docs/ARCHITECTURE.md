@@ -93,3 +93,7 @@ SocialTemplate.vue dispatches product-showcase drafts to ProductShowcase.vue. sh
 ## Brand Statement — Phase 06 (2026-11-02)
 
 SocialTemplate.vue selects BrandStatement.vue; BrandStatementFields.vue edits its nested configuration. The existing photo registry now exports all approved Kigali/Rwanda brandPhotos and a Kigali-only subset for the earlier template. Shared validation bounds configuration and existing dev-only capture checks text/photo clearance. No new routes, dependencies or public photos are added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+SocialTemplate.vue dispatches three-step-guide drafts to ThreeStepGuide.vue. ThreeStepGuideFields.vue edits exactly three validated steps. ScMonogramMarker.vue imports the official SVG as local raw data and extracts three named paths rather than duplicating them. The existing development exporter checks row overflow and content clearance. No production route, dependency or public asset is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

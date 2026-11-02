@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ThreeStepGuideFields from '../components/social/ThreeStepGuideFields.vue'
+import threeStepGuide from '../../social-content/posts/three-step-guide.json'
 import BrandStatementFields from '../components/social/BrandStatementFields.vue'
 import typographyStatement from '../../social-content/posts/brand-statement-typography.json'
 import photographyStatement from '../../social-content/posts/brand-statement-photography.json'
@@ -19,7 +21,7 @@ import { kigaliPhotos } from '../../shared/social-photos'
 
 definePageMeta({ layout: false })
 useHead({ title: 'Social studio · local development', meta: [{ name: 'robots', content: 'noindex, nofollow' }], htmlAttrs: { 'data-theme': 'light' } })
-const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology, bond, showcase, typographyStatement, photographyStatement]
+const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology, bond, showcase, typographyStatement, photographyStatement, threeStepGuide]
 const selected = ref(clearer.id)
 const post = ref(parseSocialPost(clearer))
 const format = ref<SocialFormat>('square')
@@ -97,6 +99,7 @@ async function exportPng() {
           <p class="text-label text-muted">Authentic, existing screenshot derivatives only. Asset captions retain capture and capability limits. Raw account screenshots are not selectable.</p>
         </template>
         <BrandStatementFields v-else-if="post.template === 'brand-statement' && post.statement" v-model="post.statement" />
+        <ThreeStepGuideFields v-else-if="post.template === 'three-step-guide' && post.guide" v-model="post.guide" />
         <div v-else><label class="sc-label" for="visual">Approved visual</label><select id="visual" v-model="post.visual" class="sc-input"><option value="symbol">Official symbol</option><option value="calendar">Calendar excerpt</option></select></div>
         <ScButton type="submit" :disabled="busy">{{ busy ? 'Rendering…' : 'Download PNG' }}</ScButton>
         <p role="status" class="text-label" :aria-busy="busy">{{ status }}</p>

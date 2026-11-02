@@ -172,3 +172,11 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Alternatives:** Reuse a dashboard’s embedded city picture without separate provenance, download stock imagery, generate a city image, duplicate the registry, or label a non-Kigali location as Kigali.
 - **Rationale:** The owner requires real local photography and restrained branding. No suitable standalone photograph exists in the repository.
 - **Consequences:** Typography can be exported now; completed photographic artwork awaits a user-provided approved image. Theme/pattern/text controls are local-only, with no new dependency, publication or production endpoint.
+
+## ADR-021 — Use exact monogram fragments for three connected steps
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Three-Step Guide scope.
+- **Decision:** Read the official SVG’s S-ribbon, C-upper and C-lower paths for decorative markers, connect them with one quiet line, and validate exactly three editable stages.
+- **Alternatives:** Generic numbered circles/icons; hand-redrawn approximate geometry; copied path data that drifts from the master; a new full-background pattern or dependency.
+- **Rationale:** The owner explicitly requests SC-derived geometry and negative space. Existing supported workflow copy can explain the app without inventing capabilities.
+- **Consequences:** Source path changes require review. Fixed generous spacing may require shortening edited copy; export detects collisions/overflow. Production isolation and official brand masters remain unchanged.

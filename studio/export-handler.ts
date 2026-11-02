@@ -91,6 +91,21 @@ export default defineEventHandler(async (event) => {
         if (!photo || photo.y < header.y + header.height + 24 || copy.y < photo.y + photo.height + 16) throw new Error('Brand statement copy overlaps the photograph or credit.')
       }
     }
+    if (post.template === 'three-step-guide') {
+      const intro = await canvas.locator('[data-guide-intro]').boundingBox()
+      const list = await canvas.locator('[data-guide-steps]').boundingBox()
+      const footer = await canvas.locator('[data-guide-footer]').boundingBox()
+      const fits = await canvas.locator('[data-guide-step]').evaluateAll(steps => steps.every((step) => {
+        const copy = step.querySelector('[data-guide-step-copy]')!
+        const content = copy.getBoundingClientRect()
+        const bounds = step.getBoundingClientRect()
+        return content.bottom <= bounds.bottom + 1 && copy.scrollWidth <= copy.clientWidth && copy.scrollHeight <= copy.clientHeight
+      }))
+      const introFits = await canvas.locator('[data-guide-intro]').evaluate(element => element.scrollWidth <= element.clientWidth)
+      if (!fits || !introFits || !intro || !list || !footer || list.y < intro.y + intro.height + 24 || list.y + list.height > footer.y - 24) {
+        throw new Error('Three-step copy exceeds its space. Shorten the heading, labels or descriptions.')
+      }
+    }
     if (await canvas.locator('[data-social-missing-photo]').count()) setHeader(event, 'X-Social-Proof', 'missing-photo')
     const png = await canvas.screenshot({ type: 'png', animations: 'disabled' })
     setHeader(event, 'Content-Type', 'image/png')

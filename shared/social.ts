@@ -49,17 +49,29 @@ export interface StatementContent {
   footer: string
   note: string
 }
+export interface GuideStep {
+  number: string
+  label: string
+  description: string
+}
+export interface GuideContent {
+  brand: string
+  footer: string
+  note: string
+  steps: GuideStep[]
+}
 export interface SocialPost {
   id: string
   eyebrow: string
   headline: string
   body: string
   visual: 'symbol' | 'calendar'
-  template?: 'editorial' | 'kigali' | 'education' | 'treasury-bond' | 'product-showcase' | 'brand-statement'
+  template?: 'editorial' | 'kigali' | 'education' | 'treasury-bond' | 'product-showcase' | 'brand-statement' | 'three-step-guide'
   education?: EducationContent
   bond?: BondContent
   showcase?: ShowcaseContent
   statement?: StatementContent
+  guide?: GuideContent
   photoId?: string
   cropX?: number
   cropY?: number
@@ -78,7 +90,25 @@ export function parseSocialPost(value: unknown): SocialPost {
   if (!/^[a-z0-9-]+$/.test(source.id as string)) throw new Error('Use a lowercase slug for the post ID.')
   if (source.visual !== 'symbol' && source.visual !== 'calendar') throw new Error('Choose an approved visual.')
   const post: SocialPost = { id: source.id as string, eyebrow: source.eyebrow as string, headline: source.headline as string, body: source.body as string, visual: source.visual }
-  if (source.template !== undefined && !['editorial', 'kigali', 'education', 'treasury-bond', 'product-showcase', 'brand-statement'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template !== undefined && !['editorial', 'kigali', 'education', 'treasury-bond', 'product-showcase', 'brand-statement', 'three-step-guide'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template === 'three-step-guide') {
+    if (!source.guide || typeof source.guide !== 'object') throw new Error('Three-step guide content is required.')
+    const guide = source.guide as Record<string, unknown>
+    for (const [key, limit] of Object.entries({ brand: 40, footer: 60, note: 140 })) {
+      if (typeof guide[key] !== 'string' || !guide[key].trim() || guide[key].length > limit) throw new Error(`Invalid guide ${key} (maximum ${limit} characters).`)
+    }
+    if (!Array.isArray(guide.steps) || guide.steps.length !== 3) throw new Error('A three-step guide requires exactly three steps.')
+    const steps = guide.steps.map((value: unknown): GuideStep => {
+      if (!value || typeof value !== 'object') throw new Error('Invalid guide step.')
+      const step = value as Record<string, unknown>
+      for (const [key, limit] of Object.entries({ number: 8, label: 40, description: 140 })) {
+        if (typeof step[key] !== 'string' || !step[key].trim() || step[key].length > limit) throw new Error(`Invalid step ${key} (maximum ${limit} characters).`)
+      }
+      return { number: step.number as string, label: step.label as string, description: step.description as string }
+    })
+    post.template = 'three-step-guide'
+    post.guide = { brand: guide.brand as string, footer: guide.footer as string, note: guide.note as string, steps }
+  }
   if (source.template === 'brand-statement') {
     if (!source.statement || typeof source.statement !== 'object') throw new Error('Brand statement content is required.')
     const statement = source.statement as Record<string, unknown>

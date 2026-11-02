@@ -238,3 +238,32 @@ All PNGs stay under ignored `exports/social/`. No public marketing page, product
 Node 24.22.2: Nuxt/export-handler type checks, ESLint, all 17 unit/content tests, 34 existing contrast checks, production build, all 4 production HTTP tests, static generation and all 10 artifact checks passed. All 13 browser tests passed, including 22 repository draft/format PNG renders, both statement variations in both themes, computed headline/body contrast of at least 4.5:1, official reversed-logo selection, text/variation/pattern controls, keyboard crop controls, missing-photo header/download feedback, malformed configuration rejection, overflow rejection and 320px layout. Production excludes the studio, drafts and export endpoint.
 
 Exported and visually inspected all eight `brand-statement-{typography,photography}[-olive]-{square,portrait}.png` files in ignored `exports/social/` (1080×1080 / 1080×1350). Checked type wrapping, whitespace, color/logo consistency, restrained signature and proof visibility. Four typography PNGs are complete renderings; four photography PNGs are intentionally labeled missing-asset proofs. **Actual photo quality/cropping and a finished variation B remain pending a real user-provided photograph.** No fake/downloaded/stock image, new photo folder, asset-master change, dependency, marketing-page edit, push or publication. Full real-device/assistive-technology audits were not performed.
+
+## Three-Step Guide
+
+`ThreeStepGuide.vue` adds a seventh template. Choose `three-step-guide` in the existing studio. It uses the shared SocialCanvas, existing olive/ivory/system-font tokens, official SC identity and three spacious numbered stages. The default wording is the owner’s Record → Track → Understand example. Eyebrow, headline, supporting copy, brand text, all three numbers/labels/descriptions, footer and note are editable through `ThreeStepGuideFields.vue`. Persist edits in `social-content/posts/three-step-guide.json`; studio edits remain in memory.
+
+The schema uses `template: "three-step-guide"` plus `guide: { brand, footer, note, steps }`. Exactly three steps are required, each with bounded nonempty `number`, `label`, and `description`. Labels and descriptions do not interpret HTML. Generous fixed row spacing preserves a deliberate layout at each canvas size; export rejects copy that overflows a row, intrudes on another step or collides with the introduction/footer. Character limits protect input size, not guaranteed visual fit—shorten long labels or descriptions when needed.
+
+### Monogram-derived geometry
+
+`ScMonogramMarker.vue` reads the actual `public/brand/struct-capital-symbol.svg` through a local raw import and extracts its named `S-ribbon`, `C-upper`, and `C-lower` paths. Each step uses one fragment in a measured viewBox, preserving the original path data. These are decorative fragments, not replacements for the official identity shown in the header. No source SVG is copied or altered, and no generic circle, icon, stock arrow, repeated hexagon or new public asset is introduced. Missing/renamed source paths fail visibly instead of falling back to invented geometry.
+
+One subdued 1px SVG path connects the centers of the three markers. Its extent follows the same row-height variables as the layout, in both formats. A semantic ordered list carries the text; the connector and markers are decorative and hidden from assistive technology. Shape/color are not the sole indications of sequence.
+
+### Capability evidence
+
+The copy was checked against the existing `app/pages/how-it-works.vue` and `docs/HOMEPAGE_EVIDENCE.md`: supported document imports and available manual entry; bond/share records and expected schedules; report summaries and calendar timelines. It does not claim universal PDF support, live prices, account synchronization, trading, public app availability or guaranteed income. The visible note retains format/review limits and separates expected income from confirmed payment. No new mobile/backend feature was implemented or independently release-certified; edited copy still needs factual review.
+
+```sh
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/three-step-guide.json square
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/three-step-guide.json portrait
+```
+
+PNG outputs stay in ignored `exports/social/`. No dependency, public marketing page or production endpoint is added. Earlier templates and the official logo masters remain unchanged.
+
+### Three-Step Guide verification — 2026-11-02
+
+Node 24.22.2: Nuxt/export-handler type checks, ESLint, all 17 unit/content tests, 34 contrast checks, production build, all 4 production HTTP tests, static generation and all 10 artifact checks passed. All 15 browser tests passed, including 24 repository draft/format PNG renders, edits to every guide number/label/description, exact marker path comparison against the official SVG, a single connector whose ends align with first/third marker centers at both sizes, invalid step counts/text rejection, row-overflow rejection, two downloads and 320px layout. Production isolation remains intact.
+
+Exported and visually inspected `exports/social/three-step-guide-square.png` (1080×1080) and `exports/social/three-step-guide-portrait.png` (1080×1350). Verified the three distinct monogram fragments, continuous subtle connector, typography, generous spacing and qualification note. Exports are gitignored; official brand masters are unchanged. No unsupported capability, new dependency, marketing-page edit, push or publication. Full real-device and assistive-technology audits were not performed.

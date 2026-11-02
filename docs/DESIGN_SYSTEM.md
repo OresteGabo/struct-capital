@@ -235,3 +235,7 @@ ProductShowcase.vue pairs olive headlines and ivory space with authentic screens
 ## Brand Statement — Phase 06 (2026-11-02)
 
 BrandStatement.vue uses large system-font typography, existing ivory/olive/cream roles and official normal/reversed SC symbols. A centers oversized copy in generous space; B reserves a broad photographic region above smaller type. Optional decoration is one small SC signature or short gold rule. Photos are never recolored. No full-background pattern, stock imagery or new palette/font is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+ThreeStepGuide.vue uses generous vertical spacing, olive editorial headings, ink descriptions and a quiet 1px connector. ScMonogramMarker.vue preserves the official S-ribbon/C-upper/C-lower path data in fragment-specific viewBoxes, creating custom geometric stage markers without circles, generic icons or repeated hexagons. The header retains the complete official symbol; no brand master, palette or font is changed. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

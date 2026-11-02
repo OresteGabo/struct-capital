@@ -40,6 +40,55 @@ test('education schema rejects invalid styles and missing or oversized editable 
   const response = await send({ post: { ...post, headline: 'Extremely '.repeat(10).trim(), body: 'Editorial explanation '.repeat(10).trim() }, format: 'square' })
   assert.equal(response.status, 500)
 })
+test('three-step schema rejects missing/extra steps and overflowing text', async () => {
+  const post = JSON.parse(await readFile('social-content/posts/three-step-guide.json', 'utf8'))
+  for (const changes of [{ steps: [] }, { steps: post.guide.steps.slice(0, 2) }, { steps: [...post.guide.steps, post.guide.steps[0]] }, { steps: [null, ...post.guide.steps.slice(1)] }, { steps: post.guide.steps.map((step, index) => index === 0 ? { ...step, description: '' } : step) }, { note: 'x'.repeat(141) }]) {
+    assert.equal((await send({ post: { ...post, guide: { ...post.guide, ...changes } }, format: 'square' })).status, 400)
+  }
+  const steps = post.guide.steps.map(step => ({ ...step, label: 'Long educational label '.repeat(1).trim(), description: 'Long explanatory description '.repeat(4).trim() }))
+  const response = await send({ post: { ...post, guide: { ...post.guide, steps } }, format: 'square' })
+  assert.equal(response.status, 500)
+})
+test('three-step editor preserves official monogram paths, one connector, and editable copy', async () => {
+  const master = await readFile('public/brand/struct-capital-symbol.svg', 'utf8')
+  const browser = await chromium.launch()
+  try {
+    const page = await browser.newPage()
+    await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
+    await page.getByLabel('Draft', { exact: true }).selectOption('three-step-guide')
+    const changes = { Eyebrow: 'From records to review', Headline: 'A clearer workflow.', Body: 'Your records in context.', 'Guide brand text': 'Struct Capital Education', 'Guide footer': 'Review draft', 'Guide note': 'Supported formats vary. Review source records.' }
+    for (let index = 1; index <= 3; index++) {
+      changes[`Step ${index} number`] = `0${index}`
+      changes[`Step ${index} label`] = `Stage ${index}`
+      changes[`Step ${index} description`] = `Editable explanation ${index}.`
+    }
+    for (const [label, value] of Object.entries(changes)) {
+      await page.getByLabel(label, { exact: true }).fill(value)
+      await page.locator('[data-social-canvas]').getByText(value, { exact: true }).waitFor()
+    }
+    for (const id of ['S-ribbon', 'C-upper', 'C-lower']) {
+      const expected = master.match(new RegExp(`<path\\b[^>]*\\bid="${id}"[^>]*\\bd="([^"]+)"`))[1]
+      assert.equal(await page.locator(`[data-sc-fragment="${id}"] path`).getAttribute('d'), expected)
+    }
+    assert.equal(await page.locator('.three-step circle').count(), 0)
+    assert.equal(await page.locator('.three-step .connection path').count(), 1)
+    assert.equal(await page.locator('[data-guide-steps] > li').count(), 3)
+    for (const format of ['square', 'portrait']) {
+      await page.getByLabel('Format', { exact: true }).selectOption(format)
+      const connector = await page.locator('.three-step .connection').boundingBox()
+      const first = await page.locator('.three-step .marker').first().boundingBox()
+      const last = await page.locator('.three-step .marker').last().boundingBox()
+      assert.ok(Math.abs(connector.y - (first.y + first.height / 2)) < 1)
+      assert.ok(Math.abs(connector.y + connector.height - (last.y + last.height / 2)) < 1)
+      const downloaded = page.waitForEvent('download')
+      await page.getByRole('button', { name: 'Download PNG' }).click()
+      assert.equal((await downloaded).suggestedFilename(), `three-step-guide-${format}.png`)
+    }
+    await page.setViewportSize({ width: 320, height: 900 })
+    await page.waitForTimeout(200)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
+  } finally { await browser.close() }
+})
 test('brand statement rejects invalid configuration and renders both variations in olive', async () => {
   const post = JSON.parse(await readFile('social-content/posts/brand-statement-typography.json', 'utf8'))
   for (const changes of [{ variation: 'unknown' }, { theme: 'unknown' }, { pattern: 'hexagons' }, { photoId: 'https://example.com/photo.jpg' }, { cropX: 101 }, { cropY: -1 }, { note: '' }]) {

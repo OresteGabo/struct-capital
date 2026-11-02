@@ -115,3 +115,7 @@ The existing development-only PNG export accepts validated product-showcase fiel
 ## Brand Statement — Phase 06 (2026-11-02)
 
 The existing development-only export accepts validated brand-statement configuration. Typography exports normally; missing photography exports are explicitly marked by the existing X-Social-Proof header. Image IDs must resolve through the local approved registry, not arbitrary paths or URLs. No production API or financial integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+The existing dev-only export accepts validated three-step-guide content with exactly three bounded number/label/description entries. It returns PNG bytes after row/layout checks. Marker geometry is local official SVG data, not an external request. No production API, backend feature or financial calculation is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

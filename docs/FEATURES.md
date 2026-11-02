@@ -111,3 +111,7 @@ ProductShowcase.vue adds an internal screenshot selector, editable headlines/sub
 ## Brand Statement — Phase 06 (2026-11-02)
 
 BrandStatement.vue adds internal typography-led and photography-led configurations, editable copy/photo/focal position/pattern/theme, and square/portrait PNG export. Typography is implemented; photography renders an explicit missing-asset proof because no real Kigali/Rwanda photograph exists. Final photographic output and crop review require a supplied approved image. No new investor capability is implied. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+ThreeStepGuide.vue adds an internal three-stage Record/Track/Understand composition with editable numbers, labels, descriptions and other copy. Markers use exact S/C fragments from the official monogram, connected by one subtle line. The wording reuses existing supported-entry/import, tracking and summary/calendar capabilities with explicit limits; no new product capability is claimed. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
