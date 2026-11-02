@@ -1,4 +1,4 @@
-import { kigaliPhotos } from './social-photos.ts'
+import { brandPhotos, kigaliPhotos } from './social-photos.ts'
 import { productScreenshots, type ProductScreenshotId } from './social-product.ts'
 
 export const socialSizes = { square: { width: 1080, height: 1080 }, portrait: { width: 1080, height: 1350 } } as const
@@ -38,16 +38,28 @@ export interface ShowcaseContent {
   footer: string
   note: string
 }
+export interface StatementContent {
+  variation: 'typography' | 'photography'
+  theme: 'ivory' | 'olive'
+  pattern: 'none' | 'signature' | 'rule'
+  photoId: string
+  cropX: number
+  cropY: number
+  brand: string
+  footer: string
+  note: string
+}
 export interface SocialPost {
   id: string
   eyebrow: string
   headline: string
   body: string
   visual: 'symbol' | 'calendar'
-  template?: 'editorial' | 'kigali' | 'education' | 'treasury-bond' | 'product-showcase'
+  template?: 'editorial' | 'kigali' | 'education' | 'treasury-bond' | 'product-showcase' | 'brand-statement'
   education?: EducationContent
   bond?: BondContent
   showcase?: ShowcaseContent
+  statement?: StatementContent
   photoId?: string
   cropX?: number
   cropY?: number
@@ -66,7 +78,23 @@ export function parseSocialPost(value: unknown): SocialPost {
   if (!/^[a-z0-9-]+$/.test(source.id as string)) throw new Error('Use a lowercase slug for the post ID.')
   if (source.visual !== 'symbol' && source.visual !== 'calendar') throw new Error('Choose an approved visual.')
   const post: SocialPost = { id: source.id as string, eyebrow: source.eyebrow as string, headline: source.headline as string, body: source.body as string, visual: source.visual }
-  if (source.template !== undefined && !['editorial', 'kigali', 'education', 'treasury-bond', 'product-showcase'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template !== undefined && !['editorial', 'kigali', 'education', 'treasury-bond', 'product-showcase', 'brand-statement'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template === 'brand-statement') {
+    if (!source.statement || typeof source.statement !== 'object') throw new Error('Brand statement content is required.')
+    const statement = source.statement as Record<string, unknown>
+    if (statement.variation !== 'typography' && statement.variation !== 'photography') throw new Error('Choose a brand statement variation.')
+    if (statement.theme !== 'ivory' && statement.theme !== 'olive') throw new Error('Choose a statement theme.')
+    if (!['none', 'signature', 'rule'].includes(String(statement.pattern))) throw new Error('Choose a statement pattern.')
+    if (typeof statement.photoId !== 'string' || (statement.photoId !== '' && !brandPhotos.some(photo => photo.id === statement.photoId))) throw new Error('Choose an approved Rwanda photograph.')
+    for (const key of ['cropX', 'cropY']) {
+      if (typeof statement[key] !== 'number' || !Number.isFinite(statement[key]) || statement[key] < 0 || statement[key] > 100) throw new Error('Statement crop positions must be between 0 and 100.')
+    }
+    for (const [key, limit] of Object.entries({ brand: 40, footer: 60, note: 100 })) {
+      if (typeof statement[key] !== 'string' || !statement[key].trim() || statement[key].length > limit) throw new Error(`Invalid statement ${key} (maximum ${limit} characters).`)
+    }
+    post.template = 'brand-statement'
+    post.statement = { variation: statement.variation, theme: statement.theme, pattern: statement.pattern as StatementContent['pattern'], photoId: statement.photoId, cropX: statement.cropX as number, cropY: statement.cropY as number, brand: statement.brand as string, footer: statement.footer as string, note: statement.note as string }
+  }
   if (source.template === 'product-showcase') {
     if (!source.showcase || typeof source.showcase !== 'object') throw new Error('Product showcase content is required.')
     const showcase = source.showcase as Record<string, unknown>

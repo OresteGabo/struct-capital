@@ -17,4 +17,4 @@ await mkdir('exports/social', { recursive: true })
 const destination = `exports/social/${post.id}-${format}.png`
 await writeFile(destination, Buffer.from(await response.arrayBuffer()))
 console.log(destination)
-if (response.headers.get('X-Social-Proof') === 'missing-photo') console.log('Draft proof only: a user-provided Kigali photograph is missing.')
+if (response.headers.get('X-Social-Proof') === 'missing-photo') console.log('Draft proof only: a user-provided approved photograph is missing.')

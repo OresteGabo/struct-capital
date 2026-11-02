@@ -107,3 +107,7 @@ TreasuryBondExplainer.vue adds an internal editable principal/coupon/maturity ti
 ## Product Showcase — Phase 05 (2026-11-02)
 
 ProductShowcase.vue adds an internal screenshot selector, editable headlines/subtitles and configurable SC geometry with square/portrait export. It uses four existing approved calendar/detail/receipt/report derivatives; no fabricated UI, raw private screenshot, new product capability, live data or public release claim is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+BrandStatement.vue adds internal typography-led and photography-led configurations, editable copy/photo/focal position/pattern/theme, and square/portrait PNG export. Typography is implemented; photography renders an explicit missing-asset proof because no real Kigali/Rwanda photograph exists. Final photographic output and crop review require a supplied approved image. No new investor capability is implied. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

@@ -23,7 +23,8 @@ test('each repository draft exports accurate square and portrait PNGs', async ()
       if (!response.ok) assert.fail(await response.text())
       assert.equal(response.status, 200)
       assert.match(response.headers.get('content-type'), /image\/png/)
-      if (name === 'kigali-editorial') assert.equal(response.headers.get('x-social-proof'), 'missing-photo')
+      if (name === 'kigali-editorial' || name === 'brand-statement-photography') assert.equal(response.headers.get('x-social-proof'), 'missing-photo')
+      if (name === 'brand-statement-typography') assert.equal(response.headers.get('x-social-proof'), null)
       const png = Buffer.from(await response.arrayBuffer())
       assert.equal(png.subarray(1, 4).toString(), 'PNG')
       assert.equal(png.readUInt32BE(16), size.width)
@@ -38,6 +39,72 @@ test('education schema rejects invalid styles and missing or oversized editable 
   }
   const response = await send({ post: { ...post, headline: 'Extremely '.repeat(10).trim(), body: 'Editorial explanation '.repeat(10).trim() }, format: 'square' })
   assert.equal(response.status, 500)
+})
+test('brand statement rejects invalid configuration and renders both variations in olive', async () => {
+  const post = JSON.parse(await readFile('social-content/posts/brand-statement-typography.json', 'utf8'))
+  for (const changes of [{ variation: 'unknown' }, { theme: 'unknown' }, { pattern: 'hexagons' }, { photoId: 'https://example.com/photo.jpg' }, { cropX: 101 }, { cropY: -1 }, { note: '' }]) {
+    assert.equal((await send({ post: { ...post, statement: { ...post.statement, ...changes } }, format: 'square' })).status, 400)
+  }
+  for (const variation of ['typography', 'photography']) {
+    for (const format of ['square', 'portrait']) {
+      const response = await send({ post: { ...post, statement: { ...post.statement, variation, theme: 'olive' } }, format })
+      if (!response.ok) assert.fail(await response.text())
+      assert.equal(response.headers.get('x-social-proof'), variation === 'photography' ? 'missing-photo' : null)
+      await response.arrayBuffer()
+    }
+  }
+  const rejected = await send({ post: { ...post, headline: 'W'.repeat(100) }, format: 'square' })
+  assert.equal(rejected.status, 500)
+})
+test('brand statement editor changes wording, variations, themes and restrained geometry', async () => {
+  const browser = await chromium.launch()
+  try {
+    const page = await browser.newPage()
+    await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
+    await page.getByLabel('Draft', { exact: true }).selectOption('brand-statement-typography')
+    const changes = { Eyebrow: 'An editable perspective', Headline: 'Make room for clarity.', Subtitle: 'Keep your records together.', 'Statement brand text': 'Struct Capital', 'Statement footer': 'Editorial review', 'Statement note': 'Independent software. Not a broker.' }
+    for (const [label, value] of Object.entries(changes)) {
+      await page.getByLabel(label, { exact: true }).fill(value)
+      await page.locator('[data-social-canvas]').getByText(value, { exact: true }).waitFor()
+    }
+    for (const theme of ['ivory', 'olive']) {
+      await page.getByLabel('Statement theme', { exact: true }).selectOption(theme)
+      assert.equal(await page.locator('.statement .identity img').getAttribute('src'), theme === 'olive' ? '/brand/struct-capital-symbol-reversed.svg' : '/brand/struct-capital-symbol.svg')
+      const contrast = await page.locator('.statement').evaluate(element => {
+        const luminance = color => {
+          const values = color.match(/[\d.]+/g).slice(0, 3).map(value => {
+            const channel = Number(value) / 255
+            return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4
+          })
+          return values[0] * .2126 + values[1] * .7152 + values[2] * .0722
+        }
+        const background = luminance(getComputedStyle(element).backgroundColor)
+        return ['h2', '.body'].map(selector => {
+          const foreground = luminance(getComputedStyle(element.querySelector(selector)).color)
+          return (Math.max(background, foreground) + .05) / (Math.min(background, foreground) + .05)
+        })
+      })
+      assert.ok(contrast.every(ratio => ratio >= 4.5))
+    }
+    for (const pattern of ['none', 'signature', 'rule']) {
+      await page.getByLabel('Statement geometry').selectOption(pattern)
+      assert.equal(await page.locator('.statement .signature, .statement .gold-rule').count(), pattern === 'none' ? 0 : 1)
+    }
+    await page.getByLabel('Statement variation').selectOption('photography')
+    await page.locator('[data-social-missing-photo]').waitFor()
+    await page.getByLabel('Photo horizontal position', { exact: false }).press('End')
+    assert.equal(await page.getByLabel('Photo horizontal position', { exact: false }).inputValue(), '100')
+    await page.getByLabel('Photo vertical position', { exact: false }).press('Home')
+    assert.equal(await page.getByLabel('Photo vertical position', { exact: false }).inputValue(), '0')
+    assert.equal(await page.getByLabel('Statement photograph').inputValue(), '')
+    const downloaded = page.waitForEvent('download')
+    await page.getByRole('button', { name: 'Download PNG' }).click()
+    assert.equal((await downloaded).suggestedFilename(), 'brand-statement-typography-square.png')
+    await page.getByRole('status').filter({ hasText: 'Draft proof downloaded.' }).waitFor()
+    await page.setViewportSize({ width: 320, height: 900 })
+    await page.waitForTimeout(200)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
+  } finally { await browser.close() }
 })
 test('product registry uses existing native-size PNGs and rejects arbitrary or private sources', async () => {
   for (const asset of productScreenshots) {

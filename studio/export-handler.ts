@@ -80,6 +80,17 @@ export default defineEventHandler(async (event) => {
       })
       if (!sharp) throw new Error('Product screenshot would be enlarged beyond its native dimensions.')
     }
+    if (post.template === 'brand-statement') {
+      const header = await canvas.locator('[data-statement-header]').boundingBox()
+      const copy = await canvas.locator('[data-statement-copy]').boundingBox()
+      const footer = await canvas.locator('[data-statement-footer]').boundingBox()
+      const textFits = await canvas.locator('[data-statement-copy]').evaluate(element => element.scrollWidth <= element.clientWidth)
+      if (!textFits || !header || !copy || !footer || copy.y < header.y + header.height + 24 || copy.y + copy.height > footer.y - 24) throw new Error('Brand statement text exceeds its space. Shorten the copy.')
+      if (post.statement?.variation === 'photography') {
+        const photo = await canvas.locator('[data-statement-photo]').boundingBox()
+        if (!photo || photo.y < header.y + header.height + 24 || copy.y < photo.y + photo.height + 16) throw new Error('Brand statement copy overlaps the photograph or credit.')
+      }
+    }
     if (await canvas.locator('[data-social-missing-photo]').count()) setHeader(event, 'X-Social-Proof', 'missing-photo')
     const png = await canvas.screenshot({ type: 'png', animations: 'disabled' })
     setHeader(event, 'Content-Type', 'image/png')

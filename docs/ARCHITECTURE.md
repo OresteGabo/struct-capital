@@ -89,3 +89,7 @@ SocialTemplate.vue selects TreasuryBondExplainer.vue for treasury-bond drafts. T
 ## Product Showcase — Phase 05 (2026-11-02)
 
 SocialTemplate.vue dispatches product-showcase drafts to ProductShowcase.vue. shared/social-product.ts supplies a fixed registry of existing public screenshot derivatives and capture-specific captions. Shared validation rejects unknown/private/remote selections. The dev-only export verifies screenshot/native dimensions, clipping and text clearance. ScScreenshot and the Swift preparation pipeline are reused unchanged; no new asset files or dependencies. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+SocialTemplate.vue selects BrandStatement.vue; BrandStatementFields.vue edits its nested configuration. The existing photo registry now exports all approved Kigali/Rwanda brandPhotos and a Kigali-only subset for the earlier template. Shared validation bounds configuration and existing dev-only capture checks text/photo clearance. No new routes, dependencies or public photos are added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

@@ -111,3 +111,7 @@ The existing development export accepts template=treasury-bond with bounded bond
 ## Product Showcase — Phase 05 (2026-11-02)
 
 The existing development-only PNG export accepts validated product-showcase fields (screenshot ID, pattern, brand, footer, note). Screenshot IDs resolve only to four existing approved local derivatives; no arbitrary file path, upload or external URL is supported. Capture fails on missing, enlarged or clipped screenshots. No production API or financial integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+The existing development-only export accepts validated brand-statement configuration. Typography exports normally; missing photography exports are explicitly marked by the existing X-Social-Proof header. Image IDs must resolve through the local approved registry, not arbitrary paths or URLs. No production API or financial integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

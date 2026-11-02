@@ -204,3 +204,37 @@ PNG files remain under ignored `exports/social/`. Studio edits remain memory-onl
 Node 24.22.2: Nuxt/export-handler type checks, ESLint, all 17 unit/content tests, 34 contrast checks, production build, all 4 production HTTP tests, static generation and all 10 artifact checks passed. All 11 browser tests passed, including 18 repository draft/format renders, all four product screenshot choices in both sizes, registry/native PNG dimension checks, arbitrary/private/remote-source rejection, text and geometry editing, missing-image recovery, download and 320px layout. The exporter checks native pixel bounds, full screenshot/caption containment and copy clearance; a regression check keeps the sample headline’s word and punctuation on one line. Production still excludes the entire studio and export endpoint.
 
 All eight product PNGs were exported and visually reviewed in `exports/social/`: `product-showcase-{square,portrait}.png` (full calendar), plus `product-showcase-{calendar-detail,import,reports}-{square,portrait}.png`. Square is 1080×1080; portrait is 1080×1350. Review checked sharpness, complete derivative content, captions, logo/geometry, typography and contrast. A portrait punctuation break was corrected, the PNG set regenerated, and affected portraits rechecked. All exports are gitignored. Existing `public/product/` files, raw screenshots, ScScreenshot and the Swift pipeline are unchanged; no duplicated/new public screenshot or dependency was needed. No push or publication; full real-device and assistive-technology audits were not performed.
+
+## Phase 06 — Brand Statement
+
+`BrandStatement.vue` is the sixth template, with two editable presets:
+
+- `brand-statement-typography`: variation A, oversized editorial copy with an optional small SC signature.
+- `brand-statement-photography`: variation B, a broad photograph panel above a compact copy treatment. **The real-photo asset is currently missing, so this preset exports labeled draft proofs.**
+
+Choose a preset or change Statement variation in the existing studio. Headline, supporting text, eyebrow, brand text, footer and note are editable. Choose ivory/olive or olive/cream; the latter uses the existing official reversed SC logo. Theme changes affect the graphic, not the studio. Both use `--sc-font` and current tokens. Geometry choices are none, one small official SC signature, or one short decorative gold rule. The identity always retains an official logo; there is no repeated pattern or financial stock artwork.
+
+`BrandStatementFields.vue` edits the nested configuration. Drafts use `template: "brand-statement"` plus `statement: { variation, theme, pattern, photoId, cropX, cropY, brand, footer, note }`. Allowed variations are `typography`, `photography`; themes are `ivory`, `olive`; patterns are `none`, `signature`, `rule`. Crop percentages run from 0 to 100. The photo uses cover rendering with the selected focal position and its registry credit; it is never filtered or generated. Headline words stay intact, and export rejects text that exceeds its column or overlaps the header/footer, photograph or credit. Long copy needs shortening. As in earlier phases, edits remain in memory until saved in JSON.
+
+### Photography status and requirements
+
+A fresh repository search found no standalone Kigali/Rwanda photograph; only brand output and app screenshots exist, and `social-content/photos.json` remains empty. No source image was generated, downloaded, extracted from a dashboard or copied into a new photo folder. Variation B has a visible missing-photo panel and `DRAFT PROOF · RWANDA PHOTOGRAPH MISSING`; the existing `X-Social-Proof: missing-photo` response header and browser/CLI feedback identify it as a proof. A selected but broken image remains an export error. Variation A exports normally without the missing-photo marker.
+
+The existing photo registry is extended, not duplicated: `brandPhotos` accepts reviewed files under `/brand/photos/kigali/` or `/brand/photos/rwanda/`. `kigaliPhotos` remains a filtered subset, so Kigali Editorial cannot accidentally label another Rwanda location as Kigali. Entry metadata is unchanged: id, local src, descriptive alt, photographer/credit and original width/height. Location, rights and accuracy require human review; a valid path is not evidence of location. No folder or photo file was created in this phase.
+
+To finish variation B, supply an original real Kigali/Rwanda photograph with location confirmation, permission for public use, alt text and credit. Add the reviewed file and registry entry using the Phase 02 workflow (the Rwanda path is now also supported), restart dev, select it, adjust the crop and review both formats. Prefer a landscape source at least 1080px wide, with headroom for the broad crop. Actual photographic quality/crop verification and a completed photography-led PNG remain pending this asset; missing-photo proofs are not publication artwork.
+
+```sh
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/brand-statement-typography.json square
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/brand-statement-typography.json portrait
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/brand-statement-photography.json square
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/brand-statement-photography.json portrait
+```
+
+All PNGs stay under ignored `exports/social/`. No public marketing page, production route/API, asset master or dependency is changed. The example is the owner’s brand statement and supporting recordkeeping copy, not an investment return or release claim.
+
+### Phase 06 verification — 2026-11-02
+
+Node 24.22.2: Nuxt/export-handler type checks, ESLint, all 17 unit/content tests, 34 existing contrast checks, production build, all 4 production HTTP tests, static generation and all 10 artifact checks passed. All 13 browser tests passed, including 22 repository draft/format PNG renders, both statement variations in both themes, computed headline/body contrast of at least 4.5:1, official reversed-logo selection, text/variation/pattern controls, keyboard crop controls, missing-photo header/download feedback, malformed configuration rejection, overflow rejection and 320px layout. Production excludes the studio, drafts and export endpoint.
+
+Exported and visually inspected all eight `brand-statement-{typography,photography}[-olive]-{square,portrait}.png` files in ignored `exports/social/` (1080×1080 / 1080×1350). Checked type wrapping, whitespace, color/logo consistency, restrained signature and proof visibility. Four typography PNGs are complete renderings; four photography PNGs are intentionally labeled missing-asset proofs. **Actual photo quality/cropping and a finished variation B remain pending a real user-provided photograph.** No fake/downloaded/stock image, new photo folder, asset-master change, dependency, marketing-page edit, push or publication. Full real-device/assistive-technology audits were not performed.

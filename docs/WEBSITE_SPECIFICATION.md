@@ -141,3 +141,7 @@ The local studio adds an editorial bond timeline: principal invested, scheduled 
 ## Product Showcase — Phase 05 (2026-11-02)
 
 The local studio adds Product Showcase with real app screenshots, large editorial type, restrained olive/gold details and selectable SC geometry. It supports calendar, calendar detail, existing-document receipt and annual-report card views. Captions retain factual limits; no public release or store availability is claimed. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+The local studio adds Brand Statement A (typography) and B (photo panel), with the owner’s clarity/recordkeeping copy, official light/reversed logos, restrained signature/rule and ivory/olive themes. A real photograph is absent, so B is a labeled proof until a user-provided image is reviewed. Existing marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

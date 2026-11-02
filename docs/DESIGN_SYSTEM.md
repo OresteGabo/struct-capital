@@ -231,3 +231,7 @@ TreasuryBondExplainer.vue uses the official SC SVG, existing olive/ivory/ink tok
 ## Product Showcase — Phase 05 (2026-11-02)
 
 ProductShowcase.vue pairs olive headlines and ivory space with authentic screenshots. Tall views sit beside copy; the report card uses a wide composition. Optional signature/structural geometry masks the official SC SVG at low opacity behind images. Existing ScScreenshot renders without a second device frame, added screenshot crop, filter, rotation or enlargement. Gold stays a small editorial rule; no new palette or generic fintech art is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+BrandStatement.vue uses large system-font typography, existing ivory/olive/cream roles and official normal/reversed SC symbols. A centers oversized copy in generous space; B reserves a broad photographic region above smaller type. Optional decoration is one small SC signature or short gold rule. Photos are never recolored. No full-background pattern, stock imagery or new palette/font is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

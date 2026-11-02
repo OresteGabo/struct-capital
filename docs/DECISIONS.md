@@ -164,3 +164,11 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Alternatives:** Expose raw screenshots with account identity/balances; duplicate files; synthesize cleaner app UI; enlarge the smaller calendar derivative; add a second device frame or crop away important states.
 - **Rationale:** The existing Swift outputs already cover this phase with reviewed privacy crops and sufficient pixels. Reuse protects authenticity and avoids another image pipeline.
 - **Consequences:** New views need source/privacy review and an entry in the existing preparation pipeline if necessary. Screenshot dates/receipts/report cards are not live offers, successful new imports or official filings. No asset duplication, production endpoint, dependency or release claim is added.
+
+## ADR-020 — Restrained brand statements with evidence-gated photography
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Brand Statement phase.
+- **Decision:** Provide typography/photo-panel variants using existing tokens and official light/reversed symbols. Extend the existing photo registry for approved Rwanda locations while keeping Kigali-only filtering. Export clearly labeled proofs when a real photograph is missing.
+- **Alternatives:** Reuse a dashboard’s embedded city picture without separate provenance, download stock imagery, generate a city image, duplicate the registry, or label a non-Kigali location as Kigali.
+- **Rationale:** The owner requires real local photography and restrained branding. No suitable standalone photograph exists in the repository.
+- **Consequences:** Typography can be exported now; completed photographic artwork awaits a user-provided approved image. Theme/pattern/text controls are local-only, with no new dependency, publication or production endpoint.

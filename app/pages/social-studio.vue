@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import BrandStatementFields from '../components/social/BrandStatementFields.vue'
+import typographyStatement from '../../social-content/posts/brand-statement-typography.json'
+import photographyStatement from '../../social-content/posts/brand-statement-photography.json'
 import showcase from '../../social-content/posts/product-showcase.json'
 import { productScreenshots } from '../../shared/social-product'
 import TreasuryBondFields from '../components/social/TreasuryBondFields.vue'
@@ -16,7 +19,7 @@ import { kigaliPhotos } from '../../shared/social-photos'
 
 definePageMeta({ layout: false })
 useHead({ title: 'Social studio · local development', meta: [{ name: 'robots', content: 'noindex, nofollow' }], htmlAttrs: { 'data-theme': 'light' } })
-const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology, bond, showcase]
+const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology, bond, showcase, typographyStatement, photographyStatement]
 const selected = ref(clearer.id)
 const post = ref(parseSocialPost(clearer))
 const format = ref<SocialFormat>('square')
@@ -45,7 +48,7 @@ async function exportPng() {
     link.click()
     setTimeout(() => URL.revokeObjectURL(url), 1000)
     status.value = response.headers.get('X-Social-Proof') === 'missing-photo'
-      ? 'Draft proof downloaded. A real Kigali photograph is still required.'
+      ? 'Draft proof downloaded. A real approved photograph is still required.'
       : 'PNG downloaded. Edits are held in memory; update the JSON file to retain them.'
   } catch (error) {
     status.value = error instanceof Error ? error.message : 'Export unavailable.'
@@ -66,7 +69,7 @@ async function exportPng() {
         <div><label class="sc-label" for="format">Format</label><select id="format" v-model="format" class="sc-input"><option value="square">Square · 1080 × 1080</option><option value="portrait">Portrait · 1080 × 1350</option></select></div>
         <div><label class="sc-label" for="eyebrow">Eyebrow</label><input id="eyebrow" v-model="post.eyebrow" class="sc-input" maxlength="40" required></div>
         <div><label class="sc-label" for="headline">Headline</label><textarea id="headline" v-model="post.headline" class="sc-input" maxlength="100" rows="3" required /></div>
-        <div><label class="sc-label" for="body">{{ ['kigali', 'product-showcase'].includes(post.template ?? '') ? 'Subtitle' : 'Body' }}</label><textarea id="body" v-model="post.body" class="sc-input" maxlength="230" rows="5" required /></div>
+        <div><label class="sc-label" for="body">{{ ['kigali', 'product-showcase', 'brand-statement'].includes(post.template ?? '') ? 'Subtitle' : 'Body' }}</label><textarea id="body" v-model="post.body" class="sc-input" maxlength="230" rows="5" required /></div>
         <template v-if="post.template === 'kigali'">
           <p v-if="!post.photoId" role="note" class="sc-draft-notice text-label">Kigali photograph missing. Exports are labeled draft proofs. Add a user-provided city photograph to the registry; see docs/SOCIAL_MEDIA_SYSTEM.md.</p>
           <div><label class="sc-label" for="photo">Photograph</label><select id="photo" v-model="post.photoId" class="sc-input"><option value="">Missing asset / draft proof</option><option v-for="photo in kigaliPhotos" :key="photo.id" :value="photo.id">{{ photo.alt }}</option></select></div>
@@ -93,6 +96,7 @@ async function exportPng() {
           <div><label class="sc-label" for="showcase-note">Showcase note</label><textarea id="showcase-note" v-model="post.showcase.note" maxlength="100" class="sc-input" rows="3" required /></div>
           <p class="text-label text-muted">Authentic, existing screenshot derivatives only. Asset captions retain capture and capability limits. Raw account screenshots are not selectable.</p>
         </template>
+        <BrandStatementFields v-else-if="post.template === 'brand-statement' && post.statement" v-model="post.statement" />
         <div v-else><label class="sc-label" for="visual">Approved visual</label><select id="visual" v-model="post.visual" class="sc-input"><option value="symbol">Official symbol</option><option value="calendar">Calendar excerpt</option></select></div>
         <ScButton type="submit" :disabled="busy">{{ busy ? 'Rendering…' : 'Download PNG' }}</ScButton>
         <p role="status" class="text-label" :aria-busy="busy">{{ status }}</p>
