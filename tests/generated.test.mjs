@@ -62,6 +62,10 @@ test('all routes have unique titles/descriptions, canonical and social metadata,
 test('deployment artifact excludes source maps, private source assets and server credentials', () => {
   const root = publicRoot
   const files = readdirSync(root, { recursive: true })
+  assert.equal(files.some(path => path.includes('social-studio') || path.startsWith('exports/')), false)
+  for (const path of files.filter(file => /\.(?:html|js|json)$/.test(file))) {
+    assert.doesNotMatch(readFileSync(new URL(path, root), 'utf8'), /api\/social-export|Download PNG|Keep investment dates in view/)
+  }
   assert.equal(files.some(path => path.endsWith('.map')), false)
   for (const path of files.filter(file => /\.(?:html|js|json)$/.test(file))) {
     assert.doesNotMatch(readFileSync(new URL(path, root), 'utf8'), /synthetic-test-secret|contact\.example\.test|bonds\.orestegabo\.dev|contactEndpoint|contactToken|GABO_DATABASE_PASSWORD|password_hash|orestegabo@/, path)

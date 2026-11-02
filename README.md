@@ -334,3 +334,7 @@ The actual Spring application is the separate `gabo-portfolio-api` repository, n
 The existing site has been reviewed rather than rebuilt. Default production output contains 24 content/draft routes, including eight source-checked guides and four permanently noindex drafts. [Release review](docs/RELEASE_REVIEW.md) records fixes, tests, browser coverage, performance measurements and the remaining low-severity dependency advisory. [Launch checklist](docs/LAUNCH_CHECKLIST.md) contains static/Node commands, environment settings, DNS/TLS/redirect/cache requirements, human approvals and rollback steps. Public launch remains conditional on those gates; no deployment or DNS change was performed.
 
 For local component work only: `NUXT_DESIGN_REVIEW_ENABLED=true npm run dev`. Leave that private build flag false on hosted builds. The checked-in static `_headers` example applies only on compatible hosts; verify equivalent policies on the actual provider. Contact remains off without a dedicated approved service; no Spring marketing API, live statistic or store link was invented.
+
+## Local social media studio
+
+Phase 01 adds a development-only Vue preview and PNG export at `/social-studio`. See [Social media system](docs/SOCIAL_MEDIA_SYSTEM.md) for setup, editable JSON drafts, 1080×1080 / 1080×1350 exports and verification. Generated posts stay outside public assets.

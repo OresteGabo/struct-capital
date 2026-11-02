@@ -69,3 +69,7 @@ Release checks and measured limits are recorded in [Release review](RELEASE_REVI
 ## Verified hosting and continuous delivery — 2026-10-30
 
 The existing Vercel Git integration serves `structcapital.net` from `main`. `vercel.json` selects native Nuxt output and runs repository quality checks before promotion. Node is restricted to the tested 24 line. Independent GitHub Actions verifies Node/static builds, artifact metadata/links, HTTP boundaries and dependency advisories; it does not itself deploy or gate Vercel promotion. Contact/indexing/review flags remain off by default. See [CI/CD](CI_CD.md) for exact configuration and operational boundaries; the earlier release review records the pre-hosting audit.
+
+## Local social studio — 2026-11-02
+
+Development registers `/social-studio`, `/social-studio-render` and `POST /api/social-export` only in Nuxt dev mode. Production removes both pages and never registers the handler (which lives outside server auto-discovery). Reusable Vue social components and repository JSON drafts share validation in `shared/social.ts`; development-only Playwright captures actual browser rendering. The CLI saves ignored PNGs under `exports/social/`. No marketing layout or financial integration changes. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

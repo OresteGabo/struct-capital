@@ -124,3 +124,11 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Decision:** Keep Vercel as deployment owner, pin Node 24, add a native Vercel build command with quality/artifact checks and an independent read-only push/PR Actions workflow. Inspect the real Vercel output rather than a stale Node output directory.
 - **Alternatives:** Add a redundant token-based deploy job; leave the broad engine range selecting Node 26; assume Actions automatically gates Vercel; impose unrequested branch restrictions or paid deployment checks.
 - **Consequences:** Main pushes automatically reach production after successful Vercel build checks; Actions provides broader independent checks. No deploy token, new host, DNS mutation, backend integration or content approval is implied. Low dependency findings stay visible; legal/indexing/contact review remains separate. See [CI/CD](CI_CD.md).
+
+## ADR-015 — Development-only Vue social templates with browser capture
+- **Date:** 2026-11-02.
+- **Status:** Accepted within owner-requested Phase 01.
+- **Decision:** Reuse Vue components/tokens/assets and JSON drafts; add development-only Playwright PNG capture for square and portrait formats. Remove studio routes and omit handler registration in all production builds. Save CLI exports outside public assets and Git.
+- **Alternatives:** Extend the macOS-only Swift Open Graph generator; duplicate layouts in canvas; use DOM-to-image serialization with potential font/SVG discrepancies.
+- **Rationale:** Native browser capture keeps preview and export on one layout implementation. Existing Swift tools retain their distinct fixed Open Graph/screenshot preparation roles.
+- **Consequences:** A development browser dependency and one-time Chromium installation are required. System font rendering depends on OS. Editor changes are temporary until saved in source JSON; publication remains manual and separately authorized.

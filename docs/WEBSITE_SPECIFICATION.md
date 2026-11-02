@@ -121,3 +121,7 @@ See [Release review](RELEASE_REVIEW.md) for the route inventory, responsive/a11y
 ## Continuous deployment — 2026-10-30
 
 Retain the existing Vercel GitHub integration: `main` is production on `structcapital.net`, with branch/PR previews. Build-time quality checks must pass before a Vercel build succeeds; independent GitHub Actions adds Node/static/HTTP/advisory checks. No new deployment service, credentials, paid feature or search/contact enablement is required. See [CI/CD](CI_CD.md).
+
+## Social studio foundation — 2026-11-02
+
+A separate development-only studio provides editable local drafts, one editorial Vue template, official symbol/calendar visuals, square/portrait preview and PNG download. Production excludes the editor, render route and export endpoint. Existing marketing pages remain unchanged. JSON drafts and generated posts are not publication approval. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

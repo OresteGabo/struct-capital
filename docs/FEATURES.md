@@ -87,3 +87,7 @@ Default production output now has 24 content/draft routes; the component review 
 ## Website automation — 2026-10-30
 
 Existing Vercel production Git deployment is verified. Repository-managed build guards and GitHub Actions quality checks are configured without adding a product/backend capability. Indexing and inquiry delivery remain disabled pending their separate reviews. See [CI/CD](CI_CD.md) for verification and operational limits.
+
+## Social authoring foundation — 2026-11-02
+
+Phase 01 adds an internal development-only studio: editable JSON drafts, one reusable Vue template, two approved existing asset choices, 1080×1080 and 1080×1350 PNG rendering/download and a CLI export client. Production excludes editor/render routes and the capture endpoint. No investor capability, external integration or publishing feature is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md) for checks and limits.

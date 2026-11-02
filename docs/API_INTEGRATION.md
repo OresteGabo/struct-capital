@@ -91,3 +91,7 @@ Node 24.15.0: lint/typecheck and 16 unit/content tests passed. The production bu
 ### Release-review follow-up
 
 The contact reader now bounds stalled request/acknowledgment streams to eight seconds as well as bytes. Release tests verify baseline security headers, contact no-store behavior, real HTML 404s and public/private artifact boundaries. No new backend integration, metrics cache or credential was added. See RELEASE_REVIEW.md for final checks and LAUNCH_CHECKLIST.md for deployment-specific requirements; API/property names in this audit remain evidence, not authorization to expose investor data.
+
+## Development-only artwork export — 2026-11-02
+
+`POST /api/social-export` is a local authoring boundary registered only by Nuxt dev mode, not a Spring integration or production API. It accepts a bounded text-only post with an allowlisted visual and square/portrait format, requires loopback/same-origin access, and returns PNG bytes. No external API, credentials, uploaded financial records or retained data. Production builds omit the handler entirely. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
