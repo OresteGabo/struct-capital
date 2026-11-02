@@ -12,14 +12,33 @@ export interface EducationContent {
   footer: string
   brand: string
 }
+export interface BondEvent {
+  kind: 'principal' | 'coupon' | 'maturity'
+  date: string
+  label: string
+  value: string
+}
+export interface BondContent {
+  brand: string
+  exampleNote: string
+  timelineHeading: string
+  dateHeading: string
+  eventHeading: string
+  valueHeading: string
+  footnote: string
+  source: string
+  footer: string
+  events: BondEvent[]
+}
 export interface SocialPost {
   id: string
   eyebrow: string
   headline: string
   body: string
   visual: 'symbol' | 'calendar'
-  template?: 'editorial' | 'kigali' | 'education'
+  template?: 'editorial' | 'kigali' | 'education' | 'treasury-bond'
   education?: EducationContent
+  bond?: BondContent
   photoId?: string
   cropX?: number
   cropY?: number
@@ -38,7 +57,28 @@ export function parseSocialPost(value: unknown): SocialPost {
   if (!/^[a-z0-9-]+$/.test(source.id as string)) throw new Error('Use a lowercase slug for the post ID.')
   if (source.visual !== 'symbol' && source.visual !== 'calendar') throw new Error('Choose an approved visual.')
   const post: SocialPost = { id: source.id as string, eyebrow: source.eyebrow as string, headline: source.headline as string, body: source.body as string, visual: source.visual }
-  if (source.template !== undefined && !['editorial', 'kigali', 'education'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template !== undefined && !['editorial', 'kigali', 'education', 'treasury-bond'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template === 'treasury-bond') {
+    if (!source.bond || typeof source.bond !== 'object') throw new Error('Bond timeline content is required.')
+    const bond = source.bond as Record<string, unknown>
+    const fields = { brand: 40, exampleNote: 110, timelineHeading: 60, dateHeading: 24, eventHeading: 24, valueHeading: 30, footnote: 230, source: 100, footer: 60 }
+    for (const [key, limit] of Object.entries(fields)) {
+      if (typeof bond[key] !== 'string' || !bond[key].trim() || bond[key].length > limit) throw new Error(`Invalid bond ${key} (maximum ${limit} characters).`)
+    }
+    if (!Array.isArray(bond.events) || bond.events.length < 3 || bond.events.length > 6) throw new Error('Use 3–6 timeline events.')
+    const events = bond.events.map((value: unknown, index: number): BondEvent => {
+      if (!value || typeof value !== 'object') throw new Error('Invalid timeline event.')
+      const event = value as Record<string, unknown>
+      const expectedKind = index === 0 ? 'principal' : index === (bond.events as unknown[]).length - 1 ? 'maturity' : 'coupon'
+      if (event.kind !== expectedKind) throw new Error('Start with principal, list coupons, and end with maturity.')
+      for (const [key, limit] of Object.entries({ date: 24, label: 54, value: 26 })) {
+        if (typeof event[key] !== 'string' || !event[key].trim() || event[key].length > limit) throw new Error(`Invalid timeline ${key} (maximum ${limit} characters).`)
+      }
+      return { kind: expectedKind, date: event.date as string, label: event.label as string, value: event.value as string }
+    })
+    post.template = 'treasury-bond'
+    post.bond = { ...Object.fromEntries(Object.keys(fields).map(key => [key, bond[key]])), events } as BondContent
+  }
   if (source.template === 'education') {
     if (!source.education || typeof source.education !== 'object') throw new Error('Education content is required.')
     const education = source.education as Record<string, unknown>

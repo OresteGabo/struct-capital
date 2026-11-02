@@ -81,3 +81,7 @@ The social studio now dispatches through SocialTemplate.vue to the original edit
 ## Investor Education — Phase 03 (2026-11-02)
 
 SocialTemplate.vue now selects InvestorEducation.vue for education drafts. Shared post validation accepts bounded nested education fields and a fixed style enum. The existing development exporter checks text/header/footer clearance; the studio exposes every rendered text field. Four JSON presets are local authoring inputs, excluded with the studio from production routing/bundles. No new dependency is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+SocialTemplate.vue selects TreasuryBondExplainer.vue for treasury-bond drafts. TreasuryBondFields.vue edits nested bond content and coupon rows; shared validation bounds text and enforces principal/coupon/maturity ordering. The existing dev-only exporter checks timeline clearance from the introduction and footer. No new dependency, endpoint, production route or financial logic is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

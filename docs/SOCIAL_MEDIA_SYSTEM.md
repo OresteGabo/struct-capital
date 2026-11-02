@@ -130,3 +130,37 @@ No allocation target, actual investment return, current rate, Rwanda-specific le
 Node 24.22.2: Nuxt/export-handler type checks, ESLint, all 17 unit/content tests and 34 contrast checks passed. All 7 browser tests passed: 14 draft/format PNG renders (including 8 education renders), every visible education text field edited and observed in preview, four style selections at both sizes, education download, invalid style/field rejection, text collision rejection, single official SVG verification and 320px overflow checks. The production build, all 4 production HTTP tests, static generation and all 10 artifact checks passed; studio routes/export remain absent from production.
 
 All eight `exports/social/education-{concept,myth-fact,did-you-know,terminology}-{square,portrait}.png` files were actually exported and visually inspected. Verified typography/wrapping, content/source separation, olive/ivory consistency, decorative gold usage and a single small SC signature. Exports remain ignored by Git. No new dependencies or marketing-page changes; no push, deployment or publication. Editable copy remains subject to editorial review; no full assistive-technology or real-device audit was performed.
+
+## Phase 04 — Treasury Bond Explainer
+
+`TreasuryBondExplainer.vue` adds a fourth template. Select `treasury-bond-explainer` in the existing local studio. It presents a restrained editorial ledger/timeline in existing olive/ivory/ink tokens: one official SC symbol, plain date/event/value columns, a thin connecting line, and a small gold illustrative-example accent. It uses no stock infographic artwork, external font, live data or financial engine.
+
+The headline, introduction, eyebrow, brand text, timeline heading, column headings, dates, row labels, displayed amounts, assumptions note, footnote, source credit and footer are editable. `TreasuryBondFields.vue` provides the nested editor. Add or remove coupon rows within 3–6 events; principal remains first and maturity last with at least one coupon between. An immutable **Illustrative example** marker remains visible on every export. Amounts and dates are text, not parsed as official terms or calculated cash flows. The editor does not infer direction from a value: include signs and units explicitly when useful.
+
+The draft uses `template: "treasury-bond"` and a `bond` object containing `brand`, `exampleNote`, `timelineHeading`, `dateHeading`, `eventHeading`, `valueHeading`, `footnote`, `source`, `footer`, and `events`. Each event has `kind` (`principal`, `coupon`, `maturity`), `date`, `label`, and `value`. Event kinds preserve the basic explanatory order; dates are authored strings. Rows are equally spaced for reading and explicitly not a time-proportional chart. The final scheduled coupon and principal repayment can share a date while remaining distinct records. Dense timelines use tighter row spacing; export rejects copy that overlaps the introduction or footnotes. Long edits may require shorter text or fewer coupon rows.
+
+### Editorial reference and example limits
+
+All four requested local guides were read first:
+
+- `content/learn/rwanda-treasury-bonds.md`: issue-specific terms, face value versus price, lending to government, risk and original-document review.
+- `content/learn/bond-coupon-payments.md`: coupon schedules versus receipts and security-specific payment terms.
+- `content/learn/bond-maturity.md`: principal due at maturity versus sale proceeds or coupon income.
+- `content/learn/coupon-rates-versus-yields.md`: coupon rate is not yield or total performance; no yield calculation is added to this authoring tool.
+
+Their general [Investor.gov bond reference](https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products/bonds) and [MoneySense explanation](https://www.moneysense.gov.sg/understanding-bonds/) were rechecked on 2026-11-02. Foreign market rules are not used as Rwanda issue terms.
+
+The default timeline is an explicitly hypothetical 100-unit principal, two 3-unit scheduled coupons, and 100 units of principal due at maturity. Relative dates are Day 0, Month 6, Month 12 and Month 12. The example assumes purchase at face value, payments made as promised, and no costs or taxes. It is **not an actual BNR security**, a current rate, offer, payment confirmation, yield forecast or promise of repayment. It deliberately separates principal from coupon income and retains a visible schedule/receipt/guarantee limitation. Check an actual issue’s official documents separately; publishing edited copy still needs factual review. Schema checks validate shape/length/order, not economic consistency, chronology or investment suitability.
+
+```sh
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/treasury-bond-explainer.json square
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/treasury-bond-explainer.json portrait
+```
+
+Files go to ignored `exports/social/`. Persist studio edits in the draft JSON as in earlier phases. Marketing pages, production isolation, existing dependencies and Swift generators remain unchanged.
+
+### Phase 04 verification — 2026-11-02
+
+Node 24.22.2: Nuxt and export-handler type checks, ESLint, all 17 unit/content tests, 34 contrast checks, production build, all 4 production HTTP tests, static generation and all 10 artifact tests passed. All 9 browser tests passed: 16 draft/format PNG renders, bond timeline/label/date/value/footnote edits, add/remove coupon controls, square and portrait downloads, 3-event and 6-event rendering in both formats, invalid structure/text rejection and deliberate overlap rejection. The studio remains excluded from production routes, API registration and public artifacts. No checks were blocked.
+
+Exported and visually inspected `exports/social/treasury-bond-explainer-square.png` (1080×1080) and `exports/social/treasury-bond-explainer-portrait.png` (1080×1350). Verified official logo, date/event/value alignment, timeline markers, separate final coupon/principal rows, persistent illustrative label, hypothetical assumptions, footnote clearance and brand consistency. Both files are gitignored. No financial calculation, live BNR data, new dependency, marketing-page change, push or publication. Full real-device and assistive-technology audits were not performed.

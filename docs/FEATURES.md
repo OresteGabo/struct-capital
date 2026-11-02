@@ -99,3 +99,7 @@ Kigali Editorial is implemented internally with configurable copy, photo registr
 ## Investor Education — Phase 03 (2026-11-02)
 
 InvestorEducation.vue adds four editable internal content styles: financial concept, myth versus fact, did you know, and investor terminology. Source-backed diversification drafts use the official SC symbol and existing colors; square/portrait export and all visible text are supported through the existing development-only studio. No investment returns, calculations or new investor capability are added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+TreasuryBondExplainer.vue adds an internal editable principal/coupon/maturity timeline with 3–6 events, custom headings/dates/values/notes, and square/portrait PNG output. The default uses labeled hypothetical units and relative dates; no current BNR rate, official issue terms, yield calculation or payment confirmation is asserted. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

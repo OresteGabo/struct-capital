@@ -38,6 +38,52 @@ test('education schema rejects invalid styles and missing or oversized editable 
   const response = await send({ post: { ...post, headline: 'Extremely '.repeat(10).trim(), body: 'Editorial explanation '.repeat(10).trim() }, format: 'square' })
   assert.equal(response.status, 500)
 })
+test('bond schema enforces timeline structure, bounded text and event counts', async () => {
+  const post = JSON.parse(await readFile('social-content/posts/treasury-bond-explainer.json', 'utf8'))
+  for (const changes of [{ events: [] }, { events: Array(7).fill(post.bond.events[1]) }, { footnote: '' }, { exampleNote: 'x'.repeat(111) }, { events: [{ ...post.bond.events[0], kind: 'coupon' }, ...post.bond.events.slice(1)] }, { events: post.bond.events.map((event, index) => index === 1 ? { ...event, date: 100 } : event) }]) {
+    assert.equal((await send({ post: { ...post, bond: { ...post.bond, ...changes } }, format: 'square' })).status, 400)
+  }
+  const response = await send({ post: { ...post, headline: 'Extremely '.repeat(10).trim(), body: 'Editorial explanation '.repeat(10).trim() }, format: 'square' })
+  assert.equal(response.status, 500)
+  for (const count of [3, 6]) {
+    const events = [post.bond.events[0], ...Array(count - 2).fill(post.bond.events[1]), post.bond.events.at(-1)]
+    for (const format of ['square', 'portrait']) {
+      const rendered = await send({ post: { ...post, bond: { ...post.bond, events } }, format })
+      assert.equal(rendered.status, 200, rendered.ok ? undefined : await rendered.text())
+      await rendered.arrayBuffer()
+    }
+  }
+})
+test('bond studio edits timeline/notes, adds and removes coupons, and downloads both sizes', async () => {
+  const browser = await chromium.launch()
+  try {
+    const page = await browser.newPage()
+    await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
+    await page.getByLabel('Draft', { exact: true }).selectOption('treasury-bond-explainer')
+    const changes = { Eyebrow: 'Bonds / Learning', Headline: 'A bond payment sequence.', Body: 'Separate principal from scheduled income.', 'Bond brand text': 'Struct Capital Education', 'Illustrative assumptions label': 'Hypothetical units, not a real bond.', 'Timeline heading': 'Example sequence', 'Date column heading': 'Example date', 'Event column heading': 'Payment', 'Value column heading': 'Example amount', 'Bond footnote': 'Assumes payment as promised. Not a guaranteed return.', 'Bond source credit': 'Reference: bond learning guides', 'Bond footer text': 'Education draft', 'Event 1 date': 'Start', 'Event 1 label': 'Example investment', 'Event 1 value': '−200 units', 'Event 2 date': 'Month 3', 'Event 2 label': 'Example coupon', 'Event 2 value': '+2 units', 'Event 4 date': 'End', 'Event 4 label': 'Principal due', 'Event 4 value': '+200 units' }
+    for (const [label, value] of Object.entries(changes)) {
+      await page.getByLabel(label, { exact: true }).fill(value)
+      await page.locator('[data-social-canvas]').getByText(value, { exact: true }).waitFor()
+    }
+    await page.getByRole('button', { name: 'Add coupon event', exact: true }).click()
+    assert.equal(await page.locator('[data-bond-event]').count(), 5)
+    await page.getByRole('button', { name: 'Remove coupon event 4', exact: true }).click()
+    assert.equal(await page.locator('[data-bond-event]').count(), 4)
+    for (const format of ['square', 'portrait']) {
+      await page.getByLabel('Format', { exact: true }).selectOption(format)
+      await page.locator('[data-social-canvas]').getByText('Illustrative example', { exact: true }).waitFor()
+      const last = await page.locator('[data-bond-event]').last().boundingBox()
+      const footer = await page.locator('[data-bond-footer]').boundingBox()
+      assert.ok(last.y + last.height < footer.y)
+      const downloaded = page.waitForEvent('download')
+      await page.getByRole('button', { name: 'Download PNG' }).click()
+      assert.equal((await downloaded).suggestedFilename(), `treasury-bond-explainer-${format}.png`)
+    }
+    await page.setViewportSize({ width: 320, height: 900 })
+    await page.waitForTimeout(200)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
+  } finally { await browser.close() }
+})
 test('education studio edits every rendered text field and preserves layout at both sizes', async () => {
   const browser = await chromium.launch()
   try {

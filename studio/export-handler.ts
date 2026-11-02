@@ -52,6 +52,15 @@ export default defineEventHandler(async (event) => {
         throw new Error('Education copy overlaps the header or source notes. Shorten the text.')
       }
     }
+    if (post.template === 'treasury-bond') {
+      const intro = await canvas.locator('[data-bond-intro]').boundingBox()
+      const heading = await canvas.locator('[data-bond-timeline] h3').boundingBox()
+      const lastEvent = await canvas.locator('[data-bond-event]').last().boundingBox()
+      const footer = await canvas.locator('[data-bond-footer]').boundingBox()
+      if (!intro || !heading || !lastEvent || !footer || heading.y < intro.y + intro.height + 16 || lastEvent.y + lastEvent.height > footer.y - 16) {
+        throw new Error('Bond timeline overlaps the introduction or footnotes. Shorten text or remove a coupon row.')
+      }
+    }
     if (await canvas.locator('[data-social-missing-photo]').count()) setHeader(event, 'X-Social-Proof', 'missing-photo')
     const png = await canvas.screenshot({ type: 'png', animations: 'disabled' })
     setHeader(event, 'Content-Type', 'image/png')

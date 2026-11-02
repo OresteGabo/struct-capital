@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TreasuryBondFields from '../components/social/TreasuryBondFields.vue'
+import bond from '../../social-content/posts/treasury-bond-explainer.json'
 import SocialTemplate from '../components/social/SocialTemplate.vue'
 import { parseSocialPost, socialSizes, type SocialFormat } from '../../shared/social'
 import clearer from '../../social-content/posts/clearer-picture.json'
@@ -12,7 +14,7 @@ import { kigaliPhotos } from '../../shared/social-photos'
 
 definePageMeta({ layout: false })
 useHead({ title: 'Social studio · local development', meta: [{ name: 'robots', content: 'noindex, nofollow' }], htmlAttrs: { 'data-theme': 'light' } })
-const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology]
+const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology, bond]
 const selected = ref(clearer.id)
 const post = ref(parseSocialPost(clearer))
 const format = ref<SocialFormat>('square')
@@ -80,6 +82,7 @@ async function exportPng() {
           <div><label class="sc-label" for="education-footer">Footer text</label><input id="education-footer" v-model="post.education.footer" maxlength="60" class="sc-input" required></div>
           <div><label class="sc-label" for="education-brand">Brand text</label><input id="education-brand" v-model="post.education.brand" maxlength="40" class="sc-input" required></div>
         </template>
+        <TreasuryBondFields v-else-if="post.template === 'treasury-bond' && post.bond" v-model="post.bond" />
         <div v-else><label class="sc-label" for="visual">Approved visual</label><select id="visual" v-model="post.visual" class="sc-input"><option value="symbol">Official symbol</option><option value="calendar">Calendar excerpt</option></select></div>
         <ScButton type="submit" :disabled="busy">{{ busy ? 'Rendering…' : 'Download PNG' }}</ScButton>
         <p role="status" class="text-label" :aria-busy="busy">{{ status }}</p>

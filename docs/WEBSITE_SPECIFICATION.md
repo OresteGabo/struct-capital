@@ -133,3 +133,7 @@ The local studio adds Kigali Editorial: asymmetric ivory composition, official S
 ## Investor Education — Phase 03 (2026-11-02)
 
 The local studio adds a minimalist education template with four content styles, fully editable wording, source credit and education note. Existing palette, a short gold detail and one official SC signature are used without repeating patterns or generic finance imagery. Source-checked diversification drafts contain no return figures. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+The local studio adds an editorial bond timeline: principal invested, scheduled coupons and principal due at maturity. Headings, dates, amounts, labels and notes are editable; the illustrative-example marker is permanent. Defaults are hypothetical, not a BNR issue. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

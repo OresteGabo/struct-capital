@@ -103,3 +103,7 @@ The existing development-only social export accepts validated Kigali template fi
 ## Investor Education — Phase 03 (2026-11-02)
 
 The existing development-only export request can include template=education and a validated education object (style, labels, source, education note, footer and brand text). It still returns PNG bytes and rejects overlapping or overflowing copy. This is local authoring only, with no financial API, public production endpoint or external data fetching at runtime. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+The existing development export accepts template=treasury-bond with bounded bond text and 3–6 events. It validates event order and layout, returns PNG bytes and never calculates or fetches bond rates/terms. The example marker is always present. Production export remains absent; no Spring, BNR or financial-data API is called. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

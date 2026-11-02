@@ -223,3 +223,7 @@ KigaliEditorial.vue reuses the actual SC symbol SVG and current ivory, ink, oliv
 ## Investor Education — Phase 03 (2026-11-02)
 
 InvestorEducation.vue uses olive display type on ivory, ink body text, short 5px gold rules and a single 64px official SC SVG signature. Square and portrait have deliberate display sizes; myth/fact separates a smaller ink myth from an olive fact, while terminology enlarges the term. Gold stays decorative, not small text. No new palette, font, full-background pattern or generic financial illustration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+TreasuryBondExplainer.vue uses the official SC SVG, existing olive/ivory/ink tokens and a small decorative gold border. A thin timeline and ledger columns distinguish dates, events and amounts without arrows, charts or generic finance artwork. Typography is sized for both canvases, with tighter spacing for 5–6 events. The reading order and labels convey meaning alongside color. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

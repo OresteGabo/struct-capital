@@ -148,3 +148,11 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Alternatives:** Four duplicated templates; illustration-led finance graphics; invented performance examples; hardcoded source and disclaimer text that cannot be edited in the studio.
 - **Rationale:** Shared rendering keeps both sizes maintainable, while source-backed presets demonstrate editorial structure without financial advice or unsupported returns.
 - **Consequences:** Content edits still need factual review; layout validation rejects text that intrudes on header/source notes. Production isolation, current dependencies and marketing pages remain unchanged.
+
+## ADR-018 — An illustrative bond timeline, not a financial calculator
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Treasury Bond Explainer phase.
+- **Decision:** Use text-based ledger/timeline events, with principal first, editable coupon rows, maturity last, and a permanent illustrative-example marker. Keep all editorial/date/value/footnote fields editable while checking bounds and layout.
+- **Alternatives:** Imply current BNR terms, compute coupon/yield schedules, conflate principal with income, or add generic infographic assets.
+- **Rationale:** The requested learning references support an explanation of bond cash-flow categories, not live issue terms or a duplicate financial engine. Hypothetical units make the authoring example concrete without suggesting an actual offer.
+- **Consequences:** Authors must review chronology, economic consistency and source claims themselves; export guards prevent clipping and overlap but cannot certify financial content. Production, dependencies and marketing pages remain unchanged.

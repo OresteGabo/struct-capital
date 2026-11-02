@@ -1,0 +1,45 @@
+{
+  "id": "treasury-bond-explainer",
+  "template": "treasury-bond",
+  "eyebrow": "Treasury bond basics",
+  "headline": "Principal. Coupons. Maturity.",
+  "body": "Separate the money invested, scheduled interest, and principal due at the end.",
+  "visual": "symbol",
+  "bond": {
+    "brand": "Struct Capital",
+    "exampleNote": "Hypothetical units and dates, not an actual BNR issue. Timeline spacing is not to scale.",
+    "timelineHeading": "A simplified payment sequence",
+    "dateHeading": "Illustrative date",
+    "eventHeading": "Event",
+    "valueHeading": "Illustrative cash flow",
+    "events": [
+      {
+        "kind": "principal",
+        "date": "Day 0",
+        "label": "Principal invested",
+        "value": "−100 units"
+      },
+      {
+        "kind": "coupon",
+        "date": "Month 6",
+        "label": "Scheduled coupon",
+        "value": "+3 units"
+      },
+      {
+        "kind": "coupon",
+        "date": "Month 12",
+        "label": "Final scheduled coupon",
+        "value": "+3 units"
+      },
+      {
+        "kind": "maturity",
+        "date": "Month 12",
+        "label": "Principal due at maturity",
+        "value": "+100 units"
+      }
+    ],
+    "footnote": "Assumes purchase at face value, payments made as promised, and no costs or taxes. Principal repayment is not coupon income. A schedule is not proof of receipt or a guaranteed return.",
+    "source": "Reference: Struct Capital bond learning guides",
+    "footer": "structcapital.net"
+  }
+}
