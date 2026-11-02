@@ -64,7 +64,7 @@ test('deployment artifact excludes source maps, private source assets and server
   const files = readdirSync(root, { recursive: true })
   assert.equal(files.some(path => path.includes('social-studio') || path.startsWith('exports/')), false)
   for (const path of files.filter(file => /\.(?:html|js|json)$/.test(file))) {
-    assert.doesNotMatch(readFileSync(new URL(path, root), 'utf8'), /api\/social-export|Download PNG|Keep investment dates in view|DRAFT PROOF|KIGALI PHOTOGRAPH MISSING|Clearly understood/)
+    assert.doesNotMatch(readFileSync(new URL(path, root), 'utf8'), /api\/social-export|Download PNG|Keep investment dates in view|DRAFT PROOF|KIGALI PHOTOGRAPH MISSING|Clearly understood|education-concept|education-myth-fact|education-terminology/)
   }
   assert.equal(files.some(path => path.endsWith('.map')), false)
   for (const path of files.filter(file => /\.(?:html|js|json)$/.test(file))) {

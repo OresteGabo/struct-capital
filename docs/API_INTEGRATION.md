@@ -99,3 +99,7 @@ The contact reader now bounds stalled request/acknowledgment streams to eight se
 ## Kigali Editorial — Phase 02 (2026-11-02)
 
 The existing development-only social export accepts validated Kigali template fields and registry photo IDs, rejecting arbitrary paths/remote URLs. It marks intentional missing-photo proofs with X-Social-Proof: missing-photo and checks text/photo clearance. Broken selected images fail export. No public/backend integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+The existing development-only export request can include template=education and a validated education object (style, labels, source, education note, footer and brand text). It still returns PNG bytes and rejects overlapping or overflowing copy. This is local authoring only, with no financial API, public production endpoint or external data fetching at runtime. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

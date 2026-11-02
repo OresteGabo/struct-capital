@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { readFile } from 'node:fs/promises'
+import { readFile, readdir } from 'node:fs/promises'
 import { chromium } from 'playwright'
 import { socialSizes } from '../shared/social.ts'
 
@@ -14,7 +14,8 @@ test('local export rejects foreign origins and malformed content', async () => {
   assert.equal((await send({ post: {}, format: 'square' })).status, 400)
 })
 test('each repository draft exports accurate square and portrait PNGs', async () => {
-  for (const name of ['clearer-picture', 'income-calendar', 'kigali-editorial']) {
+  const names = (await readdir('social-content/posts')).filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
+  for (const name of names) {
     const post = JSON.parse(await readFile(`social-content/posts/${name}.json`, 'utf8'))
     for (const [format, size] of Object.entries(socialSizes)) {
       const response = await send({ post, format })
@@ -28,6 +29,44 @@ test('each repository draft exports accurate square and portrait PNGs', async ()
       assert.equal(png.readUInt32BE(20), size.height)
     }
   }
+})
+test('education schema rejects invalid styles and missing or oversized editable notes', async () => {
+  const post = JSON.parse(await readFile('social-content/posts/education-concept.json', 'utf8'))
+  for (const changes of [{ style: 'unknown' }, { source: '' }, { disclaimer: null }, { brand: 'x'.repeat(41) }, { primaryLabel: 2 }]) {
+    assert.equal((await send({ post: { ...post, education: { ...post.education, ...changes } }, format: 'square' })).status, 400)
+  }
+  const response = await send({ post: { ...post, headline: 'Extremely '.repeat(10).trim(), body: 'Editorial explanation '.repeat(10).trim() }, format: 'square' })
+  assert.equal(response.status, 500)
+})
+test('education studio edits every rendered text field and preserves layout at both sizes', async () => {
+  const browser = await chromium.launch()
+  try {
+    const page = await browser.newPage()
+    await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
+    await page.getByLabel('Draft', { exact: true }).selectOption('education-myth-fact')
+    const changes = { Eyebrow: 'A learning series', Headline: 'An editable myth.', Body: 'An editable explanation.', 'Primary label': 'Question', 'Fact label': 'Answer', 'Source credit': 'Source: editorial review', 'Education note': 'General learning only.', 'Footer text': 'Review draft', 'Brand text': 'Struct Capital Education' }
+    for (const [label, value] of Object.entries(changes)) {
+      await page.getByLabel(label, { exact: true }).fill(value)
+      await page.locator('[data-social-canvas]').getByText(value, { exact: true }).waitFor()
+    }
+    for (const style of ['concept', 'myth-fact', 'did-you-know', 'terminology']) {
+      await page.getByLabel('Content style').selectOption(style)
+      for (const format of ['square', 'portrait']) {
+        await page.getByLabel('Format', { exact: true }).selectOption(format)
+        const copy = await page.locator('[data-education-copy]').boundingBox()
+        const footer = await page.locator('[data-education-footer]').boundingBox()
+        assert.ok(copy.y + copy.height < footer.y)
+        assert.equal(await page.locator('[data-social-canvas] img').count(), 1)
+        assert.equal(await page.locator('[data-social-canvas] img').getAttribute('src'), '/brand/struct-capital-symbol.svg')
+      }
+    }
+    const downloaded = page.waitForEvent('download')
+    await page.getByRole('button', { name: 'Download PNG' }).click()
+    assert.equal((await downloaded).suggestedFilename(), 'education-myth-fact-portrait.png')
+    await page.setViewportSize({ width: 320, height: 900 })
+    await page.waitForTimeout(200)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
+  } finally { await browser.close() }
 })
 test('Kigali template validates photographs and crop settings and rejects overlapping copy', async () => {
   const post = JSON.parse(await readFile('social-content/posts/kigali-editorial.json', 'utf8'))

@@ -2,13 +2,24 @@ import { kigaliPhotos } from './social-photos.ts'
 
 export const socialSizes = { square: { width: 1080, height: 1080 }, portrait: { width: 1080, height: 1350 } } as const
 export type SocialFormat = keyof typeof socialSizes
+export const educationStyles = ['concept', 'myth-fact', 'did-you-know', 'terminology'] as const
+export interface EducationContent {
+  style: typeof educationStyles[number]
+  primaryLabel: string
+  secondaryLabel: string
+  source: string
+  disclaimer: string
+  footer: string
+  brand: string
+}
 export interface SocialPost {
   id: string
   eyebrow: string
   headline: string
   body: string
   visual: 'symbol' | 'calendar'
-  template?: 'editorial' | 'kigali'
+  template?: 'editorial' | 'kigali' | 'education'
+  education?: EducationContent
   photoId?: string
   cropX?: number
   cropY?: number
@@ -27,7 +38,18 @@ export function parseSocialPost(value: unknown): SocialPost {
   if (!/^[a-z0-9-]+$/.test(source.id as string)) throw new Error('Use a lowercase slug for the post ID.')
   if (source.visual !== 'symbol' && source.visual !== 'calendar') throw new Error('Choose an approved visual.')
   const post: SocialPost = { id: source.id as string, eyebrow: source.eyebrow as string, headline: source.headline as string, body: source.body as string, visual: source.visual }
-  if (source.template !== undefined && source.template !== 'editorial' && source.template !== 'kigali') throw new Error('Choose an existing template.')
+  if (source.template !== undefined && !['editorial', 'kigali', 'education'].includes(String(source.template))) throw new Error('Choose an existing template.')
+  if (source.template === 'education') {
+    if (!source.education || typeof source.education !== 'object') throw new Error('Education content is required.')
+    const education = source.education as Record<string, unknown>
+    if (!educationStyles.includes(education.style as EducationContent['style'])) throw new Error('Choose an education content style.')
+    const fields = { primaryLabel: 40, secondaryLabel: 40, source: 100, disclaimer: 100, footer: 60, brand: 40 }
+    for (const [key, limit] of Object.entries(fields)) {
+      if (typeof education[key] !== 'string' || !education[key].trim() || education[key].length > limit) throw new Error(`Invalid education ${key} (maximum ${limit} characters).`)
+    }
+    post.template = 'education'
+    post.education = { style: education.style, ...Object.fromEntries(Object.keys(fields).map(key => [key, education[key]])) } as EducationContent
+  }
   if (source.template === 'kigali') {
     if (typeof source.photoId !== 'string' || (source.photoId !== '' && !kigaliPhotos.some(photo => photo.id === source.photoId))) throw new Error('Choose a registered Kigali photograph.')
     for (const key of ['cropX', 'cropY']) {

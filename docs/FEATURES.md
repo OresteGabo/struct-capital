@@ -95,3 +95,7 @@ Phase 01 adds an internal development-only studio: editable JSON drafts, one reu
 ## Kigali Editorial — Phase 02 (2026-11-02)
 
 Kigali Editorial is implemented internally with configurable copy, photo registry/focal crop, SC signature and ink/olive themes. No Kigali photograph exists in the repository; square/portrait exports are explicitly labeled missing-photo proofs. Photographic composition/crop approval awaits a real user-provided asset. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+InvestorEducation.vue adds four editable internal content styles: financial concept, myth versus fact, did you know, and investor terminology. Source-backed diversification drafts use the official SC symbol and existing colors; square/portrait export and all visible text are supported through the existing development-only studio. No investment returns, calculations or new investor capability are added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

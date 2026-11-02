@@ -94,3 +94,39 @@ Both write to ignored `exports/social/`. Export setup and production isolation a
 Using Node 24.22.2: type checks (Nuxt plus export handler), ESLint, 17 unit/content tests, 34 contrast checks, production build, all 4 production HTTP tests, static generation and all 10 generated-output tests passed. All 5 browser tests passed, including six draft/format PNG renders, Kigali proof headers, invalid crop/photo/theme/pattern rejection, long-copy collision rejection, live theme/signature/subtitle controls and 320px overflow checks. Production still returns 404 for studio/render/export paths and its public output excludes Kigali draft content.
 
 Actual files exported and visually inspected: `exports/social/kigali-editorial-square.png` (1080×1080) and `exports/social/kigali-editorial-portrait.png` (1080×1350). Both are ignored by Git and explicitly show missing-photo proof labels. Reviewed headline/subtitle spacing, asymmetric photo-region placement, official logo and SC signature, ivory/ink/olive consistency. Final portrait spacing and studio note wrapping were corrected during review. **Actual photographic cropping cannot be verified until the required real photograph is supplied.** No external image request, photo generation, publishing or dependency addition occurred in this phase.
+
+## Phase 03 — Investor Education
+
+`InvestorEducation.vue` is the third template. It uses existing olive/ivory/ink tokens, large system-font editorial type, short gold rules and exactly one small official `struct-capital-symbol.svg` at the footer. There is no full-background motif, repeated hexagon, stock graphic, return chart or generated image. The original and Kigali templates retain their behavior.
+
+Four local presets are available from the studio Draft selector:
+
+| Draft | Content style | Rendering |
+| --- | --- | --- |
+| `education-concept` | Financial concept | Large olive statement and explanatory paragraph |
+| `education-myth-fact` | Myth versus fact | Explicit Myth heading and Fact explanation, separated by a restrained gold rule |
+| `education-did-you-know` | Did you know? | Question-led label and large observation |
+| `education-terminology` | Investor terminology | Oversized term followed by a definition |
+
+All visible text is editable in the studio: eyebrow, headline, body, primary label, Fact label (visible for myth/fact), source credit, education note, footer and brand text. The official geometric SVG remains unchanged. Content style changes the typographic treatment and the visibility of the Fact label; it intentionally preserves the text you are editing. Choose a preset for matching initial copy/labels, or edit them explicitly after changing style. In myth/fact the Headline contains the myth and Body contains the fact. No user text is interpreted as HTML.
+
+Save reviewed changes in `social-content/posts/education-*.json`; studio edits remain in memory. Each draft uses `template: "education"` plus an `education` object with `style` (`concept`, `myth-fact`, `did-you-know`, `terminology`), `primaryLabel`, `secondaryLabel`, `source`, `disclaimer`, `footer`, and `brand`. Shared validation requires bounded nonempty strings and rejects unknown styles. Export checks both overall canvas overflow and text clearance from the header and source notes; shorten copy if it does not fit, rather than silently shrinking or clipping it.
+
+```sh
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/education-concept.json square
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/education-concept.json portrait
+```
+
+The same commands work for the other three draft files. All PNGs stay in ignored `exports/social/`. Preview/export routes remain development-only; no new dependency, marketing-page change, production endpoint, financial calculation or publishing service is introduced.
+
+### Editorial evidence and limits
+
+The four examples adapt the repository’s source-checked `content/learn/portfolio-diversification.md`. Its primary [Investor.gov diversification source](https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments) was rechecked on 2026-11-02. Concept and terminology paraphrase the general principle and retain loss/guarantee limits. The myth/fact and two-account examples apply that principle to identical underlying holdings; this is an explanatory inference, not a sourced claim about investor behavior. The myth is labeled as a myth, never presented alone as advice.
+
+No allocation target, actual investment return, current rate, Rwanda-specific legal rule or personalized recommendation is included. Source credit and education note are visible and editable; edits require renewed factual/editorial review. Schema and layout checks cannot establish financial truth or publication approval.
+
+### Phase 03 verification — 2026-11-02
+
+Node 24.22.2: Nuxt/export-handler type checks, ESLint, all 17 unit/content tests and 34 contrast checks passed. All 7 browser tests passed: 14 draft/format PNG renders (including 8 education renders), every visible education text field edited and observed in preview, four style selections at both sizes, education download, invalid style/field rejection, text collision rejection, single official SVG verification and 320px overflow checks. The production build, all 4 production HTTP tests, static generation and all 10 artifact checks passed; studio routes/export remain absent from production.
+
+All eight `exports/social/education-{concept,myth-fact,did-you-know,terminology}-{square,portrait}.png` files were actually exported and visually inspected. Verified typography/wrapping, content/source separation, olive/ivory consistency, decorative gold usage and a single small SC signature. Exports remain ignored by Git. No new dependencies or marketing-page changes; no push, deployment or publication. Editable copy remains subject to editorial review; no full assistive-technology or real-device audit was performed.

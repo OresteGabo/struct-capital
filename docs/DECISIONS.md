@@ -140,3 +140,11 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Alternatives:** Extract photography from the app screenshot; source unrequested stock photography; generate city imagery; silently omit the missing photograph label.
 - **Rationale:** The owner requires real user-provided assets and explicitly requests a missing-asset state when unavailable.
 - **Consequences:** Final image cropping/location/rights review requires a supplied photograph. Preview and export remain development-only; no new public route, dependency or publishing feature.
+
+## ADR-017 — A shared education template with editable editorial presets
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Investor Education phase.
+- **Decision:** Use one Vue template with concept, myth/fact, did-you-know and terminology variants. Keep all rendered text editable, retain a visible source/note, and reuse one official SC signature with restrained gold details.
+- **Alternatives:** Four duplicated templates; illustration-led finance graphics; invented performance examples; hardcoded source and disclaimer text that cannot be edited in the studio.
+- **Rationale:** Shared rendering keeps both sizes maintainable, while source-backed presets demonstrate editorial structure without financial advice or unsupported returns.
+- **Consequences:** Content edits still need factual review; layout validation rejects text that intrudes on header/source notes. Production isolation, current dependencies and marketing pages remain unchanged.

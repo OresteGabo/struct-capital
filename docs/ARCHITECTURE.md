@@ -77,3 +77,7 @@ Development registers `/social-studio`, `/social-studio-render` and `POST /api/s
 ## Kigali Editorial — Phase 02 (2026-11-02)
 
 The social studio now dispatches through SocialTemplate.vue to the original editorial template or KigaliEditorial.vue. The empty social-content/photos.json registry supplies validated local-only photo metadata through shared/social-photos.ts. Shared post validation carries template/theme/pattern/focal-point choices. No new production route or dependency is added; missing-photo proofs are explicitly marked and export rejects overlapping text or broken selected assets. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+SocialTemplate.vue now selects InvestorEducation.vue for education drafts. Shared post validation accepts bounded nested education fields and a fixed style enum. The existing development exporter checks text/header/footer clearance; the studio exposes every rendered text field. Four JSON presets are local authoring inputs, excluded with the studio from production routing/bundles. No new dependency is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

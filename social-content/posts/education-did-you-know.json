@@ -1,0 +1,17 @@
+{
+  "id": "education-did-you-know",
+  "template": "education",
+  "eyebrow": "Investor education",
+  "headline": "Two accounts can hold the same risk.",
+  "body": "Owning the same company’s shares through two brokers does not spread exposure across two companies.",
+  "visual": "symbol",
+  "education": {
+    "style": "did-you-know",
+    "primaryLabel": "Did you know?",
+    "secondaryLabel": "Fact",
+    "source": "Source: Investor.gov · Diversify your investments",
+    "disclaimer": "Educational information. Not investment advice.",
+    "footer": "structcapital.net",
+    "brand": "Struct Capital"
+  }
+}

@@ -44,6 +44,14 @@ export default defineEventHandler(async (event) => {
       const photograph = await canvas.locator('figure').boundingBox()
       if (!copy || !photograph || copy.y + copy.height > photograph.y - 24) throw new Error('Copy overlaps the photograph. Shorten the headline or subtitle.')
     }
+    if (post.template === 'education') {
+      const copy = await canvas.locator('[data-education-copy]').boundingBox()
+      const header = await canvas.locator('[data-education-header]').boundingBox()
+      const footer = await canvas.locator('[data-education-footer]').boundingBox()
+      if (!copy || !header || !footer || copy.y < header.y + header.height + 24 || copy.y + copy.height > footer.y - 24) {
+        throw new Error('Education copy overlaps the header or source notes. Shorten the text.')
+      }
+    }
     if (await canvas.locator('[data-social-missing-photo]').count()) setHeader(event, 'X-Social-Proof', 'missing-photo')
     const png = await canvas.screenshot({ type: 'png', animations: 'disabled' })
     setHeader(event, 'Content-Type', 'image/png')

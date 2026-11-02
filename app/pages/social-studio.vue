@@ -4,11 +4,15 @@ import { parseSocialPost, socialSizes, type SocialFormat } from '../../shared/so
 import clearer from '../../social-content/posts/clearer-picture.json'
 import calendar from '../../social-content/posts/income-calendar.json'
 import kigali from '../../social-content/posts/kigali-editorial.json'
+import concept from '../../social-content/posts/education-concept.json'
+import myth from '../../social-content/posts/education-myth-fact.json'
+import didYouKnow from '../../social-content/posts/education-did-you-know.json'
+import terminology from '../../social-content/posts/education-terminology.json'
 import { kigaliPhotos } from '../../shared/social-photos'
 
 definePageMeta({ layout: false })
 useHead({ title: 'Social studio · local development', meta: [{ name: 'robots', content: 'noindex, nofollow' }], htmlAttrs: { 'data-theme': 'light' } })
-const drafts = [clearer, calendar, kigali]
+const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology]
 const selected = ref(clearer.id)
 const post = ref(parseSocialPost(clearer))
 const format = ref<SocialFormat>('square')
@@ -66,6 +70,15 @@ async function exportPng() {
           <div><label class="sc-label" for="crop-y">Crop position · vertical ({{ post.cropY }}%)</label><input id="crop-y" v-model.number="post.cropY" type="range" min="0" max="100" class="w-full"></div>
           <div><label class="sc-label" for="pattern">Geometric signature</label><select id="pattern" v-model="post.pattern" class="sc-input"><option value="none">None</option><option value="signature">SC signature</option><option value="rhythm">SC rhythm</option></select></div>
           <div><label class="sc-label" for="theme">Editorial theme</label><select id="theme" v-model="post.theme" class="sc-input"><option value="ivory">Ivory / ink</option><option value="olive">Ivory / olive</option></select></div>
+        </template>
+        <template v-else-if="post.template === 'education' && post.education">
+          <div><label class="sc-label" for="education-style">Content style</label><select id="education-style" v-model="post.education.style" class="sc-input"><option value="concept">Financial concept</option><option value="myth-fact">Myth versus fact</option><option value="did-you-know">Did you know?</option><option value="terminology">Investor terminology</option></select></div>
+          <div><label class="sc-label" for="primary-label">Primary label</label><input id="primary-label" v-model="post.education.primaryLabel" maxlength="40" class="sc-input" required></div>
+          <div v-if="post.education.style === 'myth-fact'"><label class="sc-label" for="secondary-label">Fact label</label><input id="secondary-label" v-model="post.education.secondaryLabel" maxlength="40" class="sc-input" required></div>
+          <div><label class="sc-label" for="education-source">Source credit</label><input id="education-source" v-model="post.education.source" maxlength="100" class="sc-input" required></div>
+          <div><label class="sc-label" for="education-disclaimer">Education note</label><input id="education-disclaimer" v-model="post.education.disclaimer" maxlength="100" class="sc-input" required></div>
+          <div><label class="sc-label" for="education-footer">Footer text</label><input id="education-footer" v-model="post.education.footer" maxlength="60" class="sc-input" required></div>
+          <div><label class="sc-label" for="education-brand">Brand text</label><input id="education-brand" v-model="post.education.brand" maxlength="40" class="sc-input" required></div>
         </template>
         <div v-else><label class="sc-label" for="visual">Approved visual</label><select id="visual" v-model="post.visual" class="sc-input"><option value="symbol">Official symbol</option><option value="calendar">Calendar excerpt</option></select></div>
         <ScButton type="submit" :disabled="busy">{{ busy ? 'Rendering…' : 'Download PNG' }}</ScButton>

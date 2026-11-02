@@ -219,3 +219,7 @@ The olive/cream/ink and light/dark roles were rechecked against InvestmentApp.kt
 ## Kigali Editorial — Phase 02 (2026-11-02)
 
 KigaliEditorial.vue reuses the actual SC symbol SVG and current ivory, ink, olive and muted-surface tokens. It pairs left-aligned oversized text with a right-edge asymmetric photograph window; the SC-inspired signature uses official SVG geometry. Ink/olive theme choices preserve ivory negative space. Photography is currently missing; only labeled proofs can be reviewed until a real user-provided Kigali image arrives. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+InvestorEducation.vue uses olive display type on ivory, ink body text, short 5px gold rules and a single 64px official SC SVG signature. Square and portrait have deliberate display sizes; myth/fact separates a smaller ink myth from an olive fact, while terminology enlarges the term. Gold stays decorative, not small text. No new palette, font, full-background pattern or generic financial illustration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

@@ -129,3 +129,7 @@ A separate development-only studio provides editable local drafts, one editorial
 ## Kigali Editorial — Phase 02 (2026-11-02)
 
 The local studio adds Kigali Editorial: asymmetric ivory composition, official SC symbol, editable headline/subtitle, photo choice/focal crop, signature and ink/olive theme. No real Kigali photo is available; a conspicuous missing-photo state exports labeled draft proofs. Existing marketing pages and production exclusion remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+The local studio adds a minimalist education template with four content styles, fully editable wording, source credit and education note. Existing palette, a short gold detail and one official SC signature are used without repeating patterns or generic finance imagery. Source-checked diversification drafts contain no return figures. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

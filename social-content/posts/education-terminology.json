@@ -1,0 +1,17 @@
+{
+  "id": "education-terminology",
+  "template": "education",
+  "eyebrow": "Investor education",
+  "headline": "Diversification",
+  "body": "Spreading investments across different exposures, rather than relying heavily on one. Losses are still possible.",
+  "visual": "symbol",
+  "education": {
+    "style": "terminology",
+    "primaryLabel": "Investor terminology",
+    "secondaryLabel": "Fact",
+    "source": "Source: Investor.gov · Diversify your investments",
+    "disclaimer": "Educational information. Not investment advice.",
+    "footer": "structcapital.net",
+    "brand": "Struct Capital"
+  }
+}
