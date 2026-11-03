@@ -69,3 +69,51 @@ Release checks and measured limits are recorded in [Release review](RELEASE_REVI
 ## Verified hosting and continuous delivery — 2026-10-30
 
 The existing Vercel Git integration serves `structcapital.net` from `main`. `vercel.json` selects native Nuxt output and runs repository quality checks before promotion. Node is restricted to the tested 24 line. Independent GitHub Actions verifies Node/static builds, artifact metadata/links, HTTP boundaries and dependency advisories; it does not itself deploy or gate Vercel promotion. Contact/indexing/review flags remain off by default. See [CI/CD](CI_CD.md) for exact configuration and operational boundaries; the earlier release review records the pre-hosting audit.
+
+## Local social studio — 2026-11-02
+
+Development registers `/social-studio`, `/social-studio-render` and `POST /api/social-export` only in Nuxt dev mode. Production removes both pages and never registers the handler (which lives outside server auto-discovery). Reusable Vue social components and repository JSON drafts share validation in `shared/social.ts`; development-only Playwright captures actual browser rendering. The CLI saves ignored PNGs under `exports/social/`. No marketing layout or financial integration changes. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+The social studio now dispatches through SocialTemplate.vue to the original editorial template or KigaliEditorial.vue. The empty social-content/photos.json registry supplies validated local-only photo metadata through shared/social-photos.ts. Shared post validation carries template/theme/pattern/focal-point choices. No new production route or dependency is added; missing-photo proofs are explicitly marked and export rejects overlapping text or broken selected assets. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+SocialTemplate.vue now selects InvestorEducation.vue for education drafts. Shared post validation accepts bounded nested education fields and a fixed style enum. The existing development exporter checks text/header/footer clearance; the studio exposes every rendered text field. Four JSON presets are local authoring inputs, excluded with the studio from production routing/bundles. No new dependency is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+SocialTemplate.vue selects TreasuryBondExplainer.vue for treasury-bond drafts. TreasuryBondFields.vue edits nested bond content and coupon rows; shared validation bounds text and enforces principal/coupon/maturity ordering. The existing dev-only exporter checks timeline clearance from the introduction and footer. No new dependency, endpoint, production route or financial logic is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+SocialTemplate.vue dispatches product-showcase drafts to ProductShowcase.vue. shared/social-product.ts supplies a fixed registry of existing public screenshot derivatives and capture-specific captions. Shared validation rejects unknown/private/remote selections. The dev-only export verifies screenshot/native dimensions, clipping and text clearance. ScScreenshot and the Swift preparation pipeline are reused unchanged; no new asset files or dependencies. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+SocialTemplate.vue selects BrandStatement.vue; BrandStatementFields.vue edits its nested configuration. The existing photo registry now exports all approved Kigali/Rwanda brandPhotos and a Kigali-only subset for the earlier template. Shared validation bounds configuration and existing dev-only capture checks text/photo clearance. No new routes, dependencies or public photos are added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+SocialTemplate.vue dispatches three-step-guide drafts to ThreeStepGuide.vue. ThreeStepGuideFields.vue edits exactly three validated steps. ScMonogramMarker.vue imports the official SVG as local raw data and extracts three named paths rather than duplicating them. The existing development exporter checks row overflow and content clearance. No production route, dependency or public asset is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Social studio final audit — 2026-11-03
+
+The development gallery and audit share `shared/social-catalog.ts` as their template/preset registry. `scripts/audit-social.mjs` exercises the narrow gallery, compares artwork geometry at native size and checks decoded preview/export pixels for every draft/format. Generated evidence stays in ignored `exports/social/audit/`. Existing routes, capture boundaries, templates and marketing code are unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Reusable brand SVG collection — 2026-11-03
+
+`shared/brand-patterns.ts` defines 24 deterministic composition IDs, metadata, themes, placements, viewBoxes and defaults. `app/components/brand/ScBrandPattern.vue` renders native inline SVG from six typed geometry modules; CSS container queries select deliberate mobile artwork, tokens supply theme colors and Vue useId scopes paint/clip references. No public page or Nuxt route/configuration changed. The isolated `patterns:review` SSR/Chromium harness writes ignored evidence outside public assets. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Development-only pattern gallery — 2026-11-03
+
+`/brand-patterns` renders registry-based controls and comparison frames; `/brand-patterns-preview` imports the actual homepage under the existing layout and inserts ScBrandPatternLayer through a local Teleport. A shared typed config bounds transforms/intensity. Same-origin/window-checked browser messages update frames and acknowledge complete state. Both pages and the preview-only framing exception are removed in production independently of design review. No API or public homepage change. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Configured homepage brand patterns — 2026-11-03
+
+`shared/website-brand-patterns.ts` is the sole manual website selection/configuration: a fold hero, a small arc workflow divider, and independent nullable product/independence accents. Intended placements are validated. The homepage adds static isolated decorative hosts with CSS selecting desktop/mobile at the existing 1024px split, without changing content geometry. Gallery previews now pass typed settings into the same homepage renderer; their temporary Teleport/CSS override is removed. New Vue shared imports use the existing root alias convention to support production SSR bundling. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Final pattern verification — 2026-11-03
+
+`scripts/audit-brand-patterns.mjs` adds a loopback-only browser audit for deterministic switching, actual page geometry/content and sampled default-hero contrast. The isolated SVG review records path/markup budgets. These development commands emit ignored evidence only. The final audit also corrects responsive caption clearance and adds regression coverage; no runtime dependency or API is added. See [Brand patterns](BRAND_PATTERNS.md#final-audit--2026-11-03).

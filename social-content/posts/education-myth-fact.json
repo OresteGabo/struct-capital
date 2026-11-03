@@ -1,0 +1,17 @@
+{
+  "id": "education-myth-fact",
+  "template": "education",
+  "eyebrow": "Investor education",
+  "headline": "More brokers means more diversification.",
+  "body": "Different accounts can hold the same investments. Look at the underlying holdings, not just the number of brokers.",
+  "visual": "symbol",
+  "education": {
+    "style": "myth-fact",
+    "primaryLabel": "Myth",
+    "secondaryLabel": "Fact",
+    "source": "Source: Investor.gov · Diversify your investments",
+    "disclaimer": "Educational information. Not investment advice.",
+    "footer": "structcapital.net",
+    "brand": "Struct Capital"
+  }
+}

@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "npm run content:build && nuxt prepare",
-    "typecheck": "nuxt typecheck",
+    "typecheck": "nuxt typecheck && tsc --noEmit -p studio/tsconfig.json",
     "lint": "eslint .",
     "check:contrast": "node scripts/check-contrast.mjs",
     "test": "node --test tests/site.test.ts tests/contact.test.ts tests/faq.test.ts tests/learning.test.mjs",
@@ -21,7 +21,14 @@
     "pretypecheck": "npm run content:build",
     "pretest": "npm run content:build",
     "check": "npm run typecheck && npm run lint && npm test && npm run check:contrast",
-    "build:vercel": "npm run check && NITRO_PRESET=vercel npm run build && STRUCT_PUBLIC_OUTPUT=.vercel/output/static npm run test:generated"
+    "build:vercel": "npm run check && NITRO_PRESET=vercel npm run build && STRUCT_PUBLIC_OUTPUT=.vercel/output/static npm run test:generated",
+    "social:export": "node scripts/export-social.mjs",
+    "test:social": "node --test tests/social-studio.test.mjs",
+    "social:audit": "node scripts/audit-social.mjs",
+    "patterns:review": "node scripts/review-brand-patterns.mjs",
+    "test:pattern-gallery": "node --test tests/brand-pattern-gallery.test.mjs",
+    "test:website-patterns": "node --test tests/website-brand-patterns.test.mjs",
+    "patterns:audit": "node scripts/audit-brand-patterns.mjs"
   },
   "dependencies": {
     "nuxt": "4.6.3",
@@ -34,6 +41,7 @@
     "@types/node": "^24.19.2",
     "eslint": "^10.13.0",
     "markdown-it": "^15.0.3",
+    "playwright": "^1.64.1",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.9.0",
     "vue-tsc": "^3.0.0",

@@ -215,3 +215,35 @@ The learning section retains all extracted mobile colors, theme roles, fonts and
 ## Release-review note — 2026-10-30
 
 The olive/cream/ink and light/dark roles were rechecked against InvestmentApp.kt, and public SVG master hashes match the mobile branding files. No palette/component redesign occurred. The review route described historically above is now a local opt-in via `NUXT_DESIGN_REVIEW_ENABLED=true`; default production routing/output excludes it. See RELEASE_REVIEW.md for browser/contrast evidence and LAUNCH_CHECKLIST.md for human release gates.
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+KigaliEditorial.vue reuses the actual SC symbol SVG and current ivory, ink, olive and muted-surface tokens. It pairs left-aligned oversized text with a right-edge asymmetric photograph window; the SC-inspired signature uses official SVG geometry. Ink/olive theme choices preserve ivory negative space. Photography is currently missing; only labeled proofs can be reviewed until a real user-provided Kigali image arrives. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+InvestorEducation.vue uses olive display type on ivory, ink body text, short 5px gold rules and a single 64px official SC SVG signature. Square and portrait have deliberate display sizes; myth/fact separates a smaller ink myth from an olive fact, while terminology enlarges the term. Gold stays decorative, not small text. No new palette, font, full-background pattern or generic financial illustration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+TreasuryBondExplainer.vue uses the official SC SVG, existing olive/ivory/ink tokens and a small decorative gold border. A thin timeline and ledger columns distinguish dates, events and amounts without arrows, charts or generic finance artwork. Typography is sized for both canvases, with tighter spacing for 5–6 events. The reading order and labels convey meaning alongside color. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+ProductShowcase.vue pairs olive headlines and ivory space with authentic screenshots. Tall views sit beside copy; the report card uses a wide composition. Optional signature/structural geometry masks the official SC SVG at low opacity behind images. Existing ScScreenshot renders without a second device frame, added screenshot crop, filter, rotation or enlargement. Gold stays a small editorial rule; no new palette or generic fintech art is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+BrandStatement.vue uses large system-font typography, existing ivory/olive/cream roles and official normal/reversed SC symbols. A centers oversized copy in generous space; B reserves a broad photographic region above smaller type. Optional decoration is one small SC signature or short gold rule. Photos are never recolored. No full-background pattern, stock imagery or new palette/font is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+ThreeStepGuide.vue uses generous vertical spacing, olive editorial headings, ink descriptions and a quiet 1px connector. ScMonogramMarker.vue preserves the official S-ribbon/C-upper/C-lower path data in fragment-specific viewBoxes, creating custom geometric stage markers without circles, generic icons or repeated hexagons. The header retains the complete official symbol; no brand master, palette or font is changed. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Website brand pattern assets — 2026-11-03
+
+The six approved families now each have four native SVG compositions: Capital Arc, Structural Fold, SC Cut, Investment Horizon, Guided Path and Capital Contour. Their paths are derived decorative artwork informed by official SC angles, not replacement logos or financial charts. Token-based olive/cream/gold gradients and fine lines retain generous empty regions. All variants have separate mobile geometry; the renderer inherits the existing theme, is inert/aria-hidden and hides in forced colors. Official branding and existing social templates remain unchanged. These assets are not yet applied to public pages. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Integrated website pattern roles — 2026-11-03
+
+The chosen hero uses Crossing Planes at .75 intensity after comparison with Capital Arc. Tangent Interval is limited to one small divider; optional section accents are disabled by default. Existing palette, typography and content geometry are unchanged. The active hero replaces the prior decorative watermark/stage fill; disabling it restores that treatment. Light/dark token inheritance, static SSR, reduced motion and forced-color behavior remain intact. See [Brand patterns](BRAND_PATTERNS.md).

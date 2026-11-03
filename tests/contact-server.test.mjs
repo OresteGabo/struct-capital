@@ -37,6 +37,12 @@ async function stop(child) {
 test('unconfigured server rejects inquiry without claiming delivery', async () => {
   const server = await launch(false)
   try {
+    for (const path of ['/social-studio', '/social-studio-render', '/api/social-export', '/brand-patterns', '/brand-patterns-preview', '/api/pattern-export', '/api/brand-patterns/export']) {
+      const hidden = await fetch(`${server.origin}${path}`, { method: path.startsWith('/api/') ? 'POST' : 'GET' })
+      assert.equal(hidden.status, 404, path)
+      assert.equal(hidden.headers.get('x-frame-options'), 'DENY', path)
+      assert.match(hidden.headers.get('content-security-policy'), /frame-ancestors 'none'/, path)
+    }
     const response = await fetch(`${server.origin}/api/contact`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Origin': server.origin }, body: '{}' })
     assert.equal(response.status, 503)
     assert.equal(response.headers.get('cache-control'), 'no-store')

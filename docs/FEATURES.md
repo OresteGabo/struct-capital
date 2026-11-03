@@ -87,3 +87,51 @@ Default production output now has 24 content/draft routes; the component review 
 ## Website automation — 2026-10-30
 
 Existing Vercel production Git deployment is verified. Repository-managed build guards and GitHub Actions quality checks are configured without adding a product/backend capability. Indexing and inquiry delivery remain disabled pending their separate reviews. See [CI/CD](CI_CD.md) for verification and operational limits.
+
+## Social authoring foundation — 2026-11-02
+
+Phase 01 adds an internal development-only studio: editable JSON drafts, one reusable Vue template, two approved existing asset choices, 1080×1080 and 1080×1350 PNG rendering/download and a CLI export client. Production excludes editor/render routes and the capture endpoint. No investor capability, external integration or publishing feature is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md) for checks and limits.
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+Kigali Editorial is implemented internally with configurable copy, photo registry/focal crop, SC signature and ink/olive themes. No Kigali photograph exists in the repository; square/portrait exports are explicitly labeled missing-photo proofs. Photographic composition/crop approval awaits a real user-provided asset. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+InvestorEducation.vue adds four editable internal content styles: financial concept, myth versus fact, did you know, and investor terminology. Source-backed diversification drafts use the official SC symbol and existing colors; square/portrait export and all visible text are supported through the existing development-only studio. No investment returns, calculations or new investor capability are added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+TreasuryBondExplainer.vue adds an internal editable principal/coupon/maturity timeline with 3–6 events, custom headings/dates/values/notes, and square/portrait PNG output. The default uses labeled hypothetical units and relative dates; no current BNR rate, official issue terms, yield calculation or payment confirmation is asserted. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+ProductShowcase.vue adds an internal screenshot selector, editable headlines/subtitles and configurable SC geometry with square/portrait export. It uses four existing approved calendar/detail/receipt/report derivatives; no fabricated UI, raw private screenshot, new product capability, live data or public release claim is introduced. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+BrandStatement.vue adds internal typography-led and photography-led configurations, editable copy/photo/focal position/pattern/theme, and square/portrait PNG export. Typography is implemented; photography renders an explicit missing-asset proof because no real Kigali/Rwanda photograph exists. Final photographic output and crop review require a supplied approved image. No new investor capability is implied. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+ThreeStepGuide.vue adds an internal three-stage Record/Track/Understand composition with editable numbers, labels, descriptions and other copy. Markers use exact S/C fragments from the official monogram, connected by one subtle line. The wording reuses existing supported-entry/import, tracking and summary/calendar capabilities with explicit limits; no new product capability is claimed. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Social studio final audit — 2026-11-03
+
+The local gallery explicitly selects six templates, matching drafts and square/portrait formats, exposes relevant editable copy/assets/patterns, and links to native-size previews. All 24 preset/format PNGs pass exact dimension and preview parity checks. Kigali and Brand Statement photography remain partial pending approved real photographs. No public product capability is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand pattern collection — 2026-11-03
+
+Reusable decorative assets are implemented: 24 distinct deterministic SVG compositions, a typed registry, light/dark token rendering, separate mobile geometry and an isolated local PNG review command. The interactive gallery and website integration remain pending; no investor capability, public editor or financial claim is added. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Pattern gallery — 2026-11-03
+
+The development-only gallery browses 24 patterns, previews real homepage HTML and approved screenshots at desktop/tablet/mobile widths, switches light/dark, adjusts bounded geometry/intensity, compares two variants and copies exact layer configuration with a keyboard fallback. It does not persist edits or apply them to public pages. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Website pattern integration — 2026-11-03
+
+The public homepage uses a restrained Crossing Planes hero and one small Capital Arc divider. One typed source configuration supports manual changes and optional section accents without public controls, persistence, rotation or new investor capabilities. Existing content, links, identity and screenshots are preserved. The gallery remains development-only. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Final brand-pattern audit — 2026-11-03
+
+All six families/four variants are verified, with 96 isolated SVG renders and 48 actual desktop/mobile page renders. Pattern switching preserves content/links/SEO/geometry; sampled shipped-hero text contrast exceeds 6:1. An existing screenshot-caption/callout overlap was corrected without changing copy/assets. Development editing/export surfaces remain excluded from production. See [Brand patterns](BRAND_PATTERNS.md#final-audit--2026-11-03).

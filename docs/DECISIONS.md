@@ -124,3 +124,83 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Decision:** Keep Vercel as deployment owner, pin Node 24, add a native Vercel build command with quality/artifact checks and an independent read-only push/PR Actions workflow. Inspect the real Vercel output rather than a stale Node output directory.
 - **Alternatives:** Add a redundant token-based deploy job; leave the broad engine range selecting Node 26; assume Actions automatically gates Vercel; impose unrequested branch restrictions or paid deployment checks.
 - **Consequences:** Main pushes automatically reach production after successful Vercel build checks; Actions provides broader independent checks. No deploy token, new host, DNS mutation, backend integration or content approval is implied. Low dependency findings stay visible; legal/indexing/contact review remains separate. See [CI/CD](CI_CD.md).
+
+## ADR-015 — Development-only Vue social templates with browser capture
+- **Date:** 2026-11-02.
+- **Status:** Accepted within owner-requested Phase 01.
+- **Decision:** Reuse Vue components/tokens/assets and JSON drafts; add development-only Playwright PNG capture for square and portrait formats. Remove studio routes and omit handler registration in all production builds. Save CLI exports outside public assets and Git.
+- **Alternatives:** Extend the macOS-only Swift Open Graph generator; duplicate layouts in canvas; use DOM-to-image serialization with potential font/SVG discrepancies.
+- **Rationale:** Native browser capture keeps preview and export on one layout implementation. Existing Swift tools retain their distinct fixed Open Graph/screenshot preparation roles.
+- **Consequences:** A development browser dependency and one-time Chromium installation are required. System font rendering depends on OS. Editor changes are temporary until saved in source JSON; publication remains manual and separately authorized.
+
+## ADR-016 — Evidence-gated Kigali photography
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Kigali Editorial phase.
+- **Decision:** Add a configurable Vue editorial template and a local approved-photo registry. With no standalone Kigali photo present, export clearly labeled missing-photo proofs rather than substitute imagery. Reuse official SC geometry for the small configurable signature.
+- **Alternatives:** Extract photography from the app screenshot; source unrequested stock photography; generate city imagery; silently omit the missing photograph label.
+- **Rationale:** The owner requires real user-provided assets and explicitly requests a missing-asset state when unavailable.
+- **Consequences:** Final image cropping/location/rights review requires a supplied photograph. Preview and export remain development-only; no new public route, dependency or publishing feature.
+
+## ADR-017 — A shared education template with editable editorial presets
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Investor Education phase.
+- **Decision:** Use one Vue template with concept, myth/fact, did-you-know and terminology variants. Keep all rendered text editable, retain a visible source/note, and reuse one official SC signature with restrained gold details.
+- **Alternatives:** Four duplicated templates; illustration-led finance graphics; invented performance examples; hardcoded source and disclaimer text that cannot be edited in the studio.
+- **Rationale:** Shared rendering keeps both sizes maintainable, while source-backed presets demonstrate editorial structure without financial advice or unsupported returns.
+- **Consequences:** Content edits still need factual review; layout validation rejects text that intrudes on header/source notes. Production isolation, current dependencies and marketing pages remain unchanged.
+
+## ADR-018 — An illustrative bond timeline, not a financial calculator
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Treasury Bond Explainer phase.
+- **Decision:** Use text-based ledger/timeline events, with principal first, editable coupon rows, maturity last, and a permanent illustrative-example marker. Keep all editorial/date/value/footnote fields editable while checking bounds and layout.
+- **Alternatives:** Imply current BNR terms, compute coupon/yield schedules, conflate principal with income, or add generic infographic assets.
+- **Rationale:** The requested learning references support an explanation of bond cash-flow categories, not live issue terms or a duplicate financial engine. Hypothetical units make the authoring example concrete without suggesting an actual offer.
+- **Consequences:** Authors must review chronology, economic consistency and source claims themselves; export guards prevent clipping and overlap but cannot certify financial content. Production, dependencies and marketing pages remain unchanged.
+
+## ADR-019 — Reuse approved screenshot derivatives for product social artwork
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Product Showcase phase.
+- **Decision:** Use a fixed registry of the four existing public screenshot views, ScScreenshot contain rendering and native-size export guards. Adapt the report-card layout to its wide aspect ratio; retain capture-specific captions and optional official SC geometry.
+- **Alternatives:** Expose raw screenshots with account identity/balances; duplicate files; synthesize cleaner app UI; enlarge the smaller calendar derivative; add a second device frame or crop away important states.
+- **Rationale:** The existing Swift outputs already cover this phase with reviewed privacy crops and sufficient pixels. Reuse protects authenticity and avoids another image pipeline.
+- **Consequences:** New views need source/privacy review and an entry in the existing preparation pipeline if necessary. Screenshot dates/receipts/report cards are not live offers, successful new imports or official filings. No asset duplication, production endpoint, dependency or release claim is added.
+
+## ADR-020 — Restrained brand statements with evidence-gated photography
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Brand Statement phase.
+- **Decision:** Provide typography/photo-panel variants using existing tokens and official light/reversed symbols. Extend the existing photo registry for approved Rwanda locations while keeping Kigali-only filtering. Export clearly labeled proofs when a real photograph is missing.
+- **Alternatives:** Reuse a dashboard’s embedded city picture without separate provenance, download stock imagery, generate a city image, duplicate the registry, or label a non-Kigali location as Kigali.
+- **Rationale:** The owner requires real local photography and restrained branding. No suitable standalone photograph exists in the repository.
+- **Consequences:** Typography can be exported now; completed photographic artwork awaits a user-provided approved image. Theme/pattern/text controls are local-only, with no new dependency, publication or production endpoint.
+
+## ADR-021 — Use exact monogram fragments for three connected steps
+- **Date:** 2026-11-02.
+- **Status:** Accepted within the requested Three-Step Guide scope.
+- **Decision:** Read the official SVG’s S-ribbon, C-upper and C-lower paths for decorative markers, connect them with one quiet line, and validate exactly three editable stages.
+- **Alternatives:** Generic numbered circles/icons; hand-redrawn approximate geometry; copied path data that drifts from the master; a new full-background pattern or dependency.
+- **Rationale:** The owner explicitly requests SC-derived geometry and negative space. Existing supported workflow copy can explain the app without inventing capabilities.
+- **Consequences:** Source path changes require review. Fixed generous spacing may require shortening edited copy; export detects collisions/overflow. Production isolation and official brand masters remain unchanged.
+
+## ADR-022 — One native SVG source for reusable website patterns
+- **Date:** 2026-11-03.
+- **Status:** Accepted within the requested pattern-asset phase.
+- **Decision:** Keep 24 deterministic compositions in six typed geometry modules, render inline SVG through ScBrandPattern, and describe IDs/placement/theme/default settings in a shared registry. Use token-based gradients, instance-scoped paint/clip IDs and separate mobile geometry selected by CSS container queries.
+- **Alternatives:** Raster backgrounds sampled from reference screenshots; a drawing/animation dependency; manually duplicated public SVG and Vue geometry; scaling every desktop image down on mobile; changing the existing logo or social templates.
+- **Rationale:** Native SVG preserves sharp edges, theme inheritance and editable geometry. Separate mobile artwork preserves line spacing and empty space. One geometry source avoids asset drift; a route-free SSR/Chromium harness can verify actual component output before gallery/integration work.
+- **Consequences:** Consumers must provide content-safe placement and layering. A component container at ≤1023px selects mobile artwork unless explicitly overridden. Full page contrast/cropping and any standalone asset pipeline need later integration review. No public page, API, dependency, automatic rotation or logo master changes.
+
+## ADR-023 — Isolated dev preview frames reuse the actual homepage
+- **Date:** 2026-11-03.
+- **Status:** Accepted within the requested pattern-gallery phase.
+- **Decision:** Use separate dev-only gallery/preview pages. Import the real homepage in preview frames with existing layout/components and add a non-interactive layer through a preview-only Teleport. Share bounded configuration with the reusable layer and copy UI. Use native-width frames with same-origin state acknowledgments.
+- **Alternatives:** Duplicate homepage copy/UI; edit the public homepage just to preview artwork; scale layouts without changing actual viewport width; expose the older opt-in design review page as a public editor.
+- **Rationale:** Reuse prevents copy/screenshot drift, real viewport widths exercise existing breakpoints, and strict dev-mode route removal protects production independently of review flags.
+- **Consequences:** Preview-only CSS replaces the old stage fill/watermark; section/divider patterns are experimental in the hero. A dev-only SAMEORIGIN/frame-ancestors self exception is required for the preview route; production keeps frame denial. Copying configuration does not apply it to public pages. No editing API or persistence is added.
+
+## ADR-024 — Static source configuration controls homepage pattern placement
+- **Date:** 2026-11-03.
+- **Status:** Accepted within the requested website integration phase; supersedes ADR-023's temporary Teleport/preview-CSS mechanism.
+- **Decision:** Select a subdued structural-fold-01 hero and a small capital-arc-04 workflow divider in one typed source object, with independent nullable section slots. Reuse ScBrandPatternLayer in isolated absolute hosts; CSS chooses a desktop hero host or stacked product-stage host at the existing breakpoint. Gallery previews now pass typed props through that same rendering path.
+- **Alternatives:** Client-mounted overlays; duplicating hero content or preview layout; repeating one large pattern across sections; changing layout markup for each artwork choice.
+- **Rationale:** Static hosts preserve SSR/no-JavaScript behavior and content geometry. One configuration makes manual changes straightforward. Nullable slots preserve restraint; intended-placement validation prevents accidental hero use of a divider preset.
+- **Consequences:** The hero replaces a decorative watermark/stage fill only while enabled. Hero auto layout follows the page split; generic renderer auto layout still follows its container. Config changes require normal build/review before deployment. No new visitor settings, rotation, backend API, dependencies or copy/SEO changes. Vue shared-module imports use the established Nuxt root alias to avoid production SSR relative-external resolution errors.

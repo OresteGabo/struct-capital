@@ -121,3 +121,47 @@ See [Release review](RELEASE_REVIEW.md) for the route inventory, responsive/a11y
 ## Continuous deployment — 2026-10-30
 
 Retain the existing Vercel GitHub integration: `main` is production on `structcapital.net`, with branch/PR previews. Build-time quality checks must pass before a Vercel build succeeds; independent GitHub Actions adds Node/static/HTTP/advisory checks. No new deployment service, credentials, paid feature or search/contact enablement is required. See [CI/CD](CI_CD.md).
+
+## Social studio foundation — 2026-11-02
+
+A separate development-only studio provides editable local drafts, one editorial Vue template, official symbol/calendar visuals, square/portrait preview and PNG download. Production excludes the editor, render route and export endpoint. Existing marketing pages remain unchanged. JSON drafts and generated posts are not publication approval. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+The local studio adds Kigali Editorial: asymmetric ivory composition, official SC symbol, editable headline/subtitle, photo choice/focal crop, signature and ink/olive theme. No real Kigali photo is available; a conspicuous missing-photo state exports labeled draft proofs. Existing marketing pages and production exclusion remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+The local studio adds a minimalist education template with four content styles, fully editable wording, source credit and education note. Existing palette, a short gold detail and one official SC signature are used without repeating patterns or generic finance imagery. Source-checked diversification drafts contain no return figures. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+The local studio adds an editorial bond timeline: principal invested, scheduled coupons and principal due at maturity. Headings, dates, amounts, labels and notes are editable; the illustrative-example marker is permanent. Defaults are hypothetical, not a BNR issue. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+The local studio adds Product Showcase with real app screenshots, large editorial type, restrained olive/gold details and selectable SC geometry. It supports calendar, calendar detail, existing-document receipt and annual-report card views. Captions retain factual limits; no public release or store availability is claimed. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+The local studio adds Brand Statement A (typography) and B (photo panel), with the owner’s clarity/recordkeeping copy, official light/reversed logos, restrained signature/rule and ivory/olive themes. A real photograph is absent, so B is a labeled proof until a user-provided image is reviewed. Existing marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+The local studio adds a minimal editable three-step educational composition with one continuous structural connector and three custom monogram-derived markers. Default copy explains supported record entry/import, tracking and summaries/timelines without synchronization, brokerage, live-market or release claims. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Social studio final audit — 2026-11-03
+
+The development-only template gallery now offers explicit template cards, filtered draft selection and a native-size preview link. Existing per-template copy/photo/screenshot/pattern controls and PNG export remain local. Missing photography stays visibly labeled; public marketing pages are unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Local pattern gallery — 2026-11-03
+
+A separate dev-only `/brand-patterns` gallery auditions decorative artwork using the actual homepage and existing identity/screenshots, with native-width preview frames, theme/adjustment controls, comparison and copied configuration. Public marketing copy, pages and assets are unchanged. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Configured decorative homepage layers — 2026-11-03
+
+Approved decorative integration adds a 75%-intensity structural-fold-01 hero and a 65%-intensity capital-arc-04 workflow divider. Optional lower-right independence/product accents default off. Existing wording, factual boundaries, section order, CTAs/navigation, SEO, official identity and authentic screenshots remain unchanged. CSS places the hero artwork behind product imagery on stacked layouts; all layers are inert and non-interactive. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Caption clearance audit correction — 2026-11-03
+
+On stacked homepage layouts, the authentic report callout now follows the phone caption with a 1rem gap; on two-column layouts the caption aligns right to avoid the callout. Wording, screenshot sources, navigation and semantic section structure are unchanged. This deliberate spacing correction is independent of pattern switching. See [Brand patterns](BRAND_PATTERNS.md#final-audit--2026-11-03).

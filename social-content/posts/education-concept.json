@@ -1,0 +1,17 @@
+{
+  "id": "education-concept",
+  "template": "education",
+  "eyebrow": "Investor education",
+  "headline": "Diversification is about managing risk.",
+  "body": "Spreading investments can reduce concentration risk. It cannot guarantee a profit or prevent every loss.",
+  "visual": "symbol",
+  "education": {
+    "style": "concept",
+    "primaryLabel": "Financial concept",
+    "secondaryLabel": "Fact",
+    "source": "Source: Investor.gov · Diversify your investments",
+    "disclaimer": "Educational information. Not investment advice.",
+    "footer": "structcapital.net",
+    "brand": "Struct Capital"
+  }
+}

@@ -12,3 +12,9 @@ node_modules/
 # Rebuilt from repository Markdown by npm lifecycle hooks
 shared/learning.generated.json
 app/generated/learn/
+
+# Local social studio PNG exports
+exports/social/
+
+# Local brand pattern rendering evidence
+exports/brand-patterns/

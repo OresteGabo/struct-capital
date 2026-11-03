@@ -1,0 +1,18 @@
+{
+  "id": "three-step-guide",
+  "template": "three-step-guide",
+  "eyebrow": "How Struct Capital works",
+  "headline": "Record. Track. Understand.",
+  "body": "Start with your own investment records.",
+  "visual": "symbol",
+  "guide": {
+    "brand": "Struct Capital",
+    "steps": [
+      { "number": "01", "label": "Record", "description": "Import supported documents or enter investments." },
+      { "number": "02", "label": "Track", "description": "Follow bonds, shares, and expected income." },
+      { "number": "03", "label": "Understand", "description": "See clear summaries and timelines." }
+    ],
+    "footer": "structcapital.net · Independent software. Not a broker.",
+    "note": "Supported formats vary. Review your records. Expected income is not confirmed payment."
+  }
+}

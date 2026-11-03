@@ -1,0 +1,19 @@
+{
+  "id": "brand-statement-photography",
+  "template": "brand-statement",
+  "eyebrow": "A clearer perspective",
+  "headline": "Clarity creates confidence.",
+  "body": "Understand your investments. Keep your records organized. See the bigger picture.",
+  "visual": "symbol",
+  "statement": {
+    "variation": "photography",
+    "theme": "ivory",
+    "pattern": "signature",
+    "photoId": "",
+    "cropX": 50,
+    "cropY": 50,
+    "brand": "Struct Capital",
+    "footer": "structcapital.net",
+    "note": "Independent software. Not a broker."
+  }
+}

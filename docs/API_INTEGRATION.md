@@ -91,3 +91,47 @@ Node 24.15.0: lint/typecheck and 16 unit/content tests passed. The production bu
 ### Release-review follow-up
 
 The contact reader now bounds stalled request/acknowledgment streams to eight seconds as well as bytes. Release tests verify baseline security headers, contact no-store behavior, real HTML 404s and public/private artifact boundaries. No new backend integration, metrics cache or credential was added. See RELEASE_REVIEW.md for final checks and LAUNCH_CHECKLIST.md for deployment-specific requirements; API/property names in this audit remain evidence, not authorization to expose investor data.
+
+## Development-only artwork export — 2026-11-02
+
+`POST /api/social-export` is a local authoring boundary registered only by Nuxt dev mode, not a Spring integration or production API. It accepts a bounded text-only post with an allowlisted visual and square/portrait format, requires loopback/same-origin access, and returns PNG bytes. No external API, credentials, uploaded financial records or retained data. Production builds omit the handler entirely. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Kigali Editorial — Phase 02 (2026-11-02)
+
+The existing development-only social export accepts validated Kigali template fields and registry photo IDs, rejecting arbitrary paths/remote URLs. It marks intentional missing-photo proofs with X-Social-Proof: missing-photo and checks text/photo clearance. Broken selected images fail export. No public/backend integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Investor Education — Phase 03 (2026-11-02)
+
+The existing development-only export request can include template=education and a validated education object (style, labels, source, education note, footer and brand text). It still returns PNG bytes and rejects overlapping or overflowing copy. This is local authoring only, with no financial API, public production endpoint or external data fetching at runtime. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Treasury Bond Explainer — Phase 04 (2026-11-02)
+
+The existing development export accepts template=treasury-bond with bounded bond text and 3–6 events. It validates event order and layout, returns PNG bytes and never calculates or fetches bond rates/terms. The example marker is always present. Production export remains absent; no Spring, BNR or financial-data API is called. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Product Showcase — Phase 05 (2026-11-02)
+
+The existing development-only PNG export accepts validated product-showcase fields (screenshot ID, pattern, brand, footer, note). Screenshot IDs resolve only to four existing approved local derivatives; no arbitrary file path, upload or external URL is supported. Capture fails on missing, enlarged or clipped screenshots. No production API or financial integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand Statement — Phase 06 (2026-11-02)
+
+The existing development-only export accepts validated brand-statement configuration. Typography exports normally; missing photography exports are explicitly marked by the existing X-Social-Proof header. Image IDs must resolve through the local approved registry, not arbitrary paths or URLs. No production API or financial integration is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Three-Step Guide (2026-11-02)
+
+The existing dev-only export accepts validated three-step-guide content with exactly three bounded number/label/description entries. It returns PNG bytes after row/layout checks. Marker geometry is local official SVG data, not an external request. No production API, backend feature or financial calculation is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Social studio final audit — 2026-11-03
+
+No API contract changes. The new `social:audit` client calls the existing loopback development capture endpoint sequentially and records pixel/dimension evidence in ignored exports. Production HTTP and artifact checks continue to enforce absence of editing/render/export surfaces. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand pattern assets — 2026-11-03
+
+No API integration or endpoint is added. Pattern metadata and vector geometry are repository modules rendered locally by Vue. `patterns:review` uses an isolated in-process Vite SSR harness and Chromium; it does not expose a website route or call a financial backend. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Pattern preview boundary — 2026-11-03
+
+No editing API is introduced. The gallery uses browser-local postMessage with exact origin/window checks and bounded registry-only settings. The dev-only preview route permits same-origin framing; production omits the route and exception. Neither mechanism contacts the financial backend. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Static website artwork configuration — 2026-11-03
+
+Public pattern selection is build/source configuration, not an API or visitor preference. No query parameter selects website artwork. Gallery messaging stays confined to dev-only routes, now previewing the same homepage component via typed props. No financial backend, public editor, storage, timing or external image service is added. See [Brand patterns](BRAND_PATTERNS.md).

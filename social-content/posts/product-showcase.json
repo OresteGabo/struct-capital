@@ -1,0 +1,15 @@
+{
+  "id": "product-showcase",
+  "template": "product-showcase",
+  "eyebrow": "Product perspective",
+  "headline": "Your investments. One clear picture.",
+  "body": "Explore the real app. Keep investment records and scheduled dates in view.",
+  "visual": "symbol",
+  "showcase": {
+    "screenshot": "calendar",
+    "pattern": "structure",
+    "brand": "Struct Capital",
+    "footer": "structcapital.net",
+    "note": "Independent software. Not a broker."
+  }
+}
