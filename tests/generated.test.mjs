@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url'
 import { test } from 'node:test'
 import { publicRoutes, learningDraftRoutes } from '../shared/site.ts'
 import { articles } from '../shared/learning.ts'
+import { websiteBrandPatterns } from '../shared/website-brand-patterns.ts'
 
 // Nitro's Vercel preset emits a different public directory from the Node/static presets.
 const publicRoot = pathToFileURL(`${resolve(process.env.STRUCT_PUBLIC_OUTPUT ?? '.output/public')}/`)
@@ -16,6 +17,14 @@ const review = reviewEnabled ? read('design-system/index.html') : ''
 
 const routePaths = [...publicRoutes, ...learningDraftRoutes, '/privacy', '/terms', ...(reviewEnabled ? ['/design-system'] : [])]
 const pages = new Map(routePaths.map(path => [path, read(path === '/' ? 'index.html' : `${path.slice(1)}/index.html`)]))
+
+test('homepage decoration is server-rendered from website configuration with unique SVG IDs', () => {
+  const choices = [websiteBrandPatterns.hero, ...Object.values(websiteBrandPatterns.sections), ...Object.values(websiteBrandPatterns.dividers)].filter(Boolean)
+  for (const choice of choices) assert.ok(home.includes(`data-brand-pattern="${choice.pattern}"`), choice.pattern)
+  const ids = [...home.matchAll(/\sid="([^"]+)"/g)].map(match => match[1])
+  assert.equal(ids.length, new Set(ids).size)
+  assert.doesNotMatch(home, /Copy configuration|sc-pattern-preview-config/)
+})
 
 test('all routes have unique titles/descriptions, canonical and social metadata, and semantic structure', () => {
   const titles = new Set()
@@ -62,9 +71,9 @@ test('all routes have unique titles/descriptions, canonical and social metadata,
 test('deployment artifact excludes source maps, private source assets and server credentials', () => {
   const root = publicRoot
   const files = readdirSync(root, { recursive: true })
-  assert.equal(files.some(path => path.includes('social-studio') || path.startsWith('exports/')), false)
+  assert.equal(files.some(path => path.includes('social-studio') || /^brand-patterns(?:-preview)?(?:\/|\.|$)/.test(path) || path.startsWith('exports/')), false)
   for (const path of files.filter(file => /\.(?:html|js|json)$/.test(file))) {
-    assert.doesNotMatch(readFileSync(new URL(path, root), 'utf8'), /api\/social-export|Download PNG|Keep investment dates in view|DRAFT PROOF|KIGALI PHOTOGRAPH MISSING|Clearly understood|education-concept|education-myth-fact|education-terminology|treasury-bond-explainer|product-showcase|brand-statement|three-step-guide/)
+    assert.doesNotMatch(readFileSync(new URL(path, root), 'utf8'), /api\/social-export|Download PNG|Keep investment dates in view|DRAFT PROOF|KIGALI PHOTOGRAPH MISSING|Clearly understood|education-concept|education-myth-fact|education-terminology|treasury-bond-explainer|product-showcase|brand-statement|three-step-guide|Brand pattern gallery|sc-pattern-preview-config|Copy configuration/)
   }
   assert.equal(files.some(path => path.endsWith('.map')), false)
   for (const path of files.filter(file => /\.(?:html|js|json)$/.test(file))) {

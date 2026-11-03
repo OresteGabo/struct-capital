@@ -119,3 +119,19 @@ ThreeStepGuide.vue adds an internal three-stage Record/Track/Understand composit
 ## Social studio final audit — 2026-11-03
 
 The local gallery explicitly selects six templates, matching drafts and square/portrait formats, exposes relevant editable copy/assets/patterns, and links to native-size previews. All 24 preset/format PNGs pass exact dimension and preview parity checks. Kigali and Brand Statement photography remain partial pending approved real photographs. No public product capability is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand pattern collection — 2026-11-03
+
+Reusable decorative assets are implemented: 24 distinct deterministic SVG compositions, a typed registry, light/dark token rendering, separate mobile geometry and an isolated local PNG review command. The interactive gallery and website integration remain pending; no investor capability, public editor or financial claim is added. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Pattern gallery — 2026-11-03
+
+The development-only gallery browses 24 patterns, previews real homepage HTML and approved screenshots at desktop/tablet/mobile widths, switches light/dark, adjusts bounded geometry/intensity, compares two variants and copies exact layer configuration with a keyboard fallback. It does not persist edits or apply them to public pages. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Website pattern integration — 2026-11-03
+
+The public homepage uses a restrained Crossing Planes hero and one small Capital Arc divider. One typed source configuration supports manual changes and optional section accents without public controls, persistence, rotation or new investor capabilities. Existing content, links, identity and screenshots are preserved. The gallery remains development-only. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Final brand-pattern audit — 2026-11-03
+
+All six families/four variants are verified, with 96 isolated SVG renders and 48 actual desktop/mobile page renders. Pattern switching preserves content/links/SEO/geometry; sampled shipped-hero text contrast exceeds 6:1. An existing screenshot-caption/callout overlap was corrected without changing copy/assets. Development editing/export surfaces remain excluded from production. See [Brand patterns](BRAND_PATTERNS.md#final-audit--2026-11-03).

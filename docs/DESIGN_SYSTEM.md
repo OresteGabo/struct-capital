@@ -239,3 +239,11 @@ BrandStatement.vue uses large system-font typography, existing ivory/olive/cream
 ## Three-Step Guide (2026-11-02)
 
 ThreeStepGuide.vue uses generous vertical spacing, olive editorial headings, ink descriptions and a quiet 1px connector. ScMonogramMarker.vue preserves the official S-ribbon/C-upper/C-lower path data in fragment-specific viewBoxes, creating custom geometric stage markers without circles, generic icons or repeated hexagons. The header retains the complete official symbol; no brand master, palette or font is changed. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Website brand pattern assets — 2026-11-03
+
+The six approved families now each have four native SVG compositions: Capital Arc, Structural Fold, SC Cut, Investment Horizon, Guided Path and Capital Contour. Their paths are derived decorative artwork informed by official SC angles, not replacement logos or financial charts. Token-based olive/cream/gold gradients and fine lines retain generous empty regions. All variants have separate mobile geometry; the renderer inherits the existing theme, is inert/aria-hidden and hides in forced colors. Official branding and existing social templates remain unchanged. These assets are not yet applied to public pages. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Integrated website pattern roles — 2026-11-03
+
+The chosen hero uses Crossing Planes at .75 intensity after comparison with Capital Arc. Tangent Interval is limited to one small divider; optional section accents are disabled by default. Existing palette, typography and content geometry are unchanged. The active hero replaces the prior decorative watermark/stage fill; disabling it restores that treatment. Light/dark token inheritance, static SSR, reduced motion and forced-color behavior remain intact. See [Brand patterns](BRAND_PATTERNS.md).

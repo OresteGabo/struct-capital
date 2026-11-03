@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import ScBrandPatternLayer from '../components/brand/ScBrandPatternLayer.vue'
+import { websiteBrandPatterns, type WebsiteBrandPatterns } from '~~/shared/website-brand-patterns'
+
+// The optional prop is used by the dev-only gallery; public routing always uses this file's config.
+const props = defineProps<{ patterns?: WebsiteBrandPatterns }>()
+const patterns = computed(() => props.patterns ?? websiteBrandPatterns)
+const desktopHero = computed(() => patterns.value.hero && { ...patterns.value.hero, layout: patterns.value.hero.layout === 'auto' ? 'desktop' as const : patterns.value.hero.layout })
+const mobileHero = computed(() => patterns.value.hero && { ...patterns.value.hero, layout: patterns.value.hero.layout === 'auto' ? 'mobile' as const : patterns.value.hero.layout })
 useSiteSeo()
 const features = [
   { title: 'Treasury bonds, in view', description: 'Keep purchase terms, principal, maturity dates, and coupon details together. Distinguish confirmed schedules from estimates.', number: '01' },
@@ -29,6 +37,7 @@ const questions = [
   <div class="sc-home">
     <ScContainer>
       <section class="home-hero" aria-labelledby="hero-heading">
+        <ScBrandPatternLayer v-if="desktopHero" :config="desktopHero" class="home-hero-pattern--desktop" />
         <div class="home-hero-copy">
           <p class="home-eyebrow"><span aria-hidden="true" class="home-dot" /> Independent by design · Built for Rwanda</p>
           <h1 id="hero-heading" class="home-title">All your investments.<br><span>One clear picture.</span></h1>
@@ -39,9 +48,10 @@ const questions = [
           </div>
           <p class="home-boundary"><span aria-hidden="true">↳</span> Portfolio software, not a stockbroker.<br>No broker partnership needed for supported imports or manual entry.</p>
         </div>
-        <div class="home-product-stage">
+        <div class="home-product-stage" :class="{ 'home-product-stage--patterned': patterns.hero }">
+          <ScBrandPatternLayer v-if="mobileHero" :config="mobileHero" class="home-hero-pattern--mobile" />
           <div class="home-stage-label"><span>The investor’s view</span><span aria-hidden="true">SC / 01</span></div>
-          <img src="/brand/struct-capital-symbol.svg" alt="" aria-hidden="true" class="home-watermark" width="320" height="320">
+          <img v-if="!patterns.hero" src="/brand/struct-capital-symbol.svg" alt="" aria-hidden="true" class="home-watermark" width="320" height="320">
           <ScScreenshot
             src="/product/calendar-560.png" srcset="/product/calendar-560.png 560w, /product/calendar-840.png 840w"
             sizes="(min-width: 1024px) 264px, (min-width: 640px) 280px, 230px" :width="560" :height="1183"
@@ -96,7 +106,8 @@ const questions = [
         <p class="text-caption text-muted">PDF compatibility varies by document format. Portfolio values are estimates based on recorded information and available prices.</p>
       </section>
 
-      <section id="how-it-works" class="home-section border-t border-border" aria-labelledby="workflow-heading">
+      <section id="how-it-works" class="home-section home-pattern-host border-t border-border" aria-labelledby="workflow-heading">
+        <div v-if="patterns.dividers.workflow" class="home-workflow-divider" aria-hidden="true" inert><ScBrandPatternLayer :config="patterns.dividers.workflow" /></div>
         <ScSectionHeading id="workflow-heading" eyebrow="04 / How it works" title="Start with what you already have." description="Your broker handles the transaction. Struct Capital helps you organize the information that follows." />
         <ol class="home-workflow">
           <li v-for="(step, index) in steps" :key="step.title"><span class="home-step-number" aria-hidden="true">0{{ index + 1 }}</span><h3 class="text-title">{{ step.title }}</h3><p class="text-muted">{{ step.description }}</p></li>
@@ -104,11 +115,13 @@ const questions = [
       </section>
 
       <section class="home-independence" aria-labelledby="independence-heading">
+        <ScBrandPatternLayer v-if="patterns.sections.independence" :config="patterns.sections.independence" class="home-section-accent" />
         <div class="home-independence-mark" aria-hidden="true"><span class="home-symbol" /></div>
         <div class="sc-stack"><p class="home-eyebrow">05 / Your broker. Your choice.</p><h2 id="independence-heading" class="text-heading">Independent of partnerships.<br>Centered on you.</h2><p class="home-body">Your broker doesn’t need to partner with Struct Capital for you to use supported manual-entry and document-import features.</p><p class="text-muted">Keep investing through your chosen licensed intermediary. Use Struct Capital to organize supported records from one broker or several. Document support is format-dependent; it is not a broker integration or an affiliation.</p><ScLink to="#questions" class="justify-self-start">Understand the distinction <span aria-hidden="true">↗</span></ScLink></div>
       </section>
 
-      <section id="product" class="home-section sc-stack" aria-labelledby="product-heading">
+      <section id="product" class="home-section home-pattern-host sc-stack" aria-labelledby="product-heading">
+        <ScBrandPatternLayer v-if="patterns.sections.product" :config="patterns.sections.product" class="home-section-accent" />
         <ScSectionHeading id="product-heading" eyebrow="06 / A closer look" title="The app, as it is." description="A closer look at the calendar, document library, and import feedback in the existing application." />
         <div class="home-product-grid">
           <article class="home-screen-card home-screen-calendar"><div class="home-screen-description"><h3 class="text-title">Dates in context</h3><p class="text-muted">Subscription windows, coupon dates, and maturities in a calendar view.</p></div><ScScreenshot src="/product/calendar-detail-700.png" :width="700" :height="934" alt="Cropped calendar from the actual app, showing an October 2026 subscription window and event legend." caption="Calendar excerpt · Captured dates, not a live schedule." full-size /></article>
@@ -140,7 +153,11 @@ const questions = [
 </template>
 
 <style scoped>
-.home-hero { display: grid; gap: 3rem; align-items: center; padding-block: 3.5rem 2.5rem; }
+.home-hero { position: relative; isolation: isolate; display: grid; gap: 3rem; align-items: center; padding-block: 3.5rem 2.5rem; }
+.home-hero-pattern--desktop { display: none; }
+.home-pattern-host { position: relative; isolation: isolate; }
+.home-workflow-divider { position: absolute; isolation: isolate; right: 0; top: -20px; width: clamp(160px, 32%, 320px); height: 44px; pointer-events: none; }
+.home-section-accent { left: auto; top: auto; width: min(40%, 360px); height: 180px; }
 .home-hero-copy { display: grid; justify-items: start; gap: 1.5rem; }
 .home-eyebrow { display: flex; align-items: center; gap: 0.6rem; color: var(--sc-primary); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
 .home-dot { width: 0.4rem; height: 0.4rem; flex: none; background: currentColor; border-radius: 50%; }
@@ -153,11 +170,12 @@ const questions = [
 .home-boundary { color: var(--sc-muted); font-size: 0.75rem; max-width: 55ch; line-height: 1.8; }
 .home-boundary > span { color: var(--sc-primary); }
 .home-product-stage { position: relative; padding: 3.5rem 1rem 2rem; background: var(--sc-surface-muted); border-radius: 2px 2px var(--sc-radius-feature) var(--sc-radius-feature); isolation: isolate; }
+.home-product-stage--patterned { background: transparent; }
 .home-stage-label { position: absolute; top: 1.25rem; inset-inline: 1.25rem; display: flex; justify-content: space-between; gap: 1rem; font-size: 0.6rem; color: var(--sc-muted); text-transform: uppercase; letter-spacing: 0.12em; }
 .home-watermark { position: absolute; top: 7rem; right: 0; width: 70%; opacity: 0.055; z-index: -1; }
 .home-hero-phone { width: 230px; margin-inline: auto; filter: drop-shadow(0 14px 18px rgb(0 0 0 / 14%)); }
 .home-hero-phone :deep(figcaption) { text-align: center; font-size: 0.7rem; }
-.home-record-excerpt { position: relative; width: min(85%, 300px); background: var(--sc-surface); border: 1px solid var(--sc-border); border-radius: 14px; padding: 0.75rem; box-shadow: var(--sc-shadow); margin: -3.5rem 0 0; }
+.home-record-excerpt { position: relative; width: min(85%, 300px); background: var(--sc-surface); border: 1px solid var(--sc-border); border-radius: 14px; padding: 0.75rem; box-shadow: var(--sc-shadow); margin: 1rem 0 0; }
 .home-record-excerpt img { border-radius: 0.75rem; }
 .home-excerpt-label { color: var(--sc-muted); font-size: 0.65rem; margin-bottom: 0.5rem; }
 .home-stage-note { font-size: 0.7rem; text-align: right; color: var(--sc-muted); margin-top: 1rem; }
@@ -189,7 +207,7 @@ const questions = [
 .home-workflow h3 { font-size: 1.1rem; }
 .home-workflow p { font-size: 0.9rem; }
 .home-step-number { color: var(--sc-primary); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
-.home-independence { display: grid; gap: 2rem; align-items: center; background: var(--sc-surface-muted); border: 1px solid var(--sc-border); border-radius: var(--sc-radius-feature); padding: clamp(1.5rem, 4vw, 3.5rem); }
+.home-independence { position: relative; isolation: isolate; display: grid; gap: 2rem; align-items: center; background: var(--sc-surface-muted); border: 1px solid var(--sc-border); border-radius: var(--sc-radius-feature); padding: clamp(1.5rem, 4vw, 3.5rem); }
 .home-independence-mark { display: grid; place-items: center; width: 100%; }
 .home-symbol { display: block; width: 110px; height: 110px; background: var(--sc-primary); mask: url('/brand/struct-capital-symbol.svg') center / contain no-repeat; }
 .home-product-grid { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
@@ -215,9 +233,12 @@ const questions = [
   .home-pillars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 64rem) {
+  .home-hero-pattern--desktop { display: block; }
+  .home-hero-pattern--mobile { display: none; }
   .home-hero { grid-template-columns: 1.1fr 1fr; gap: 4rem; padding-block: 3rem; }
   .home-product-stage { margin-left: 1rem; }
   .home-hero-phone { width: 264px; margin-right: 2rem; }
+  .home-hero-phone :deep(figcaption) { text-align: right; }
   .home-record-excerpt { position: absolute; left: -1.5rem; bottom: 2.5rem; width: 265px; margin: 0; }
   .home-stage-note { margin-top: 0.5rem; }
   .home-problem, .home-solution-heading { grid-template-columns: 1.1fr 1fr; gap: 5rem; }

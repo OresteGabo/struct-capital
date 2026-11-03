@@ -17,12 +17,18 @@ export default defineNuxtConfig({
       if (useNuxt().options.dev) {
         config.handlers ||= []
         config.handlers.push({ route: '/api/social-export', method: 'post', handler: fileURLToPath(new URL('./studio/export-handler.ts', import.meta.url)) })
+        // Only the local preview may be embedded, and only by this same origin.
+        config.routeRules ||= {}
+        config.routeRules['/brand-patterns-preview'] = { headers: {
+          'Content-Security-Policy': "base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'",
+          'X-Frame-Options': 'SAMEORIGIN',
+        } }
       }
     },
     'pages:extend'(pages) {
       if (!useNuxt().options.dev) {
         for (let index = pages.length - 1; index >= 0; index--) {
-          if (pages[index]?.path.startsWith('/social-studio')) pages.splice(index, 1)
+          if (pages[index]?.path.startsWith('/social-studio') || pages[index]?.path.startsWith('/brand-patterns')) pages.splice(index, 1)
         }
       }
       if (!designReviewEnabled) {

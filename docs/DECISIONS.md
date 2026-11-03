@@ -180,3 +180,27 @@ Record significant decisions with date, status (`proposed`, `accepted`, `superse
 - **Alternatives:** Generic numbered circles/icons; hand-redrawn approximate geometry; copied path data that drifts from the master; a new full-background pattern or dependency.
 - **Rationale:** The owner explicitly requests SC-derived geometry and negative space. Existing supported workflow copy can explain the app without inventing capabilities.
 - **Consequences:** Source path changes require review. Fixed generous spacing may require shortening edited copy; export detects collisions/overflow. Production isolation and official brand masters remain unchanged.
+
+## ADR-022 — One native SVG source for reusable website patterns
+- **Date:** 2026-11-03.
+- **Status:** Accepted within the requested pattern-asset phase.
+- **Decision:** Keep 24 deterministic compositions in six typed geometry modules, render inline SVG through ScBrandPattern, and describe IDs/placement/theme/default settings in a shared registry. Use token-based gradients, instance-scoped paint/clip IDs and separate mobile geometry selected by CSS container queries.
+- **Alternatives:** Raster backgrounds sampled from reference screenshots; a drawing/animation dependency; manually duplicated public SVG and Vue geometry; scaling every desktop image down on mobile; changing the existing logo or social templates.
+- **Rationale:** Native SVG preserves sharp edges, theme inheritance and editable geometry. Separate mobile artwork preserves line spacing and empty space. One geometry source avoids asset drift; a route-free SSR/Chromium harness can verify actual component output before gallery/integration work.
+- **Consequences:** Consumers must provide content-safe placement and layering. A component container at ≤1023px selects mobile artwork unless explicitly overridden. Full page contrast/cropping and any standalone asset pipeline need later integration review. No public page, API, dependency, automatic rotation or logo master changes.
+
+## ADR-023 — Isolated dev preview frames reuse the actual homepage
+- **Date:** 2026-11-03.
+- **Status:** Accepted within the requested pattern-gallery phase.
+- **Decision:** Use separate dev-only gallery/preview pages. Import the real homepage in preview frames with existing layout/components and add a non-interactive layer through a preview-only Teleport. Share bounded configuration with the reusable layer and copy UI. Use native-width frames with same-origin state acknowledgments.
+- **Alternatives:** Duplicate homepage copy/UI; edit the public homepage just to preview artwork; scale layouts without changing actual viewport width; expose the older opt-in design review page as a public editor.
+- **Rationale:** Reuse prevents copy/screenshot drift, real viewport widths exercise existing breakpoints, and strict dev-mode route removal protects production independently of review flags.
+- **Consequences:** Preview-only CSS replaces the old stage fill/watermark; section/divider patterns are experimental in the hero. A dev-only SAMEORIGIN/frame-ancestors self exception is required for the preview route; production keeps frame denial. Copying configuration does not apply it to public pages. No editing API or persistence is added.
+
+## ADR-024 — Static source configuration controls homepage pattern placement
+- **Date:** 2026-11-03.
+- **Status:** Accepted within the requested website integration phase; supersedes ADR-023's temporary Teleport/preview-CSS mechanism.
+- **Decision:** Select a subdued structural-fold-01 hero and a small capital-arc-04 workflow divider in one typed source object, with independent nullable section slots. Reuse ScBrandPatternLayer in isolated absolute hosts; CSS chooses a desktop hero host or stacked product-stage host at the existing breakpoint. Gallery previews now pass typed props through that same rendering path.
+- **Alternatives:** Client-mounted overlays; duplicating hero content or preview layout; repeating one large pattern across sections; changing layout markup for each artwork choice.
+- **Rationale:** Static hosts preserve SSR/no-JavaScript behavior and content geometry. One configuration makes manual changes straightforward. Nullable slots preserve restraint; intended-placement validation prevents accidental hero use of a divider preset.
+- **Consequences:** The hero replaces a decorative watermark/stage fill only while enabled. Hero auto layout follows the page split; generic renderer auto layout still follows its container. Config changes require normal build/review before deployment. No new visitor settings, rotation, backend API, dependencies or copy/SEO changes. Vue shared-module imports use the established Nuxt root alias to avoid production SSR relative-external resolution errors.

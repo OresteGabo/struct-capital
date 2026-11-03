@@ -101,3 +101,19 @@ SocialTemplate.vue dispatches three-step-guide drafts to ThreeStepGuide.vue. Thr
 ## Social studio final audit — 2026-11-03
 
 The development gallery and audit share `shared/social-catalog.ts` as their template/preset registry. `scripts/audit-social.mjs` exercises the narrow gallery, compares artwork geometry at native size and checks decoded preview/export pixels for every draft/format. Generated evidence stays in ignored `exports/social/audit/`. Existing routes, capture boundaries, templates and marketing code are unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Reusable brand SVG collection — 2026-11-03
+
+`shared/brand-patterns.ts` defines 24 deterministic composition IDs, metadata, themes, placements, viewBoxes and defaults. `app/components/brand/ScBrandPattern.vue` renders native inline SVG from six typed geometry modules; CSS container queries select deliberate mobile artwork, tokens supply theme colors and Vue useId scopes paint/clip references. No public page or Nuxt route/configuration changed. The isolated `patterns:review` SSR/Chromium harness writes ignored evidence outside public assets. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Development-only pattern gallery — 2026-11-03
+
+`/brand-patterns` renders registry-based controls and comparison frames; `/brand-patterns-preview` imports the actual homepage under the existing layout and inserts ScBrandPatternLayer through a local Teleport. A shared typed config bounds transforms/intensity. Same-origin/window-checked browser messages update frames and acknowledge complete state. Both pages and the preview-only framing exception are removed in production independently of design review. No API or public homepage change. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Configured homepage brand patterns — 2026-11-03
+
+`shared/website-brand-patterns.ts` is the sole manual website selection/configuration: a fold hero, a small arc workflow divider, and independent nullable product/independence accents. Intended placements are validated. The homepage adds static isolated decorative hosts with CSS selecting desktop/mobile at the existing 1024px split, without changing content geometry. Gallery previews now pass typed settings into the same homepage renderer; their temporary Teleport/CSS override is removed. New Vue shared imports use the existing root alias convention to support production SSR bundling. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Final pattern verification — 2026-11-03
+
+`scripts/audit-brand-patterns.mjs` adds a loopback-only browser audit for deterministic switching, actual page geometry/content and sampled default-hero contrast. The isolated SVG review records path/markup budgets. These development commands emit ignored evidence only. The final audit also corrects responsive caption clearance and adds regression coverage; no runtime dependency or API is added. See [Brand patterns](BRAND_PATTERNS.md#final-audit--2026-11-03).

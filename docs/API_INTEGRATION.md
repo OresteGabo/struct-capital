@@ -123,3 +123,15 @@ The existing dev-only export accepts validated three-step-guide content with exa
 ## Social studio final audit — 2026-11-03
 
 No API contract changes. The new `social:audit` client calls the existing loopback development capture endpoint sequentially and records pixel/dimension evidence in ignored exports. Production HTTP and artifact checks continue to enforce absence of editing/render/export surfaces. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Brand pattern assets — 2026-11-03
+
+No API integration or endpoint is added. Pattern metadata and vector geometry are repository modules rendered locally by Vue. `patterns:review` uses an isolated in-process Vite SSR harness and Chromium; it does not expose a website route or call a financial backend. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Pattern preview boundary — 2026-11-03
+
+No editing API is introduced. The gallery uses browser-local postMessage with exact origin/window checks and bounded registry-only settings. The dev-only preview route permits same-origin framing; production omits the route and exception. Neither mechanism contacts the financial backend. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Static website artwork configuration — 2026-11-03
+
+Public pattern selection is build/source configuration, not an API or visitor preference. No query parameter selects website artwork. Gallery messaging stays confined to dev-only routes, now previewing the same homepage component via typed props. No financial backend, public editor, storage, timing or external image service is added. See [Brand patterns](BRAND_PATTERNS.md).

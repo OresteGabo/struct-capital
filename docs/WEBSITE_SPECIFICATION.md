@@ -153,3 +153,15 @@ The local studio adds a minimal editable three-step educational composition with
 ## Social studio final audit — 2026-11-03
 
 The development-only template gallery now offers explicit template cards, filtered draft selection and a native-size preview link. Existing per-template copy/photo/screenshot/pattern controls and PNG export remain local. Missing photography stays visibly labeled; public marketing pages are unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Local pattern gallery — 2026-11-03
+
+A separate dev-only `/brand-patterns` gallery auditions decorative artwork using the actual homepage and existing identity/screenshots, with native-width preview frames, theme/adjustment controls, comparison and copied configuration. Public marketing copy, pages and assets are unchanged. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Configured decorative homepage layers — 2026-11-03
+
+Approved decorative integration adds a 75%-intensity structural-fold-01 hero and a 65%-intensity capital-arc-04 workflow divider. Optional lower-right independence/product accents default off. Existing wording, factual boundaries, section order, CTAs/navigation, SEO, official identity and authentic screenshots remain unchanged. CSS places the hero artwork behind product imagery on stacked layouts; all layers are inert and non-interactive. See [Brand patterns](BRAND_PATTERNS.md).
+
+## Caption clearance audit correction — 2026-11-03
+
+On stacked homepage layouts, the authentic report callout now follows the phone caption with a 1rem gap; on two-column layouts the caption aligns right to avoid the callout. Wording, screenshot sources, navigation and semantic section structure are unchanged. This deliberate spacing correction is independent of pattern switching. See [Brand patterns](BRAND_PATTERNS.md#final-audit--2026-11-03).

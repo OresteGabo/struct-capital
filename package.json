@@ -24,7 +24,11 @@
     "build:vercel": "npm run check && NITRO_PRESET=vercel npm run build && STRUCT_PUBLIC_OUTPUT=.vercel/output/static npm run test:generated",
     "social:export": "node scripts/export-social.mjs",
     "test:social": "node --test tests/social-studio.test.mjs",
-    "social:audit": "node scripts/audit-social.mjs"
+    "social:audit": "node scripts/audit-social.mjs",
+    "patterns:review": "node scripts/review-brand-patterns.mjs",
+    "test:pattern-gallery": "node --test tests/brand-pattern-gallery.test.mjs",
+    "test:website-patterns": "node --test tests/website-brand-patterns.test.mjs",
+    "patterns:audit": "node scripts/audit-brand-patterns.mjs"
   },
   "dependencies": {
     "nuxt": "4.6.3",
