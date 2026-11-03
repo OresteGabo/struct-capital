@@ -1,29 +1,28 @@
 <script setup lang="ts">
 import ThreeStepGuideFields from '../components/social/ThreeStepGuideFields.vue'
-import threeStepGuide from '../../social-content/posts/three-step-guide.json'
 import BrandStatementFields from '../components/social/BrandStatementFields.vue'
-import typographyStatement from '../../social-content/posts/brand-statement-typography.json'
-import photographyStatement from '../../social-content/posts/brand-statement-photography.json'
-import showcase from '../../social-content/posts/product-showcase.json'
 import { productScreenshots } from '../../shared/social-product'
 import TreasuryBondFields from '../components/social/TreasuryBondFields.vue'
-import bond from '../../social-content/posts/treasury-bond-explainer.json'
 import SocialTemplate from '../components/social/SocialTemplate.vue'
 import { parseSocialPost, socialSizes, type SocialFormat } from '../../shared/social'
-import clearer from '../../social-content/posts/clearer-picture.json'
-import calendar from '../../social-content/posts/income-calendar.json'
-import kigali from '../../social-content/posts/kigali-editorial.json'
-import concept from '../../social-content/posts/education-concept.json'
-import myth from '../../social-content/posts/education-myth-fact.json'
-import didYouKnow from '../../social-content/posts/education-did-you-know.json'
-import terminology from '../../social-content/posts/education-terminology.json'
 import { kigaliPhotos } from '../../shared/social-photos'
+import { socialCatalog, socialDrafts } from '../../shared/social-catalog'
 
 definePageMeta({ layout: false })
 useHead({ title: 'Social studio · local development', meta: [{ name: 'robots', content: 'noindex, nofollow' }], htmlAttrs: { 'data-theme': 'light' } })
-const drafts = [clearer, calendar, kigali, concept, myth, didYouKnow, terminology, bond, showcase, typographyStatement, photographyStatement, threeStepGuide]
-const selected = ref(clearer.id)
-const post = ref(parseSocialPost(clearer))
+const drafts = socialDrafts
+const selected = ref('clearer-picture')
+const post = ref(parseSocialPost(drafts.find(draft => draft.id === selected.value)))
+const selectedTemplate = computed({
+  get: () => post.value.template ?? 'editorial',
+  set: (id: string) => {
+    if (id === (post.value.template ?? 'editorial')) return
+    const draft = socialCatalog.find(template => template.id === id)?.drafts[0]
+    if (draft) { selected.value = draft.id; post.value = parseSocialPost(draft) }
+  },
+})
+const availableDrafts = computed(() => socialCatalog.find(template => template.id === selectedTemplate.value)?.drafts ?? [])
+const fullSizePreview = computed(() => `/social-studio-render?${new URLSearchParams({ post: JSON.stringify(post.value), format: format.value })}`)
 const format = ref<SocialFormat>('square')
 const busy = ref(false)
 const status = ref('Draft content. Review copy and assets before publishing.')
@@ -63,11 +62,18 @@ async function exportPng() {
     <header class="sc-stack">
       <p class="text-label text-brand-primary">Struct Capital / Development tools</p>
       <h1 class="text-heading">Social media studio</h1>
-      <p>Editable drafts · 1080px canvas · local PNG export</p>
+      <p>Editable templates · 1080px canvas · local PNG export</p>
+      <p class="text-label text-muted">Changing a template or draft resets unsaved edits. Photo templates require a reviewed image; missing assets export labeled proofs.</p>
     </header>
+    <nav aria-label="Template gallery" class="gallery">
+      <button v-for="template in socialCatalog" :key="template.id" type="button" class="sc-card gallery-choice" :aria-pressed="selectedTemplate === template.id" @click="selectedTemplate = template.id">
+        <strong>{{ template.label }}</strong><span class="text-label text-muted">{{ template.description }}</span>
+      </button>
+    </nav>
     <div class="workspace">
       <form class="sc-card sc-stack" @submit.prevent="exportPng">
-        <div><label class="sc-label" for="draft">Draft</label><select id="draft" v-model="selected" class="sc-input"><option v-for="draft in drafts" :key="draft.id" :value="draft.id">{{ draft.id }}</option></select></div>
+        <div><label class="sc-label" for="template">Template</label><select id="template" v-model="selectedTemplate" class="sc-input"><option v-for="template in socialCatalog" :key="template.id" :value="template.id">{{ template.label }}</option></select></div>
+        <div><label class="sc-label" for="draft">Draft</label><select id="draft" v-model="selected" class="sc-input"><option v-for="draft in availableDrafts" :key="draft.id" :value="draft.id">{{ draft.id }}</option></select></div>
         <div><label class="sc-label" for="format">Format</label><select id="format" v-model="format" class="sc-input"><option value="square">Square · 1080 × 1080</option><option value="portrait">Portrait · 1080 × 1350</option></select></div>
         <div><label class="sc-label" for="eyebrow">Eyebrow</label><input id="eyebrow" v-model="post.eyebrow" class="sc-input" maxlength="40" required></div>
         <div><label class="sc-label" for="headline">Headline</label><textarea id="headline" v-model="post.headline" class="sc-input" maxlength="100" rows="3" required /></div>
@@ -101,6 +107,7 @@ async function exportPng() {
         <BrandStatementFields v-else-if="post.template === 'brand-statement' && post.statement" v-model="post.statement" />
         <ThreeStepGuideFields v-else-if="post.template === 'three-step-guide' && post.guide" v-model="post.guide" />
         <div v-else><label class="sc-label" for="visual">Approved visual</label><select id="visual" v-model="post.visual" class="sc-input"><option value="symbol">Official symbol</option><option value="calendar">Calendar excerpt</option></select></div>
+        <a :href="fullSizePreview" target="_blank" rel="noopener" class="sc-link">Open full-size preview<span class="sr-only"> in a new tab</span></a>
         <ScButton type="submit" :disabled="busy">{{ busy ? 'Rendering…' : 'Download PNG' }}</ScButton>
         <p role="status" class="text-label" :aria-busy="busy">{{ status }}</p>
         <p class="text-label text-muted">Downloads use your browser’s download folder. Use the CLI to save to exports/social/. Changing drafts resets edits.</p>
@@ -115,6 +122,9 @@ async function exportPng() {
 </template>
 
 <style scoped>
+.gallery { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); margin-top: 32px; }
+.gallery-choice { display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.gallery-choice[aria-pressed="true"] { border-color: var(--sc-olive); box-shadow: inset 0 0 0 1px var(--sc-olive); }
 .workspace { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 32px; align-items: start; }
 form { min-width: 0; overflow-wrap: anywhere; }
 input[type="range"] { accent-color: var(--sc-primary); }

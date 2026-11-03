@@ -115,3 +115,7 @@ BrandStatement.vue adds internal typography-led and photography-led configuratio
 ## Three-Step Guide (2026-11-02)
 
 ThreeStepGuide.vue adds an internal three-stage Record/Track/Understand composition with editable numbers, labels, descriptions and other copy. Markers use exact S/C fragments from the official monogram, connected by one subtle line. The wording reuses existing supported-entry/import, tracking and summary/calendar capabilities with explicit limits; no new product capability is claimed. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Social studio final audit — 2026-11-03
+
+The local gallery explicitly selects six templates, matching drafts and square/portrait formats, exposes relevant editable copy/assets/patterns, and links to native-size previews. All 24 preset/format PNGs pass exact dimension and preview parity checks. Kigali and Brand Statement photography remain partial pending approved real photographs. No public product capability is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

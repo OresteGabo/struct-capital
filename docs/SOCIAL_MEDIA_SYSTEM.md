@@ -1,6 +1,68 @@
-# Social media studio — Phase 01
+# Social media studio
 
 A local authoring tool in this existing Nuxt repository. No marketing page changes, publishing, scheduling, accounts or backend integration.
+
+
+## Current workflow and final audit — Phase 08 (2026-11-03)
+
+The development-only gallery at `/social-studio` now explicitly selects a template, then a matching draft. Its six template cards and retained Foundation editorial preset share `shared/social-catalog.ts`. Changing templates/drafts resets edits; clicking the active template preserves them. All rendered copy is editable. Relevant templates expose registered photographs or real screenshots, focal position, available official brand geometry and theme controls. Education, bond and three-step templates deliberately retain their fixed restrained signatures. The format selector switches square/portrait; **Open full-size preview** opens the same content at native dimensions. Edits are memory-only; save reviewed wording in the JSON drafts.
+
+### Export and repeat the audit
+
+Use Node 24 matching `package.json` (`^24.15.0`). Install/start with the Run commands below. With the development server running, use another terminal:
+
+```sh
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/product-showcase.json square
+SOCIAL_STUDIO_ORIGIN=http://127.0.0.1:3000 npm run social:export -- social-content/posts/product-showcase.json portrait
+npm run test:social
+npm run social:audit
+# Optional focused audit (overwrites report.json with this subset):
+npm run social:audit -- education-concept
+```
+
+Replace `product-showcase.json` with a draft filename below. CLI PNGs go to `exports/social/<draft-id>-<format>.png`; the browser Export PNG button downloads the currently edited content. The CLI exports saved JSON, not unsaved gallery edits. Both use the same local capture endpoint. Do not run export/audit/browser suites concurrently: capture is serialized and rejects overlapping exports.
+
+`social:audit` saves 24 PNGs (12 drafts × 2 formats) and `exports/social/audit/report.json`, recording Chromium version, font stack/readiness, image source/native dimensions, proof status and pixel comparisons. It exercises the gallery at 320px, compares normalized artwork positions to the native canvas, then compares every decoded RGBA channel of the full-size gallery canvas and endpoint PNG. Normalizing scale avoids mistaking thumbnail antialiasing for a rendering difference. It asserts exact 1080×1080 / 1080×1350 dimensions and no browser runtime errors. Evidence is local/gitignored, not deployed; it must be regenerated on another checkout. System fonts remain OS-dependent; comparisons use the same OS/Chromium. This automated audit supplements human PNG inspection.
+
+### Template status
+
+All six Vue templates exist. “Partial” describes missing real photography, not a failed PNG capture. Both sizes were exported and inspected for the representative files below, including both Brand Statement variations. Four education styles and both legacy drafts also receive automated size/parity checks.
+
+| Template | Status | Export tested | Open issue | Example under `exports/social/audit/` |
+| --- | --- | --- | --- | --- |
+| KigaliEditorial | Partial | Both sizes, labeled proof | No approved real Kigali photo; photographic cropping cannot yet be reviewed | `kigali-editorial-square.png` |
+| InvestorEducation | Implemented | Both sizes, all four styles | No observed rendering issue | `education-concept-square.png` |
+| TreasuryBondExplainer | Implemented | Both sizes | No observed rendering issue; example remains illustrative | `treasury-bond-explainer-square.png` |
+| ProductShowcase | Implemented | Both sizes | No observed rendering issue with approved screenshot derivatives | `product-showcase-square.png` |
+| BrandStatement | Partial: A implemented, B proof | Both sizes, both variations | B awaits approved real Kigali/Rwanda photo and crop review | `brand-statement-typography-square.png` |
+| ThreeStepGuide | Implemented | Both sizes | No observed rendering issue | `three-step-guide-square.png` |
+
+No standalone Kigali/Rwanda photograph was found. Supply an approved, user-provided photograph with location, credit and usable resolution; register it following the Phase 02/06 photo instructions below. No fictional or downloaded substitute was used. Missing-photo exports are conspicuously labeled and carry `X-Social-Proof: missing-photo`; they are not completed photographic artwork.
+
+### Phase 08 verification results
+
+Verified with Node 24.22.2 and the installed Playwright Chromium on macOS:
+
+- `npm run check`: typecheck (Nuxt and studio), ESLint, all 17 unit/content tests and all 34 contrast checks passed.
+- `npm run test:social`: all 16 browser tests passed, including gallery selection/edit retention, all draft/format exports, screenshot variants, validation, overflow rejection and 320px layout.
+- `npm run social:audit`: all 24 exports passed exact dimensions and zero differing RGBA channels against normalized gallery previews; mobile/native geometry checks passed. Report and PNGs are in ignored `exports/social/audit/`.
+- `NUXT_DESIGN_REVIEW_ENABLED=true npm run build`, then the same flag with `npm run test:server` and `npm run test:generated`: passed (4 HTTP tests and 10 artifact tests). The studio, render route and POST export endpoint returned 404 even when design review was enabled.
+- Default `npm run generate` and `npm run test:generated`: passed (10 artifact tests), excluding studio routes/bundles/drafts/export files.
+- Human PNG inspection: square and portrait Kigali proofs, education concept, bond explainer, product showcase, both brand statement variations and three-step guide; also the legacy Swift OG output. Checked type/readability, logo fidelity, clearances, colors and screenshot fitting. No clipping or margin defects observed in those outputs. The remaining education styles/legacy presets received automated parity/layout checks, not a new human visual review in this phase.
+
+The initial audit harness sampled a layout too early; explicit format/headline and font/image/frame readiness now precede measurements, and the complete rerun passed. Active gallery clicks were corrected to preserve in-memory edits. No template artwork required changes. Real photographic crop/quality approval, publication review and cross-OS font equivalence remain outside verified results. No push, merge or deployment occurred.
+
+### Integration evidence
+
+Compared with pre-studio commit `f2d7b98`, all 80 existing website/content/assets/server files inspected are unchanged, including marketing pages, shared branding, design-system page, screenshots, public assets, learning content and both Swift scripts. Phase 08 changes only the local gallery/catalog, audit script, browser tests, npm script and documentation. Production isolation is checked through actual HTTP 404s and generated-artifact scans, not just route source inspection.
+
+The unchanged Swift Open Graph generator was run in an isolated temporary repository layout with its existing icon. Its 1200×630 result was byte-identical to the committed `public/brand/social-preview.png` (SHA-256 `8ee64d137c974a2049dbd88867dd6b286bb6b292bc86fda96f9bc2dccdadc019`). The rendered result was inspected. It remains backward-compatible and separate from editable social posts. On macOS, the original command remains:
+
+```sh
+swift -module-cache-path /tmp/struct-social-cache scripts/generate-social-preview.swift
+```
+
+That legacy command intentionally refreshes the existing website OG asset; studio exports never write posts into `public/`. Prior phase records below are historical snapshots; this section describes the current gallery and audit scope.
 
 ## Run
 
@@ -12,7 +74,7 @@ npx playwright install chromium
 npm run dev -- --host 127.0.0.1
 ```
 
-Open `http://127.0.0.1:3000/social-studio`. Choose a draft, format and approved visual; edit the eyebrow, headline and body; download the PNG. Browser downloads follow your browser settings. Draft switching resets edits; edits are in memory only. Persist reviewed copy by editing the JSON files in `social-content/posts/` and restarting development. Both included posts are editorial drafts, not publication approval.
+Open `http://127.0.0.1:3000/social-studio`. Choose a template, matching draft, format and approved visual; edit the eyebrow, headline and body; download the PNG. Browser downloads follow your browser settings. Draft switching resets edits; edits are in memory only. Persist reviewed copy by editing the JSON files in `social-content/posts/` and restarting development. All included posts are editorial drafts, not publication approval.
 
 To write into the gitignored `exports/social/` directory while the development server is running:
 

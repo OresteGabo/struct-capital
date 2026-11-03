@@ -3,16 +3,47 @@ import { test } from 'node:test'
 import { readFile, readdir } from 'node:fs/promises'
 import { chromium } from 'playwright'
 import { socialSizes } from '../shared/social.ts'
+import { socialDrafts } from '../shared/social-catalog.ts'
 import { productScreenshots } from '../shared/social-product.ts'
 
 // Run against `npm run dev`; covers the actual export transport and browser editor.
 const origin = process.env.SOCIAL_STUDIO_ORIGIN ?? 'http://127.0.0.1:3000'
+async function selectDraft(page, id) {
+  const post = socialDrafts.find(draft => draft.id === id)
+  assert.ok(post, id)
+  await page.getByLabel('Template', { exact: true }).selectOption(post.template ?? 'editorial')
+  await page.getByLabel('Draft', { exact: true }).selectOption(id)
+}
 const send = (body, requestOrigin = origin) => fetch(`${origin}/api/social-export`, {
   method: 'POST', headers: { 'Content-Type': 'application/json', Origin: requestOrigin }, body: JSON.stringify(body), signal: AbortSignal.timeout(60000),
 })
 test('local export rejects foreign origins and malformed content', async () => {
   assert.equal((await send({}, 'https://example.com')).status, 403)
   assert.equal((await send({ post: {}, format: 'square' })).status, 400)
+})
+test('development gallery selects all six templates and exposes matching presets/full-size preview', async () => {
+  const browser = await chromium.launch()
+  try {
+    const page = await browser.newPage()
+    await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
+    const gallery = page.getByRole('navigation', { name: 'Template gallery' })
+    for (const [id, label] of Object.entries({ kigali: 'Kigali Editorial', education: 'Investor Education', 'treasury-bond': 'Treasury Bond Explainer', 'product-showcase': 'Product Showcase', 'brand-statement': 'Brand Statement', 'three-step-guide': 'Three-Step Guide' })) {
+      await gallery.getByRole('button').filter({ hasText: label }).click()
+      assert.equal(await page.getByLabel('Template', { exact: true }).inputValue(), id)
+      const preset = await page.getByLabel('Draft', { exact: true }).inputValue()
+      assert.equal(socialDrafts.find(draft => draft.id === preset).template, id)
+      const link = await page.getByRole('link', { name: /Open full-size preview/ }).getAttribute('href')
+      const render = new URL(link, origin)
+      assert.equal(JSON.parse(render.searchParams.get('post')).template, id)
+    }
+    await selectDraft(page, 'education-myth-fact')
+    await page.getByLabel('Headline', { exact: true }).fill('Preserve this local edit.')
+    await gallery.getByRole('button').filter({ hasText: 'Investor Education' }).click()
+    assert.equal(await page.getByLabel('Headline', { exact: true }).inputValue(), 'Preserve this local edit.')
+    await page.setViewportSize({ width: 320, height: 900 })
+    await page.waitForTimeout(200)
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
+  } finally { await browser.close() }
 })
 test('each repository draft exports accurate square and portrait PNGs', async () => {
   const names = (await readdir('social-content/posts')).filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
@@ -55,7 +86,7 @@ test('three-step editor preserves official monogram paths, one connector, and ed
   try {
     const page = await browser.newPage()
     await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
-    await page.getByLabel('Draft', { exact: true }).selectOption('three-step-guide')
+    await selectDraft(page, 'three-step-guide')
     const changes = { Eyebrow: 'From records to review', Headline: 'A clearer workflow.', Body: 'Your records in context.', 'Guide brand text': 'Struct Capital Education', 'Guide footer': 'Review draft', 'Guide note': 'Supported formats vary. Review source records.' }
     for (let index = 1; index <= 3; index++) {
       changes[`Step ${index} number`] = `0${index}`
@@ -110,7 +141,7 @@ test('brand statement editor changes wording, variations, themes and restrained 
   try {
     const page = await browser.newPage()
     await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
-    await page.getByLabel('Draft', { exact: true }).selectOption('brand-statement-typography')
+    await selectDraft(page, 'brand-statement-typography')
     const changes = { Eyebrow: 'An editable perspective', Headline: 'Make room for clarity.', Subtitle: 'Keep your records together.', 'Statement brand text': 'Struct Capital', 'Statement footer': 'Editorial review', 'Statement note': 'Independent software. Not a broker.' }
     for (const [label, value] of Object.entries(changes)) {
       await page.getByLabel(label, { exact: true }).fill(value)
@@ -180,7 +211,7 @@ test('product studio switches real screenshots/patterns, edits copy, and recover
   try {
     const page = await browser.newPage()
     await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
-    await page.getByLabel('Draft', { exact: true }).selectOption('product-showcase')
+    await selectDraft(page, 'product-showcase')
     for (const format of ['square', 'portrait']) {
       await page.getByLabel('Format', { exact: true }).selectOption(format)
       assert.equal(await page.locator('[data-social-canvas] h2').evaluate(element => {
@@ -243,7 +274,7 @@ test('bond studio edits timeline/notes, adds and removes coupons, and downloads 
   try {
     const page = await browser.newPage()
     await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
-    await page.getByLabel('Draft', { exact: true }).selectOption('treasury-bond-explainer')
+    await selectDraft(page, 'treasury-bond-explainer')
     const changes = { Eyebrow: 'Bonds / Learning', Headline: 'A bond payment sequence.', Body: 'Separate principal from scheduled income.', 'Bond brand text': 'Struct Capital Education', 'Illustrative assumptions label': 'Hypothetical units, not a real bond.', 'Timeline heading': 'Example sequence', 'Date column heading': 'Example date', 'Event column heading': 'Payment', 'Value column heading': 'Example amount', 'Bond footnote': 'Assumes payment as promised. Not a guaranteed return.', 'Bond source credit': 'Reference: bond learning guides', 'Bond footer text': 'Education draft', 'Event 1 date': 'Start', 'Event 1 label': 'Example investment', 'Event 1 value': '−200 units', 'Event 2 date': 'Month 3', 'Event 2 label': 'Example coupon', 'Event 2 value': '+2 units', 'Event 4 date': 'End', 'Event 4 label': 'Principal due', 'Event 4 value': '+200 units' }
     for (const [label, value] of Object.entries(changes)) {
       await page.getByLabel(label, { exact: true }).fill(value)
@@ -273,7 +304,7 @@ test('education studio edits every rendered text field and preserves layout at b
   try {
     const page = await browser.newPage()
     await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
-    await page.getByLabel('Draft', { exact: true }).selectOption('education-myth-fact')
+    await selectDraft(page, 'education-myth-fact')
     const changes = { Eyebrow: 'A learning series', Headline: 'An editable myth.', Body: 'An editable explanation.', 'Primary label': 'Question', 'Fact label': 'Answer', 'Source credit': 'Source: editorial review', 'Education note': 'General learning only.', 'Footer text': 'Review draft', 'Brand text': 'Struct Capital Education' }
     for (const [label, value] of Object.entries(changes)) {
       await page.getByLabel(label, { exact: true }).fill(value)
@@ -312,7 +343,7 @@ test('Kigali preview exposes missing asset, configurable theme/signature and saf
   try {
     const page = await browser.newPage()
     await page.goto(`${origin}/social-studio`, { waitUntil: 'networkidle' })
-    await page.getByLabel('Draft', { exact: true }).selectOption('kigali-editorial')
+    await selectDraft(page, 'kigali-editorial')
     await page.locator('[data-social-missing-photo]').waitFor()
     await page.getByLabel('Editorial theme').selectOption('olive')
     assert.equal(await page.locator('[data-social-canvas] h2').evaluate(element => getComputedStyle(element).color), 'rgb(109, 94, 15)')

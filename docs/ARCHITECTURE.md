@@ -97,3 +97,7 @@ SocialTemplate.vue selects BrandStatement.vue; BrandStatementFields.vue edits it
 ## Three-Step Guide (2026-11-02)
 
 SocialTemplate.vue dispatches three-step-guide drafts to ThreeStepGuide.vue. ThreeStepGuideFields.vue edits exactly three validated steps. ScMonogramMarker.vue imports the official SVG as local raw data and extracts three named paths rather than duplicating them. The existing development exporter checks row overflow and content clearance. No production route, dependency or public asset is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Social studio final audit — 2026-11-03
+
+The development gallery and audit share `shared/social-catalog.ts` as their template/preset registry. `scripts/audit-social.mjs` exercises the narrow gallery, compares artwork geometry at native size and checks decoded preview/export pixels for every draft/format. Generated evidence stays in ignored `exports/social/audit/`. Existing routes, capture boundaries, templates and marketing code are unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

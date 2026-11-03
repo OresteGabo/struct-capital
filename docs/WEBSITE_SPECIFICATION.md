@@ -149,3 +149,7 @@ The local studio adds Brand Statement A (typography) and B (photo panel), with t
 ## Three-Step Guide (2026-11-02)
 
 The local studio adds a minimal editable three-step educational composition with one continuous structural connector and three custom monogram-derived markers. Default copy explains supported record entry/import, tracking and summaries/timelines without synchronization, brokerage, live-market or release claims. Marketing pages and production isolation remain unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Social studio final audit — 2026-11-03
+
+The development-only template gallery now offers explicit template cards, filtered draft selection and a native-size preview link. Existing per-template copy/photo/screenshot/pattern controls and PNG export remain local. Missing photography stays visibly labeled; public marketing pages are unchanged. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

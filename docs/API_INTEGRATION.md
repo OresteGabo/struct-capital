@@ -119,3 +119,7 @@ The existing development-only export accepts validated brand-statement configura
 ## Three-Step Guide (2026-11-02)
 
 The existing dev-only export accepts validated three-step-guide content with exactly three bounded number/label/description entries. It returns PNG bytes after row/layout checks. Marker geometry is local official SVG data, not an external request. No production API, backend feature or financial calculation is added. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).
+
+## Social studio final audit — 2026-11-03
+
+No API contract changes. The new `social:audit` client calls the existing loopback development capture endpoint sequentially and records pixel/dimension evidence in ignored exports. Production HTTP and artifact checks continue to enforce absence of editing/render/export surfaces. See [Social media system](SOCIAL_MEDIA_SYSTEM.md).

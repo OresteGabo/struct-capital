@@ -338,3 +338,5 @@ For local component work only: `NUXT_DESIGN_REVIEW_ENABLED=true npm run dev`. Le
 ## Local social media studio
 
 The development-only Vue preview and PNG export at `/social-studio` includes the original editorial template, Kigali Editorial (with an explicit missing-photo state), four editable Investor Education styles, an illustrative Treasury Bond Explainer timeline, a Product Showcase using real app screenshots, Brand Statement variants (photography awaits an approved image), and an editable Three-Step Guide. See [Social media system](docs/SOCIAL_MEDIA_SYSTEM.md) for setup, editable JSON drafts, 1080×1080 / 1080×1350 exports and verification. Generated posts stay outside public assets.
+
+The studio now has an explicit template gallery and native-size preview link. With dev running, `npm run social:audit` exports every preset at both sizes and writes pixel-parity/dimension evidence to ignored `exports/social/audit/`. See the Phase 08 status table in the workflow above for the two photography limitations.
